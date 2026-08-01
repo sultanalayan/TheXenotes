@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xenos Notes</title>
+  <meta name="description" content="Xenos study notes on Islamic books and topics." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="header-topbar">
+  <div class="header-topbar-left">
+    <a href="#/" class="header-topbar-left" style="display:flex;align-items:center;gap:8px;">
+      <div class="header-dot"></div>
+      <span>XENOS</span>
+    </a>
+    <span class="sep">•</span>
+    <span style="font-size:11px;color:var(--muted);letter-spacing:0.05em;">الغرباء</span>
+  </div>
+  <a class="discord-link" href="https://discord.gg/Z4Rn9WwR4R" target="_blank" rel="noopener">
+    <span>💬</span><span>Join the Discord</span>
+  </a>
+</div>
+
+<div class="header-main" id="header-main">
+  <div class="header-arabic-bg" id="header-arabic-bg"></div>
+  <div class="header-inner">
+    <div class="header-logo" id="header-logo">
+      <span class="crescent">☪</span>
+    </div>
+    <div class="header-content">
+      <div class="header-eyebrow">
+        <span class="header-eyebrow-text">Xenos Notes</span>
+        <span class="header-badge">Study Notes</span>
+      </div>
+      <h1 class="header-title" id="header-title"></h1>
+      <p class="header-sub" id="header-sub"></p>
+      <div class="header-tags" id="header-tags"></div>
+      <div class="gold-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ BODY ═══════════════ -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="closeSidebar()">✕ Close</button>
+    <div id="sidebar-wrap"></div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="mobile-controls">
+      <button class="hamburger" onclick="openSidebar()">☰ &nbsp; Sections</button>
+    </div>
+    <div id="content"></div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="footer-left">Xenos Notes · study notes on Islamic books &amp; topics</span>
+  <a class="footer-right" href="https://discord.gg/Z4Rn9WwR4R" target="_blank" rel="noopener">XENOS الغرباء</a>
+</div>
+
+<!-- ═══════════════ ENGINE ═══════════════ -->
+<script src="app.js"></script>
+
+<!-- ═══════════════ BOOKS ═══════════════
+     To add a new book: drop books/<slug>.js (copy the shape of an existing one)
+     and add one <script> line below. Nothing else needs to change. -->
+<script src="books/sharh-al-sunnah.js"></script>
+
+</body>
+</html>
