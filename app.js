@@ -54,19 +54,39 @@ function renderLibrary(filter) {
     ? books.filter(b =>
         b.title.toLowerCase().includes(q) ||
         b.subtitle.toLowerCase().includes(q) ||
+        (b.category || '').toLowerCase().includes(q) ||
         (b.tags || []).some(t => t.toLowerCase().includes(q)))
     : books;
 
-  const cards = visible.map((b, i) => `
-    <a class="book-card" href="#/book/${b.slug}" style="--stagger:${i}">
-      <div class="book-card-icon">${b.icon}</div>
-      <div class="book-card-body">
-        <div class="book-card-title">${b.title}</div>
-        <div class="book-card-sub">${b.subtitle}</div>
-        <div class="book-card-tags">${(b.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+  const groups = new Map();
+  visible.forEach(b => {
+    const cat = b.category || 'Notes';
+    if (!groups.has(cat)) groups.set(cat, []);
+    groups.get(cat).push(b);
+  });
+
+  let stagger = 0;
+  const groupsHtml = Array.from(groups.entries()).map(([cat, groupBooks]) => `
+    <div class="category-group">
+      <div class="category-label">${cat}</div>
+      <div class="book-grid">
+        ${groupBooks.map(b => {
+          const html = `
+            <a class="book-card" href="#/book/${b.slug}" style="--stagger:${stagger}">
+              <div class="book-card-icon">${b.icon}</div>
+              <div class="book-card-body">
+                <div class="book-card-title">${b.title}</div>
+                <div class="book-card-sub">${b.subtitle}</div>
+                <div class="book-card-tags">${(b.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+              </div>
+              <div class="book-card-arrow">→</div>
+            </a>
+          `;
+          stagger++;
+          return html;
+        }).join('')}
       </div>
-      <div class="book-card-arrow">→</div>
-    </a>
+    </div>
   `).join('');
 
   document.getElementById('content').innerHTML = `
@@ -75,9 +95,7 @@ function renderLibrary(filter) {
       <p class="library-sub">Study notes on Islamic books &amp; topics — pick one to explore.</p>
       <input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />
     </div>
-    <div class="book-grid">
-      ${cards || `<div class="empty-state">No notes match "${q}" yet.</div>`}
-    </div>
+    ${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}
   `;
 
   const input = document.getElementById('search-box');
@@ -177,6 +195,22 @@ function renderBookSection(book, id) {
     `).join('')}
   ` : '';
 
+  const quizHtml = (sec.quiz && sec.quiz.length) ? `
+    <div class="quiz-block" data-total="${sec.quiz.length}" data-correct="0" data-answered="0">
+      <div class="quiz-label">🧠 Quick Quiz — Test Yourself</div>
+      ${sec.quiz.map((qz, qi) => `
+        <div class="quiz-item">
+          <div class="quiz-q">${qi + 1}. ${qz.q}</div>
+          <div class="quiz-choices">
+            ${qz.choices.map((c, ci) => `<button class="quiz-choice" data-correct-choice="${ci === qz.correct ? '1' : '0'}">${c}</button>`).join('')}
+          </div>
+          <div class="quiz-explain-wrap"><div class="quiz-explain">${qz.explain || ''}</div></div>
+        </div>
+      `).join('')}
+      <div class="quiz-score"></div>
+    </div>
+  ` : '';
+
   const pnHtml = `
     <div class="pn-nav">
       ${prev ? `<button class="pn-btn" data-goto="${prev.id}">← ${prev.label}</button>` : '<div></div>'}
@@ -203,6 +237,7 @@ function renderBookSection(book, id) {
     ${bulletsHtml}
     ${tableHtml}
     ${qaHtml}
+    ${quizHtml}
     ${pnHtml}
   `;
   content.classList.add('fade-in');
@@ -219,6 +254,41 @@ function renderBookSection(book, id) {
       } else {
         wrap.style.gridTemplateRows = '0fr';
       }
+    });
+  });
+
+  // Quiz interaction: click a choice to answer, disable the rest, reveal
+  // explanation, track a running score for the section.
+  content.querySelectorAll('.quiz-block').forEach(block => {
+    const total = parseInt(block.dataset.total, 10);
+    const scoreEl = block.querySelector('.quiz-score');
+    const updateScore = () => {
+      const correct = parseInt(block.dataset.correct, 10);
+      const answered = parseInt(block.dataset.answered, 10);
+      if (answered === 0) { scoreEl.textContent = ''; return; }
+      scoreEl.textContent = answered === total
+        ? `Quiz complete — ${correct} / ${total} correct`
+        : `Score so far: ${correct} / ${answered}`;
+    };
+    block.querySelectorAll('.quiz-item').forEach(item => {
+      const choices = item.querySelectorAll('.quiz-choice');
+      const explainWrap = item.querySelector('.quiz-explain-wrap');
+      choices.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (item.classList.contains('answered')) return;
+          item.classList.add('answered');
+          const isCorrect = btn.dataset.correctChoice === '1';
+          choices.forEach(b => {
+            b.disabled = true;
+            if (b.dataset.correctChoice === '1') b.classList.add('correct');
+          });
+          if (!isCorrect) btn.classList.add('incorrect');
+          explainWrap.style.gridTemplateRows = '1fr';
+          block.dataset.answered = String(parseInt(block.dataset.answered, 10) + 1);
+          if (isCorrect) block.dataset.correct = String(parseInt(block.dataset.correct, 10) + 1);
+          updateScore();
+        });
+      });
     });
   });
 

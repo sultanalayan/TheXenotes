@@ -1,12 +1,13 @@
 /* XENOS NOTES — book module
- * To add a new book: copy this file's shape, fill in the metadata + sections/table,
- * save it as books/<your-slug>.js, then add one line to books/manifest.js. That's it —
+ * To add a new book: copy this file's shape, fill in the metadata + sections, save
+ * it as books/<your-slug>.js, then add one <script> line in index.html. That's it —
  * the shared engine (app.js) handles rendering, navigation, search, and styling. */
 XenosBooks.register({
   slug: 'sharh-al-sunnah',
   title: 'Sharḥ al-Sunnah of al-Muzanī',
   subtitle: 'Commentary by al-ʿAllāmah Aḥmad ibn Yaḥyā al-Najmī (d.1429H) · 9 Core Points of Athari Aqeedah',
   icon: '📜',
+  category: 'Aqeedah',
   arabicBg: 'شرح السنة',
   tags: ['Aqeedah', 'Iman', 'Qadar', 'Ṣifāt', 'Hereafter', 'Companions', 'Deviant Sects'],
   footer: 'Al-Muzanī (d.264H) · Commentary by al-Najmī (d.1429H) · Sunnah Publishing',
@@ -27,6 +28,11 @@ XenosBooks.register({
         { q: "How do al-Muzanī and al-Ṭaḥāwī connect?", a: "Abū Jaʿfar al-Ṭaḥāwī (d.321H) — author of the world-famous al-ʿAqīdah al-Ṭaḥāwiyyah — was the son of al-Muzanī's sister and also studied under al-Muzanī directly. This makes Sharḥ al-Sunnah and al-ʿAqīdah al-Ṭaḥāwiyyah sister texts — both expressing the same Athari creed from the same scholarly lineage." },
         { q: "Why does al-Muzanī matter for Athari theology?", a: "Al-Muzanī (d.264H) wrote before the Ashʿarī (born ~260H) and Māturīdī (d.333H) theological schools developed. His creed represents the undiluted early Athari position — what the students of al-Shāfiʿī and Aḥmad actually believed. When you read this text, you are reading first-generation post-Tābiʿūn scholarship — not later theological development." },
         { q: "What did al-Muzanī write besides Sharḥ al-Sunnah?", a: "His greatest work was the Mukhtaṣar — the fiqh masterpiece he spent 20 years writing and rewrote three times. He said: 'If al-Shāfiʿī had reached me, he would have listened to this Mukhtaṣar from me.' Ibn Surayj called it 'the primary source for all books written about the Shāfiʿī madhhab.' Other works: Ifsād al-Taqlīd, al-Targhīb fī al-ʿIlm, and al-Jāmiʿ al-Kabīr." },
+      ],
+      quiz: [
+        { q: "Who was al-Muzanī's primary teacher?", choices: ["Imām al-Shāfiʿī", "Imām Abū Ḥanīfah", "Imām Aḥmad ibn Ḥanbal", "Imām Mālik"], correct: 0 },
+        { q: "What did al-Shāfiʿī call al-Muzanī?", choices: ['"The standard-bearer of my school"', '"The greatest liar of his time"', "A fellow Companion", "An innovator"], correct: 0 },
+        { q: "Which famous scholar was al-Muzanī's nephew and student, later writing al-ʿAqīdah al-Ṭaḥāwiyyah?", choices: ["Abū Jaʿfar al-Ṭaḥāwī", "Aḥmad ibn Ḥanbal", "Ibn Taymiyyah", "Al-Bukhārī"], correct: 0 },
       ]
     },
     {
@@ -42,6 +48,11 @@ XenosBooks.register({
         { q: "What accusations were made against al-Muzanī?", a: "Two accusations: (1) That he 'speaks about the Qadar' — suggesting Qadarī views denying divine pre-decree. (2) That he held 'waqf' regarding the Qurʾān — refusing to declare whether it was created or uncreated. Both were false. Sharḥ al-Sunnah was his definitive refutation of these accusations." },
         { q: "What is the 'waqf' position and why was it condemned?", a: "Waqf means 'withholding' — refusing to declare the Qurʾān created or uncreated. Some scholars held this out of excessive caution. However, scholars condemned it because: (1) It implied doubt about something that must be certain. (2) In practice it leaned toward the Muʿtazilī position. The correct position is unambiguous: the Qurʾān is Allāh's Speech and is NOT created." },
         { q: "Why does the format of the text matter?", a: "Because it's a personal creedal testimony, not academic theology. Every sentence is al-Muzanī saying 'this is exactly what I believe.' This gives each point the weight of a sincere declaration. It also means every point was actively contested in his era — al-Muzanī was choosing a side in live theological battles, not writing theoretical exercises." },
+      ],
+      quiz: [
+        { q: "What was al-Muzanī falsely accused of?", choices: ["Holding Qadarī views and being unclear on the Qurʾān's createdness", "Fabricating ḥadīth", "Rejecting the Sunnah entirely", "Abandoning prayer"], correct: 0 },
+        { q: 'What is the "waqf" position on the Qurʾān?', choices: ["Refusing to declare it created or uncreated", "Declaring it definitely created", "Declaring it definitely uncreated", "A position about prayer timing"], correct: 0 },
+        { q: "Why did scholars condemn the waqf position?", choices: ["It implied doubt about something that must be certain, and leaned toward the Muʿtazilī view", "It was too extreme in the opposite direction", "It was simply unpopular", "It contradicted a specific madhhab only"], correct: 0 },
       ]
     },
     {
@@ -59,6 +70,12 @@ XenosBooks.register({
         { q: "Does Iman increase and decrease? What is the evidence?", a: "Yes, Iman increases and decreases. Evidence: 'And that the believers' faith would increase' (Q 74:31); 'So that they may increase in faith' (Q 48:4); 'When Allāh is mentioned, their hearts tremble, and when His verses are recited to them, it increases their faith' (Q 8:2). Iman increases through obedience, knowledge, and dhikr. It decreases through sins and heedlessness." },
         { q: "Who are the Murjiʾah and what is their error?", a: "The Murjiʾah 'postponed' judgment — removing actions from Iman. They said sins don't decrease Iman and good deeds don't increase it. Sub-groups: Murjiʾat al-Fuqahāʾ (Iman = belief + speech only, no action), Jahmiyyah (Iman = knowledge in heart only), Karrāmiyyah (Iman = speech only). All are wrong. The Companions were unanimous that actions are part of Iman." },
         { q: "Can a major sinner still be a Muslim?", a: "Yes — this is the Ahlus-Sunnah middle position between two extremes: The Murjiʾah said sins have no effect on Iman (wrong). The Khawārij said a major sinner becomes a kāfir (wrong). The Sunnah position: the major sinner is a believer with deficient Iman — under Allāh's will, punished or forgiven. He does not become a disbeliever through sin unless he denies an established religious obligation." },
+      ],
+      quiz: [
+        { q: "What are the three components of Iman?", choices: ["Tongue, heart, and limbs (speech, belief, action)", "Only belief in the heart", "Only verbal declaration", "Belief and prayer only"], correct: 0 },
+        { q: "Does Iman increase and decrease according to Ahlus-Sunnah?", choices: ["Yes — it increases through obedience and decreases through sin", "No — Iman never changes once attained", "It only ever decreases", "It only applies to converts"], correct: 0 },
+        { q: "What is the core error of the Murjiʾah?", choices: ["Removing actions from the definition of Iman", "Removing belief from the definition of Iman", "Declaring major sinners disbelievers", "Denying Allāh's attributes"], correct: 0 },
+        { q: "Does committing a major sin make someone a disbeliever, per Ahlus-Sunnah?", choices: ["No — he remains a believer with deficient Iman, unless he denies an established obligation", "Yes, immediately upon committing it", "Only if he repeats it three times", "Only sins related to prayer count"], correct: 0 },
       ]
     },
     {
@@ -75,6 +92,11 @@ XenosBooks.register({
         { q: "What was the Fitnah of Khalq al-Qurʾān?", a: "The Muʿtazilah claimed the Qurʾān was created (makhlūq). Caliph al-Maʾmūn (d.218H) adopted this and established the Miḥnah (Inquisition) — forcing scholars to agree or face imprisonment. Imām Aḥmad ibn Ḥanbal was flogged and imprisoned but refused to recant. The Miḥnah ended under al-Mutawakkil (232H) who restored the Athari position. This explains why al-Muzanī had to explicitly state his creed on this issue." },
         { q: "What is the difference between the Athari and Ashʿarī positions on the Qurʾān?", a: "The Ashʿariyyah developed Kalām Nafsī — 'inner speech' existing eternally in Allāh without letters or sounds. They say the actual Arabic Qurʾān (with letters and verses) is expressed through Jibreel's voice — making the expressed form 'created.' The Athari position: Allāh spoke the Qurʾān with real letters and sounds in a manner befitting Him — just as He directly spoke to Mūsā (Q 4:164). Al-Muzanī precedes the Ashʿarī school and represents the undiluted early position." },
         { q: "What does 'the Qurʾān is uncreated' mean practically?", a: "(1) The Qurʾān is divine — not human or angelic composition. It came directly from Allāh. (2) Revering it is obligatory — desecrating it is desecrating Allāh's Speech. (3) It is perfectly preserved — Allāh promised to protect it (Q 15:9). (4) Its guidance is absolutely authoritative — not a human document subject to cultural revision or reinterpretation based on modernity." },
+      ],
+      quiz: [
+        { q: "What is the Athari position on the Qurʾān?", choices: ["It is Allāh's uncreated Speech", "It was created by Allāh like everything else", "Its status is unknown and should not be discussed", "It only became Allāh's word after Jibrīl recited it"], correct: 0 },
+        { q: "What was the Miḥnah?", choices: ["An inquisition forcing scholars to declare the Qurʾān created", "A pilgrimage ritual", "A method of ḥadīth transmission", "A theological school founded by al-Ashʿarī"], correct: 0 },
+        { q: "Who was flogged and imprisoned for refusing to say the Qurʾān was created?", choices: ["Imām Aḥmad ibn Ḥanbal", "Imām al-Shāfiʿī", "Al-Muzanī", "Al-Bukhārī"], correct: 0 },
       ]
     },
     {
@@ -92,6 +114,12 @@ XenosBooks.register({
         { q: "What specific attributes did al-Muzanī affirm?", a: "All attributes established in Qurʾān and authentic Sunnah: ʿIlm (Knowledge), Qudrah (Power), Irādah (Will), Ḥayāh (Life), Kalām (Speech), Samʿ (Hearing), Baṣar (Sight), Wajh (Face — Q 28:88), Yadān (Two Hands — Q 38:75), ʿAyn (Eye — Q 54:14), Istiwaʾ ʿalā al-ʿArsh (Rising above the Throne — Q 20:5), and Actions such as descending and love. All affirmed as befitting His Majesty, without resemblance to creation." },
         { q: "What did the Jahmiyyah believe and why is it considered kufr?", a: "Jahm ibn Ṣafwān (executed 128H) denied ALL of Allāh's Names and Attributes — saying Allāh is indescribable and attributeless. He fell into total taʿṭīl. He also said the Qurʾān was created and denied Allāh's elevation above creation. Scholars unanimously condemned this as kufr. Imām Aḥmad said: 'Jahm negated the Lord.' Al-Muzanī's affirmation of every attribute is a direct rejection of Jahmī theology." },
         { q: "Why can't we ask 'how' about Allāh's Attributes?", a: "Asking 'how' (takyīf) is an innovation because: (1) The Companions, Tābiʿūn, and Tabiʿ al-Tābiʿīn never asked this — they accepted the texts. (2) 'They do not encompass Him in knowledge' (Q 20:110). (3) Imām Mālik's famous reply when asked about istiwa: 'The istiwa is known (from Arabic), the how is unknown, believing in it is obligatory, asking about it is an innovation.' This principle applies to all of Allāh's attributes." },
+      ],
+      quiz: [
+        { q: "What is the master verse capturing the Athari method on the Attributes?", choices: ["Q 42:11 — \"There is nothing like Him... All-Hearing, All-Seeing\"", "Q 2:255 — Āyat al-Kursī", "Sūrah al-Ikhlāṣ (Q 112)", "Sūrah al-Fātiḥah (Q 1)"], correct: 0 },
+        { q: "What is Taʿṭīl?", choices: ["Denying or stripping away Allāh's attributes entirely", "Likening Allāh's attributes to creation", "Reinterpreting an attribute away from its meaning", "Accepting an attribute without question"], correct: 0 },
+        { q: "What is Tashbīh?", choices: ["Likening Allāh's attributes to those of creation", "Denying Allāh's attributes entirely", "Accepting attributes exactly as they came", "Rejecting the Qurʾān's authenticity"], correct: 0 },
+        { q: "According to Imām Mālik, what should we do about the 'how' of an attribute like istiwāʾ?", choices: ["Leave it be — asking about the how is an innovation", "Investigate it thoroughly using logic", "Reject the attribute if the how is unclear", "Only scholars are permitted to know the how"], correct: 0 },
       ]
     },
     {
@@ -108,6 +136,12 @@ XenosBooks.register({
         { q: "What does the slave girl hadith prove?", a: "The Prophet ﷺ asked a slave girl: 'Where is Allāh?' She pointed upward. He asked: 'Who am I?' She said: 'The Messenger of Allāh.' He said: 'Free her, for she is a believer.' (Ṣaḥīḥ Muslim 537). This proves: (1) 'Where is Allāh?' is a legitimate question — the answer is 'above.' (2) Pointing upward is the correct Athari response. (3) The Prophet ﷺ accepted this as sufficient proof of tawḥīd — exactly as al-Muzanī stated." },
         { q: "What is the Jahmī reinterpretation of istiwa and why is it rejected?", a: "The Jahmiyyah reinterpreted istiwa as istawlā — meaning 'took control/dominated.' Rejected because: (1) Istawlā requires an opponent to overcome — no one competed with Allāh for His Throne. (2) Istawā in Arabic does not mean istawlā — this is a linguistic invention. (3) The Companions understood it literally. (4) If this method is valid, any attribute can be explained away — which is exactly what the Jahmiyyah did to all of Allāh's attributes." },
         { q: "What did al-Muzanī say about tawhid and the Throne?", a: "Al-Dhahabī records in al-Siyar (12/494) that al-Muzanī said: 'The tawḥīd of a person is not valid until he knows that Allāh is above His Throne, above His heavens, separate from His creation — in a manner that befits His Majesty and Greatness.' This is extraordinary — al-Muzanī is saying knowing Allāh's elevation above His Throne is a condition for tawḥīd to be valid. This shows how foundational this point is in the Athari creed." },
+      ],
+      quiz: [
+        { q: "What does al-Muzanī say is necessary for one's tawḥīd to be valid?", choices: ["Knowing Allāh is above His Throne, separate from creation", "Knowing the exact number of Allāh's names", "Performing ḥajj at least once", "Memorizing the entire Qurʾān"], correct: 0 },
+        { q: 'What did the slave girl do when asked "Where is Allāh?"', choices: ["She pointed upward", 'She said "everywhere"', "She stayed silent", "She pointed to her heart"], correct: 0 },
+        { q: "How many times is Allāh's rising above the Throne (istiwāʾ) mentioned in the Qurʾān?", choices: ["7 times", "Once", "3 times", "100 times"], correct: 0 },
+        { q: "What is the Jahmī reinterpretation of istawā?", choices: ['Istawlā — "took control / dominated"', 'Irtafaʿa — "rose above" (the correct meaning)', 'Nazala — "descended"', "'Alima — \"knew\""], correct: 0 },
       ]
     },
     {
@@ -125,6 +159,12 @@ XenosBooks.register({
         { q: "Who were the Qadariyyah and why were they called 'Magians of this Ummah'?", a: "The Qadariyyah denied Allāh's prior knowledge and predestination of human actions — claiming humans create their own actions independently. The Prophet ﷺ called them 'the Magians of this Ummah' because the Zoroastrians (Magians) believed in two independent eternal powers (good and evil). Similarly, the Qadariyyah effectively believe in two independent creative powers — Allāh and humans — each creating their own domain. This is a form of shirk in Allāh's Rubūbiyyah (Lordship)." },
         { q: "How do we reconcile divine decree with human responsibility?", a: "Both are affirmed by the texts simultaneously: Divine decree: 'Indeed all things We created with pre-decree' (Q 54:49); 'You will not will unless Allāh wills' (Q 76:30). Human responsibility: 'Whoever does an atom's weight of good will see it' (Q 99:7); 'Whoever wills, let him believe; whoever wills, let him disbelieve' (Q 18:29). The Athari position: both are true. Humans genuinely choose — AND their choices were pre-known, pre-written, pre-willed, and pre-created by Allāh. The 'how' of reconciling these is beyond human comprehension." },
         { q: "What is the Jabrī error?", a: "The Jabriyyah went to the opposite extreme — saying humans have NO real choice and are completely compelled (mujbarūn) like a leaf in wind. This contradicts: (1) The entire framework of reward and punishment — if no real choice, punishment is unjust. (2) Clear human experience of making decisions. (3) Q 2:286: 'for the benefit of your own souls.' The Athari correct position is between the two extremes: real human choice within Allāh's encompassing decree." },
+      ],
+      quiz: [
+        { q: "What are the 4 levels of al-Qadar?", choices: ["ʿIlm, Kitābah, Mashīʾah, Khalq (knowledge, writing, will, creation)", "Only knowledge and writing", "Only will and creation", "Belief, speech, action, and intention"], correct: 0 },
+        { q: "When was everything written in al-Lawḥ al-Maḥfūẓ?", choices: ["50,000 years before the creation of the heavens and earth", "At the moment of each person's birth", "After the Day of Judgment", "During the Prophet's ﷺ lifetime"], correct: 0 },
+        { q: "Why did the Prophet ﷺ call the Qadariyyah \"the Magians of this Ummah\"?", choices: ["Because, like the Zoroastrians, they effectively believe in two independent creative powers", "Because they worship fire", "Because they reject the Qurʾān entirely", "Because they were a specifically Persian sect"], correct: 0 },
+        { q: "What is the Jabrī error?", choices: ["Claiming humans have no real choice at all", "Claiming humans have complete independent choice with no divine decree", "Denying Allāh's knowledge", "Denying the Day of Judgment"], correct: 0 },
       ]
     },
     {
@@ -140,6 +180,11 @@ XenosBooks.register({
         { q: "What is the Qurʾānic proof for seeing Allāh?", a: "Q 75:22-23: 'Faces that Day will be radiant — looking (nāẓirah) at their Lord.' The Arabic word nāẓirah means looking with the eyes — this is its primary, unambiguous meaning. Q 10:26: 'more (ziyādah)' — the Prophet ﷺ explicitly interpreted 'ziyādah' as seeing Allāh's face (Ṣaḥīḥ Muslim 181). This Prophetic interpretation closes the discussion — the 'more' beyond Paradise is seeing Allāh Himself." },
         { q: "How did the Prophet ﷺ describe seeing Allāh?", a: "'You will see your Lord as you see the full moon — you will not be crowded in seeing Him' (Ṣaḥīḥ al-Bukhārī 554; Muslim 633). The full moon comparison serves two purposes: (1) Clarity — the sight of Allāh will be clear and unmistakable, not confused or uncertain. (2) Ease — everyone can see the full moon without pushing or crowding — everyone in Paradise will see Allāh without difficulty or competition." },
         { q: "Why did the Muʿtazilah deny the ruʾyah and how are they refuted?", a: "The Muʿtazilah argued: (1) Seeing requires direction — Allāh has no direction. (2) Eyes can only see material things — Allāh is not material. Athari response: When Qurʾān and Sunnah establish something clearly, rational arguments against it are rejected — not the naṣṣ. The Companions were unanimous on ruʾyah. Ibn Masrūq said: 'Whoever denies Allāh will be seen in the Hereafter has disbelieved.' Allāh is capable of being seen in a manner befitting His Majesty." },
+      ],
+      quiz: [
+        { q: "Will believers see Allāh in the Hereafter, according to Ahlus-Sunnah?", choices: ["Yes, literally with their own eyes", "No, it is only metaphorical knowledge", "Only the Prophets will see Him", "It is a disputed matter with no clear answer"], correct: 0 },
+        { q: "What did the Prophet ﷺ compare seeing Allāh to?", choices: ["Seeing the full moon clearly, without being crowded", "Seeing the sun directly", "A dream vision only", "Seeing angels"], correct: 0 },
+        { q: "Which group denied Ruʾyat Allāh using rational arguments?", choices: ["The Muʿtazilah", "The vast majority of Ahlus-Sunnah scholars", "The Companions", "The Ḥanbalīs"], correct: 0 },
       ]
     },
     {
@@ -155,6 +200,11 @@ XenosBooks.register({
         { q: "Is the resurrection physical or only spiritual?", a: "Physical (jismānī) — body AND soul reunited. Q 75:3-4: 'We will assemble his bones... the tips of his fingers.' The Prophet ﷺ: 'You will be resurrected barefoot, naked, and uncircumcised' — explicitly describing physical human bodies. This refutes those influenced by Greek philosophy who claimed only the soul is resurrected." },
         { q: "Do Paradise and Hell already exist right now?", a: "Yes. Q 3:133: 'a Garden... prepared (uʿiddat) for the righteous' — past tense = currently exists. The Prophet ﷺ was shown both Paradise and Hell during the Miʿrāj (Night Journey). During the eclipse prayer he saw them and reached forward for a bunch of grapes from Paradise (Ṣaḥīḥ al-Bukhārī 1052). All Companions were unanimous that both Jannah and Nār exist right now." },
         { q: "What is al-Shafāʿah al-ʿUẓmā (the Greatest Intercession)?", a: "On the Day of Judgment, people will be in extreme distress waiting for the reckoning to begin. They will go to Ādam, Nūḥ, Ibrāhīm, Mūsā, then ʿĪsā — each saying 'my soul, my soul' (fearing for themselves). All will direct them to Muḥammad ﷺ. He will prostrate before Allāh and intercede. Allāh will accept — and the reckoning begins. This is the Maqām Maḥmūd (Praised Station) promised in Q 17:79." },
+      ],
+      quiz: [
+        { q: "Is the resurrection physical or only spiritual, according to Ahlus-Sunnah?", choices: ["Physical — body and soul reunited", "Only spiritual", "Neither, it is purely symbolic", "Only for the righteous"], correct: 0 },
+        { q: "Do Paradise and Hell exist right now, before the Day of Judgment?", choices: ["Yes, both already exist", "No, they will be created on Judgment Day", "Only Paradise exists now", "It is an unresolved question"], correct: 0 },
+        { q: "What is al-Shafāʿah al-ʿUẓmā?", choices: ["The Greatest Intercession, made by the Prophet ﷺ for all of mankind", "A prayer performed at Ḥajj", "The first sermon of Islam", "A Qurʾānic verse about mercy"], correct: 0 },
       ]
     },
     {
@@ -170,6 +220,11 @@ XenosBooks.register({
         { q: "What is the Qurʾānic proof for punishment of the grave?", a: "Q 40:46: 'They are exposed to the Fire morning and evening, and the Day the Hour appears: Admit the people of Pharaoh into the severest punishment.' This proves: (1) Punishment occurs before the Day of Judgment (morning and evening in the barzakh). (2) A distinct, more severe punishment on the Day of Judgment itself. Two separate punishments are clearly established." },
         { q: "What questions are asked in the grave?", a: "Two angels (Munkar and Nakīr) ask three questions: (1) 'Who is your Lord?' — Believer: 'My Lord is Allāh.' (2) 'What is your religion?' — Believer: 'My religion is Islām.' (3) 'Who is this man sent among you?' — Believer: 'The Messenger of Allāh, Muḥammad ﷺ.' The believer answers correctly: a door to Paradise opens, his grave becomes spacious, he rests in comfort. The hypocrite/disbeliever cannot answer — the punishment begins." },
         { q: "How is the grave punishment proven from the Sunnah?", a: "(1) The Prophet ﷺ placed green branches on two graves saying 'perhaps it will reduce their punishment while fresh' (Bukhārī 1361) — proves real punishment in the grave. (2) 'Seek refuge with Allāh from the punishment of the grave' — the Prophet ﷺ regularly sought refuge himself (Bukhārī 1377). (3) 'The grave is either a garden from Paradise or a pit from Hell' — establishes both possibilities as real barzakh experiences." },
+      ],
+      quiz: [
+        { q: "What is the Barzakh?", choices: ["The realm between death and resurrection", "The bridge over Hell", "The gate of Paradise", "The first heaven"], correct: 0 },
+        { q: "What are the three questions asked in the grave?", choices: ["Who is your Lord, what is your religion, who is this man (the Prophet ﷺ)", "Name, age, and birthplace", "What good deeds did you do", "How many prayers did you miss"], correct: 0 },
+        { q: "Why did the Prophet ﷺ place green branches on two graves?", choices: ["Saying it may reduce the punishment while the branches are still fresh", "As a burial offering", "To mark the grave's location", "To give to the deceased's family"], correct: 0 },
       ]
     },
     {
@@ -186,6 +241,11 @@ XenosBooks.register({
         { q: "What is the correct position on the fitnah between the Companions?", a: "The Athari position: (1) Both sides in the fitnah between ʿAlī and Muʿāwiyah RA were mujtahids making sincere scholarly judgments. (2) The correct one gets two rewards (ijtihād + being right). (3) The one who erred gets one reward for sincere effort. (4) We do NOT curse either side. (5) We do NOT take sides beyond what the texts say. (6) We ask Allāh's mercy on all. Al-Shāfiʿī, Aḥmad, and al-Bukhārī all held this position." },
         { q: "What are the Rāfiḍah errors regarding the Companions?", a: "(1) Cursing and insulting Abū Bakr, ʿUmar, and ʿUthmān RA — claiming they usurped ʿAlī's leadership. (2) Declaring most Companions apostates — saying they abandoned Islām after the Prophet ﷺ died. (3) Extreme exaltation of ʿAlī RA — some Ghulāt Shīʿah worship him. Athari response: Allāh praised the Companions (Q 9:100, Q 48:29). The Prophet ﷺ forbade reviling them (Bukhārī 3673). Declaring them apostates destroys the entire transmission of the Qurʾān and Sunnah — the religion itself." },
         { q: "What did the Prophet ﷺ say about the Companions' virtue?", a: "'Do not revile my Companions. By Allāh, if one of you were to spend gold the size of Uḥud, it would not reach the mudds or even half of one of them' (Ṣaḥīḥ al-Bukhārī 3673). Also: 'They are like the stars — whichever of them you follow, you will be guided.' Their direct companionship with the Prophet ﷺ, participation in revelations, and sacrifice in the earliest battles gives them uniquely high and irreplaceable rank." },
+      ],
+      quiz: [
+        { q: "Who is ranked first among the Companions?", choices: ["Abū Bakr al-Ṣiddīq", "ʿUmar ibn al-Khaṭṭāb", "ʿUthmān ibn ʿAffān", "ʿAlī ibn Abī Ṭālib"], correct: 0 },
+        { q: "What is the Ahlus-Sunnah position on the fitnah between the Companions?", choices: ["Both sides were sincere mujtahids — we don't curse either side and ask Allāh's mercy on all", "One side was clearly evil and the other entirely righteous", "We must pick a side and condemn the other", "The fitnah never actually happened"], correct: 0 },
+        { q: "What did the Prophet ﷺ say about spending gold the size of Uḥud?", choices: ["It wouldn't reach the reward of even half a Companion's small charity", "It would guarantee Paradise regardless of deeds", "It was forbidden to do so", "It refers to a specific zakāt calculation"], correct: 0 },
       ]
     },
     {
@@ -213,6 +273,11 @@ XenosBooks.register({
         { q: "Who were the Muʿtazilah and what were their main errors?", a: "Founded ~2nd century AH, the Muʿtazilah are a rationalist theological school. Major errors: (1) Said the Qurʾān was created — caused the Miḥnah inquisition. (2) Denied Allāh's Attributes — fell into taʿṭīl. (3) Denied Ruʾyat Allāh in the Hereafter. (4) Denied Qadar — humans create their own actions independently of Allāh. (5) The manzilah bayna al-manzilatayn — the grave sinner is 'between Iman and kufr.' They held political power under al-Maʾmūn and persecuted scholars." },
         { q: "Who are the Khawārij and what did the Prophet ﷺ say about them?", a: "The Khawārij first appeared 37H, rebelling against ʿAlī RA. Core errors: (1) Takfīr of sinners — declaring any Muslim who commits a major sin a kāfir. (2) Made armed rebellion against Muslim rulers obligatory when they sin. The Prophet ﷺ: 'They recite Qurʾān but it does not pass beyond their throats. They exit Islām as an arrow exits its target' (Bukhārī 3611). Their methodology persists today in modern takfīrī and terrorist groups." },
         { q: "What single error unites all deviant sects?", a: "All deviant sects share one core error: they allowed human reason to override or reinterpret the clear texts of Qurʾān and Sunnah. The Jahmiyyah used rationalism to deny attributes. The Muʿtazilah used rationalism to deny the Qurʾān being uncreated and to deny ruʾyah. The Khawārij used their own 'justice' to declare rulers kāfir. Al-Muzanī's method in Sharḥ al-Sunnah: state what the texts say, without adding, removing, or reinterpreting. The naṣṣ (text) is the authority — not human reason." },
+      ],
+      quiz: [
+        { q: "Which sect denied ALL of Allāh's attributes?", choices: ["The Jahmiyyah", "The Ashʿariyyah", "The Māturīdiyyah", "The Ẓāhiriyyah"], correct: 0 },
+        { q: "What is the core error of the Khawārij?", choices: ["Declaring major sinners and rulers disbelievers (takfīr) and rebelling against them", "Denying Allāh's attributes", "Removing actions from Iman", "Cursing the Companions"], correct: 0 },
+        { q: "What single error unites all the deviant sects covered here?", choices: ["Letting human reason override or reinterpret the clear texts of Qurʾān and Sunnah", "All rejecting the Qurʾān outright", "All being purely political movements", "All originating in the exact same century"], correct: 0 },
       ]
     }
   ]

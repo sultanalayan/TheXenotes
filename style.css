@@ -217,6 +217,25 @@ body.view-library .sidebar { display: none; }
 .qa-answer { min-height: 0; overflow: hidden; padding: 0 16px; font-size: 14px; color: var(--ink); line-height: 1.8; }
 .qa-item:has(.qa-btn.open) .qa-answer { padding: 14px 16px; }
 
+/* ── QUIZ ── */
+.quiz-label { font-family: var(--font-script); font-size: 18px; color: var(--emerald); margin: 6px 0 12px; }
+.quiz-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+.quiz-q { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 11px; line-height: 1.5; }
+.quiz-choices { display: flex; flex-direction: column; gap: 6px; }
+.quiz-choice {
+  text-align: left; background: var(--card2); border: 1px solid var(--border); color: var(--ink);
+  font-family: var(--font-serif); font-size: 13px; padding: 9px 13px; border-radius: 6px; cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.quiz-choice:hover:not(:disabled) { border-color: var(--burgundy-light); transform: translateX(2px); }
+.quiz-choice:disabled { cursor: default; }
+.quiz-choice.correct { background: color-mix(in srgb, var(--emerald) 22%, var(--card2)); border-color: var(--emerald); color: var(--emerald); font-weight: 600; }
+.quiz-choice.incorrect { background: color-mix(in srgb, var(--burgundy) 16%, var(--card2)); border-color: var(--burgundy); color: var(--burgundy); }
+.quiz-explain-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s var(--ease); }
+.quiz-explain { overflow: hidden; font-size: 12.5px; color: var(--muted); font-style: italic; line-height: 1.65; }
+.quiz-item.answered .quiz-explain { padding-top: 10px; }
+.quiz-score { text-align: center; font-size: 12px; color: var(--muted); padding: 8px 0 2px; font-style: italic; }
+
 /* ── SECTS TABLE ── */
 .sects-table-wrap { overflow-x: auto; margin-bottom: 24px; border-radius: 8px; border: 1px solid var(--border); }
 .sects-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
@@ -255,7 +274,10 @@ body.view-library .sidebar { display: none; }
 .search-box:focus { border-color: var(--burgundy); box-shadow: 0 0 0 3px color-mix(in srgb, var(--burgundy) 16%, transparent); }
 .search-box::placeholder { color: var(--muted); }
 
-.book-grid { display: flex; flex-direction: column; gap: 11px; padding-bottom: 40px; }
+.category-group { margin-bottom: 6px; }
+.category-label { font-family: var(--font-script); font-size: 24px; color: var(--burgundy); margin: 22px 4px 10px; }
+.category-group:first-child .category-label { margin-top: 0; }
+.book-grid { display: flex; flex-direction: column; gap: 11px; padding-bottom: 22px; }
 .book-card {
   display: flex; align-items: center; gap: 15px;
   background: var(--card); border: 1px solid var(--border); border-radius: 12px;
