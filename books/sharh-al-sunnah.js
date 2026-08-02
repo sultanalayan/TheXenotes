@@ -105,9 +105,9 @@ XenosBooks.register({
       bullets: [
         { label: "Master Verse", text: "Q 42:11 — 'There is nothing like Him — and He is the All-Hearing, All-Seeing.' Negates resemblance (no tashbīh) AND affirms real attributes (no taʿṭīl) simultaneously." },
         { label: "The 4-Step Method", text: "1. Read the text exactly as it came.\n2. Accept the linguistic meaning Arabic gives it.\n3. Negate any resemblance to creation (tanzīh).\n4. Leave the 'how' (kayfiyyah) to Allāh — do NOT ask how." },
-        { label: "Taʿṭīl (Stripping)", text: "Denying/stripping Allāh's attributes entirely — the error of the Jahmiyyah and Muʿtazilah" },
-        { label: "Tashbīh (Likening)", text: "Likening Allāh's attributes to those of creation — the error of the anthropomorphists (Mujassimah)" },
-        { label: "Taʾwīl (Reinterpretation)", text: "Reinterpreting attributes to something other than their Arabic meaning — also rejected by Ahlus-Sunnah" },
+        { label: "التعطيل (Taʿṭīl) — Stripping", text: "Denying/stripping Allāh's attributes entirely — the error of the Jahmiyyah and Muʿtazilah" },
+        { label: "التشبيه (Tashbīh) — Likening", text: "Likening Allāh's attributes to those of creation — the error of the anthropomorphists (Mujassimah)" },
+        { label: "التأويل (Taʾwīl) — Reinterpretation", text: "Reinterpreting attributes to something other than their Arabic meaning — also rejected by Ahlus-Sunnah" },
       ],
       qanda: [
         { q: "What is the difference between taʿṭīl, tashbīh, and taʾwīl?", a: "Tashbīh: Likening Allāh's attributes to creation — e.g. 'Allāh has a hand like our hands.' Error of the Mujassimah. Taʿṭīl: Denying Allāh's attributes entirely — e.g. 'Allāh has no hand, no face, no attributes.' Error of the Jahmiyyah. Taʾwīl (blameworthy): Reinterpreting attributes away from their Arabic meaning — e.g. 'hand means power, face means essence.' The Athari position rejects all three: affirm the Arabic meaning, negate resemblance, leave the 'how' to Allāh." },
@@ -252,12 +252,12 @@ XenosBooks.register({
       id: 'sects', icon: '⚔️', label: 'Deviant Sects', subtitle: 'Quick Reference Guide', color: 'var(--burgundy-deep)',
       intro: "Al-Muzanī's Sharḥ al-Sunnah implicitly refutes all major deviant sects of his era throughout each point. Know each sect, their core error, and the Athari correction — this is essential for understanding why each point of the text was written the way it was.",
       bullets: [
-        { label: "Jahmiyyah", text: "Denied ALL of Allāh's Names & Attributes. Said Qurʾān is created. Denied Allāh's elevation. Denied free will (Jabr)." },
-        { label: "Muʿtazilah", text: "Said Qurʾān is created. Denied Allāh's Attributes. Denied Ruʾyat Allāh. Denied Qadar. Held 'station between two stations' on sinners." },
-        { label: "Murjiʾah", text: "Removed actions from the definition of Iman. Said sins do not decrease Iman." },
-        { label: "Qadariyyah", text: "Denied Allāh's prior knowledge and predestination of human actions. Called 'Magians of the Ummah.'" },
-        { label: "Jabriyyah", text: "Denied human free will entirely. Said humans are completely compelled with no real choice or accountability." },
-        { label: "Khawārij", text: "Declared Muslim rulers and major sinners apostates (kāfir). Made armed rebellion against rulers obligatory." },
+        { label: "الجهمية (Al-Jahmiyyah)", text: "Denied ALL of Allāh's Names & Attributes. Said Qurʾān is created. Denied Allāh's elevation. Denied free will (Jabr)." },
+        { label: "المعتزلة (Al-Muʿtazilah)", text: "Said Qurʾān is created. Denied Allāh's Attributes. Denied Ruʾyat Allāh. Denied Qadar. Held 'station between two stations' on sinners." },
+        { label: "المرجئة (Al-Murjiʾah)", text: "Removed actions from the definition of Iman. Said sins do not decrease Iman." },
+        { label: "القدرية (Al-Qadariyyah)", text: "Denied Allāh's prior knowledge and predestination of human actions. Called 'Magians of the Ummah.'" },
+        { label: "الجبرية (Al-Jabriyyah)", text: "Denied human free will entirely. Said humans are completely compelled with no real choice or accountability." },
+        { label: "الخوارج (Al-Khawārij)", text: "Declared Muslim rulers and major sinners apostates (kāfir). Made armed rebellion against rulers obligatory." },
       ],
       sectsTable: [
         { name: "Jahmiyyah", error: "Denied all Attributes, Quran created, no ʿUluww", correct: "Affirm attributes, Quran uncreated, Allāh above Throne" },
