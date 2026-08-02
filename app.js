@@ -308,3 +308,26 @@ function openSidebar() { document.getElementById('sidebar').classList.add('open'
 function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); }
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
+
+// ─── Custom cursor (pointer devices only) ───
+(function () {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  const cursor = document.createElement('div');
+  cursor.className = 'xn-cursor';
+  document.body.appendChild(cursor);
+
+  const HOVER_SELECTOR = 'a, button, .quiz-choice, .nav-btn, .book-card, .qa-btn';
+
+  window.addEventListener('mousemove', (e) => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(HOVER_SELECTOR)) cursor.classList.add('is-hover');
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(HOVER_SELECTOR)) cursor.classList.remove('is-hover');
+  });
+  window.addEventListener('mousedown', () => cursor.classList.add('is-down'));
+  window.addEventListener('mouseup', () => cursor.classList.remove('is-down'));
+})();
