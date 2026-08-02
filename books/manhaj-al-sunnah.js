@@ -15,10 +15,11 @@ XenosBooks.register({
   sections: [
     {
       id: 'overview', icon: '📚', label: 'The Book & Its Context', subtitle: 'Who, Why, and What', color: 'var(--burgundy)',
-      intro: "Manhaj al-Sunnah al-Nabawiyyah (المنهاج — \"The Path of the Prophetic Sunnah\") is among the greatest works ever written in Islamic theological polemics. Ibn Taymiyyah wrote it as a comprehensive, systematic refutation of Minhāj al-Karāmah fī Maʿrifat al-Imāmah — a Shīʿah Imāmiyyah treatise written by Ibn al-Muṭahhar al-Ḥillī for a Mongol king. This abridged translation (605 pages) covers all major Shīʿah theological claims and answers each one.",
+      intro: "Manhaj al-Sunnah al-Nabawiyyah (المنهاج — \"The Path of the Prophetic Sunnah\") is among the greatest works ever written in Islamic theological polemics. Ibn Taymiyyah wrote it as a comprehensive, systematic refutation of Minhāj al-Karāmah fī Maʿrifat al-Imāmah — a Shīʿah Imāmiyyah treatise written by Ibn al-Muṭahhar al-Ḥillī. This abridged translation (605 pages) covers all major Shīʿah theological claims and answers each one.",
       bullets: [
         { label: 'The Author', text: 'Shaykh al-Islām Taqī al-Dīn Aḥmad ibn ʿAbd al-Ḥalīm ibn Taymiyyah al-Ḥarrānī al-Dimashqī (661–728 AH)' },
-        { label: 'The Text He Refuted', text: 'منهاج الكرامة (Minhāj al-Karāmah) by Ibn al-Muṭahhar al-Ḥillī — written to invite a Mongol king to Shīʿism' },
+        { label: 'The Text He Refuted', text: 'منهاج الكرامة (Minhāj al-Karāmah) by Ibn al-Muṭahhar al-Ḥillī' },
+        { label: 'Who It Was Written For', text: "Al-Ḥillī addressed his treatise to the Ilkhanid ruler Öljaitü, known after his conversion as Muḥammad Khudābanda — the Mongol king who adopted Twelver Shīʿism around 709H/1310CE, within Ibn Taymiyyah's own lifetime" },
         { label: 'Why He Wrote It', text: 'Scholars of Ahl al-Sunnah brought him the Shīʿah book and asked him to expose its errors so believers would be protected from its claims' },
         { label: "Ibn Taymiyyah's Own Words", text: '"Those people are among the most strayed away from the right path... they are the most liars in textual quotations and the most ignorant in intellectual reasoning."' },
         { label: 'The Six Chapters', text: "1. Imāmah is not the most important principle\n2. Which sect to follow\n3. Proofs for ʿAlī's Imāmah refuted\n4. The Twelve Imāms claim refuted\n5. Leadership of the first three Caliphs\n6. Shīʿah critique of Abū Bakr refuted" },
@@ -26,12 +27,12 @@ XenosBooks.register({
       qanda: [
         { q: 'Why is this book so significant in Islamic scholarship?', a: "It is the most comprehensive systematic refutation of Shīʿah Imāmiyyah theology ever written. Ibn Taymiyyah addresses every major argument the Shīʿah make for their creed — rational, Qurʾānic, and ḥadīth-based — and answers each one. He also traces the historical origins of Shīʿism, examines narrations used by the Shīʿah, defends the Companions against specific claims, and lays out the Ahl al-Sunnah position on the caliphate." },
         { q: 'Who was Ibn Taymiyyah?', a: 'Shaykh al-Islām Aḥmad ibn ʿAbd al-Ḥalīm ibn Taymiyyah (661–728 AH) is considered one of the most influential scholars in Islamic history. Born in Ḥarrān, he settled in Damascus, mastering fiqh, ḥadīth, tafsīr, and ʿaqīdah. He faced significant persecution from political authorities and was imprisoned multiple times for his positions — yet continued writing from prison. He died in Damascus while imprisoned in the Citadel.' },
-        { q: 'What was the historical context behind this book?', a: "In the 13th–14th century, the Mongol invasions had devastated much of the Muslim world, and some Mongol rulers were being courted by various sects. A Mongol king was being invited to Shīʿism by Ibn al-Muṭahhar al-Ḥillī, who wrote a theological treatise to persuade him — a matter with real political consequences for the Muslims under that rule. Ibn Taymiyyah's refutation was written to address the Shīʿah claims directly." },
+        { q: 'What was the historical context behind this book?', a: "The Mongol invasions had devastated much of the Muslim world in the century before Ibn Taymiyyah wrote, and the Ilkhanid rulers who governed former Muslim lands were themselves in religious flux. Öljaitü, the reigning Ilkhan, converted to Twelver Shīʿism around 709H under al-Ḥillī's influence — a conversion with real political consequences, since it shaped which scholars and legal traditions the ruler favored. Ibn Taymiyyah's refutation was written to answer al-Ḥillī's treatise directly." },
         { q: 'What does the title mean?', a: '"Manhaj" means path or methodology. "Al-Sunnah al-Nabawiyyah" means the Prophetic Sunnah. The title is a direct counter to the Shīʿah book\'s title, Minhāj al-Karāmah ("The Path of Honor") — Ibn Taymiyyah argues the true path is the Prophetic Sunnah as understood and practiced by the Companions.' },
       ],
       quiz: [
         { q: 'What Shīʿah text did Ibn Taymiyyah write this book to refute?', choices: ['Minhāj al-Karāmah fī Maʿrifat al-Imāmah', 'Nahj al-Balāghah', 'Al-Kāfī', 'Biḥār al-Anwār'], correct: 0 },
-        { q: 'Who was the intended audience of the original Shīʿah treatise?', choices: ['A Mongol king being invited to Shīʿism', 'A group of Sunni scholars', 'The general Muslim public in Damascus', 'The Ottoman Sultan'], correct: 0 },
+        { q: 'Who was the ruler al-Ḥillī\'s treatise was addressed to?', choices: ['Öljaitü (Muḥammad Khudābanda), the Ilkhanid Mongol ruler', 'A group of Sunni scholars', 'The general Muslim public in Damascus', 'The Ottoman Sultan'], correct: 0 },
         { q: 'What does "Manhaj al-Sunnah al-Nabawiyyah" mean?', choices: ['The Path of the Prophetic Sunnah', 'The Path of Honor', 'The Book of Certainty', 'The Choice Thought'], correct: 0 },
       ]
     },
@@ -39,21 +40,22 @@ XenosBooks.register({
       id: 'rafidah', icon: '⚔️', label: 'Who Are the Rāfiḍah?', subtitle: 'Name · History · Origins · Comparisons', color: 'var(--burgundy-deep)',
       intro: 'Before refuting Shīʿah theology in detail, Ibn Taymiyyah establishes who the Rāfiḍah are, traces the historical origins of Shīʿism, and draws comparisons to the People of the Book. This section frames all the arguments that follow.',
       bullets: [
-        { label: 'الرافضة (Al-Rāfiḍah)', text: 'Means "the Rejecters" — those who reject the caliphate of Abū Bakr, ʿUmar, and ʿUthmān. The term applies specifically to extremist Shīʿah, not all Shīʿah sects, and generally rejects most Companions as apostate.' },
-        { label: 'Historical Origin', text: "Ibn Taymiyyah traces Rāfiḍī roots to ʿAbdullāh ibn Sabaʾ, whom ʿAlī himself sought to punish. ʿAlī publicly stated from the pulpit in Kūfah: \"The best of this community after its Prophet is Abū Bakr and then ʿUmar\" (Bukhārī, Abū Dāwūd)." },
-        { label: 'Comparison to Jews', text: 'Like Jews who knew the truth but rejected it out of spite and envy — the Rāfiḍah are argued to know what the Companions were, yet reject them out of hostility.' },
-        { label: 'Comparison to Christians', text: "Like Christians who exaggerated (ghuluw) about their prophet — some Rāfiḍī sects exaggerate about ʿAlī and the Imāms to the point of near-divine status." },
+        { label: 'الرافضة (Al-Rāfiḍah)', text: 'Means "the Rejecters." The name is traced to followers of Zayd ibn ʿAlī who abandoned him after he refused to condemn Abū Bakr and ʿUmar — he reportedly said "you have rejected me (rafaḍtumūnī)," from which the name stuck. Those who stayed loyal to Zayd became known as the Zaydiyyah.' },
+        { label: "ʿAbdullāh ibn Sabaʾ", text: 'Ibn Taymiyyah identifies a figure named ʿAbdullāh ibn Sabaʾ, said to be a convert of Jewish background, as an early source spreading the idea that ʿAlī was divinely appointed and that Abū Bakr and ʿUmar were usurpers. Classical sources report ʿAlī himself moved against those holding such extreme views about him.' },
+        { label: "Alliance With the Mongols — a Documented, If Debated, Episode", text: 'Historians have long debated the role of Ibn al-ʿAlqamī, the Shīʿah vizier to the last ʿAbbāsid caliph, in the 1258 fall of Baghdad — he is widely reported to have reduced the garrison and urged the caliph to surrender to Hülegü, though modern historians differ on how decisive his role actually was in the city\'s fall.' },
+        { label: "The Assassination of ʿUmar", text: 'ʿUmar was killed by Abū Luʾluʾah, a Persian slave, in 23H. Some early sources link this to a wider grievance and name others (including a captured Persian commander, al-Hurmuzān) as implicated — though the historicity of an organized conspiracy, versus a personal act of vengeance, is disputed even among modern historians of the period.' },
+        { label: 'Ghuluw (Exaggeration) — Not True of All Shīʿah', text: "Ibn Taymiyyah compares the Rāfiḍah's exaggeration about ʿAlī to how some Christians exaggerated about ʿĪsā until he was worshipped. This charge applies specifically to the most extreme (ghulāt) currents historically documented among certain esoteric offshoots — not to mainstream Twelver Shīʿah belief, and it should not be read as a blanket claim about all Shīʿah Muslims." },
         { label: "Imām al-Shaʿbī's Assessment", text: '"I never see a people more imprudent than the Shīʿah. If they were birds they would have been owls. I swear by Allāh, if they asked me to fabricate a ḥadīth for ʿAlī, I would not do that."' },
       ],
       qanda: [
-        { q: 'What does "Rāfiḍah" mean and who does it apply to?', a: 'It means "Rejecters" — those who reject the caliphate of Abū Bakr, ʿUmar, and ʿUthmān. It applies specifically to the extremists who hold Abū Bakr and ʿUmar to be illegitimate usurpers, and who reject most of the Prophet\'s Companions as apostates, rather than to every Shīʿah group.' },
-        { q: 'How does Ibn Taymiyyah trace the origin of extreme Shīʿism?', a: "He identifies ʿAbdullāh ibn Sabaʾ as an early figure spreading the idea that ʿAlī was divinely appointed and that Abū Bakr and ʿUmar were usurpers — teachings ʿAlī himself moved to suppress. Ibn Taymiyyah notes that even early Shīʿah figures who lived with ʿAlī did not hold the later Rāfiḍī position." },
-        { q: 'What are the two comparisons Ibn Taymiyyah draws to the People of the Book?', a: "(1) Like Jews, who knew the truth about a matter but rejected it out of envy. (2) Like Christians, who fell into ghuluw (exaggeration) about their central figure until some worshipped him — paralleling how some Rāfiḍī sects exalt ʿAlī to a near-divine status." },
+        { q: 'What does "Rāfiḍah" mean and where does the name come from?', a: 'It means "Rejecters." Ibn Taymiyyah traces it to the followers of Zayd ibn ʿAlī, who abandoned him when he refused to declare Abū Bakr and ʿUmar illegitimate — his reported response, "you have rejected me," gave the group its name. Those who remained loyal to Zayd\'s original, more moderate position became the Zaydiyyah, whom Ibn Taymiyyah elsewhere describes as closer to Ahl al-Sunnah in outlook than the Rāfiḍah.' },
+        { q: 'Why should the "ghuluw" (exaggeration) criticism not be read as applying to all Shīʿah Muslims?', a: "Because Ibn Taymiyyah's comparison to Christian exaggeration about ʿĪsā is aimed at the most extreme historical currents — figures and groups later Muslim heresiographers documented as approaching outright deification of ʿAlī — not at the mainstream Twelver Shīʿah position, which formally affirms ʿAlī's humanity and prophethood's finality with Muḥammad ﷺ. Painting an entire, diverse tradition with its most extreme fringe would misrepresent both the book's argument and the reality of Shīʿah belief." },
+        { q: 'Is the claim that Hurmuzān was a proven co-conspirator in ʿUmar\'s assassination historically settled?', a: 'No — this is one area worth checking carefully. Early sources report that ʿUmar\'s son ʿUbaydullāh killed Hurmuzān (and a Christian named Jufaynah) on suspicion of conspiring with Abū Luʾluʾah, but modern historians, including Wilferd Madelung, treat this as more likely an act of personal vengeance by a grieving son than a confirmed, organized plot — the evidence for an actual conspiracy is thin and contested.' },
       ],
       quiz: [
         { q: 'What does the word "Rāfiḍah" literally mean?', choices: ['Rejecters', 'Followers', 'Innovators', 'Companions'], correct: 0 },
-        { q: 'Who does Ibn Taymiyyah identify as an early source of the extreme Shīʿī position on Abū Bakr and ʿUmar?', choices: ['ʿAbdullāh ibn Sabaʾ', 'Ibn al-Muṭahhar al-Ḥillī', 'Al-Shaʿbī', 'Al-Ashʿarī'], correct: 0 },
-        { q: 'Ibn Taymiyyah compares the Rāfiḍah exaggerating about ʿAlī to which group\'s error about their central figure?', choices: ['Christians and Jesus', 'Jews and Moses', 'Zoroastrians and fire', 'Buddhists and the Buddha'], correct: 0 },
+        { q: 'Which Shīʿah sect does Ibn Taymiyyah trace back to Zayd ibn ʿAlī\'s original, more moderate followers?', choices: ['The Zaydiyyah', 'The Ithnā ʿAshariyyah', 'The Ismāʿīliyyah', 'The Nuṣayriyyah'], correct: 0 },
+        { q: 'What does modern historical scholarship say about the claim that Hurmuzān organized a conspiracy against ʿUmar?', choices: ['It is disputed — many historians see it as more likely a personal act of vengeance than a proven conspiracy', 'It is universally agreed upon as fact', 'No historical source ever mentions Hurmuzān at all', 'It was confirmed by Hurmuzān\'s own confession'], correct: 0 },
       ]
     },
     {
@@ -64,17 +66,18 @@ XenosBooks.register({
         { label: "Ibn Taymiyyah's Response", text: 'Belief in Allāh and His Messenger is more important than the issue of al-Imāmah — this is known by necessity in the religion of Islam.' },
         { label: 'Proof from the Call to Islam', text: "When the Prophet ﷺ called people to Islam, he called them to the Shahādah, Prayer, and Zakāh — never to a belief in a specific Imām." },
         { label: 'Proof from the Companions', text: "The Companions — the best generation by consensus — did not hold the belief in the Twelve Imāms. If it were the most important principle, how were they the best generation without knowing it?" },
+        { label: "ʿAlī's Own Declaration", text: 'ʿAlī himself publicly said from the pulpit in Kūfah: "The best of this community after its Prophet is Abū Bakr and then ʿUmar" (Bukhārī, Abū Dāwūd, Ibn Mājah) — a direct statement from the very figure the Shīʿah claim was divinely appointed instead of them.' },
         { label: 'The Internal Contradiction', text: "The Shīʿah claim the current Imām has been hidden (ghaybah) since 260H — over a thousand years. What benefit is a central religious principle whose Imām cannot be found?" },
       ],
       qanda: [
         { q: "Why does Ibn Taymiyyah reject the claim that Imāmah is the most important principle?", a: "Because the Prophet ﷺ never made belief in a specific Imām a condition of entering Islam — only the Shahādah, Prayer, and Zakāh were required. The best generation, the Companions, did not hold this belief. And if the \"most important principle\" refers to belief in a hidden Imām who has been unreachable for over a thousand years, that would make the most important obligation in Islam something inaccessible — a conclusion Ibn Taymiyyah calls false by necessity." },
         { q: 'What does the Qurʾān establish about the conditions for entering Islam?', a: "Ibn Taymiyyah cites verses showing the conditions given are repentance, prayer, and zakāh — never belief in a specific Imām. This shows that following the Messenger ﷺ, not a separately appointed Imām, is the actual obligation upon Muslims." },
-        { q: 'What is the Ahl al-Sunnah position on leadership?', a: 'That the real leader is whoever actually holds authority and discharges its responsibilities — comparable to how the imām of a prayer is whoever is actually leading it, not merely whoever might have deserved to.' },
+        { q: "What is the logical trap in the Shīʿah argument for needing an infallible, hidden Imām?", a: "The Shīʿah argument for needing an Imām rests on the idea that people require one for grace (luṭf) — to prevent injustice and provide guidance. But their own Imām has been hidden for over 1,100 years, giving no commands, settling no disputes, and aiding no one. So either the reasoning behind needing an Imām is wrong, or an Imām who provides no accessible benefit fails to satisfy the very need he was supposedly appointed to meet — either way, the Shīʿah's own premise undermines their conclusion." },
       ],
       quiz: [
         { q: 'According to the Shīʿah Rāfiḍah claim that Ibn Taymiyyah refutes, what is "the most important principle" of religion?', choices: ['Al-Imāmah (leadership/succession)', 'Tawḥīd', 'Ṣalāh', 'Zakāh'], correct: 0 },
         { q: 'What did the Prophet ﷺ actually require of people converting to Islam?', choices: ['The Shahādah, Prayer, and Zakāh', 'Belief in a specific hidden Imām', 'Recognition of twelve successors', 'Nothing beyond verbal agreement'], correct: 0 },
-        { q: "What problem does Ibn Taymiyyah highlight with the Shīʿah Imām's status?", choices: ["He has been in hiding (ghaybah) for over a thousand years, providing no accessible guidance", 'He was never actually born', 'He converted to a different religion', 'He renounced his own claim to Imāmah'], correct: 0 },
+        { q: 'What did ʿAlī himself declare from the pulpit in Kūfah, according to Bukhārī and Abū Dāwūd?', choices: ['That Abū Bakr, then ʿUmar, were the best of the community after the Prophet ﷺ', 'That he alone was divinely appointed', 'That the Imāmah had been stolen from him', 'Nothing — he never commented on this'], correct: 0 },
       ]
     },
     {
@@ -103,14 +106,17 @@ XenosBooks.register({
         { label: 'حديث غدير خم (Ḥadīth Ghadīr Khum)', text: '"Whoever I am his mawlā, ʿAlī is his mawlā." The Rāfiḍah read mawlā as "political successor"; Ibn Taymiyyah argues mawlā primarily means helper/close friend in Arabic, and that no Companion present understood it as a declaration of succession.' },
         { label: 'حديث هارون وموسى (The "Aaron to Moses" Ḥadīth)', text: '"You are to me as Hārūn was to Mūsā." Ibn Taymiyyah notes Hārūn did not succeed Mūsā — and the Prophet ﷺ himself qualified the comparison by adding "except there is no prophet after me."' },
         { label: 'The Rational (ʿAqlī) Argument', text: "The Rāfiḍah reason: a leader must be infallible → only ʿAlī was infallible → therefore ʿAlī must lead. Ibn Taymiyyah replies that the truly infallible guide is the Prophet ﷺ himself, whose Sunnah is preserved and accessible — unlike a hidden Imām who provides no benefit." },
+        { label: 'Most "Virtues" of ʿAlī Cited Here Are Weak or Fabricated', text: 'Ibn Taymiyyah goes through a long list of miraculous claims attached to ʿAlī specifically to argue his unique status — the sun returning for him, parting a river, speaking to jinn — and finds none of them traceable to a sound chain, several contradicted by authentic reports (e.g. the Prophet ﷺ himself once missed ʿAṣr and simply prayed it late, without any sun miracle).' },
         { label: 'The Decisive Test', text: 'If ʿAlī were divinely appointed by these texts, why did he himself never invoke them, instead giving bayʿah to Abū Bakr and praying behind him?' },
       ],
       sectsTable: [
         { name: 'Ghadīr Khum Ḥadīth', error: 'Mawlā = political successor; ʿAlī appointed as Imām', correct: "Mawlā means helper/friend; no Companion understood it as political appointment; ʿAlī never cited it as caliphate proof" },
         { name: '"Aaron to Moses" Ḥadīth', error: "ʿAlī is the Prophet's successor as Hārūn was to Mūsā", correct: "Hārūn did not succeed Mūsā — Yūshaʿ did; the Prophet ﷺ said \"no prophet after me,\" limiting the comparison" },
         { name: 'Āyat al-Wilāyah (5:55)', error: 'Revealed about ʿAlī giving his ring as charity while bowing', correct: '"Those" is plural in Arabic; giving charity mid-prayer is not an established practice; the context concerns disbelievers, not Imāmah' },
-        { name: 'Āyat al-Tablīgh (5:67)', error: "Commanded the Prophet ﷺ to declare ʿAlī's Imāmah", correct: 'No mention of ʿAlī or Imāmah appears in the verse; its context concerns conveying the message to the People of the Book' },
-        { name: 'Āyat al-Taṭhīr (33:33)', error: 'ʿAlī, Fāṭimah, Ḥasan, and Ḥusayn are infallible leaders', correct: "The verse's surrounding context addresses the Prophet's wives; removing impurity does not establish political appointment" },
+        { name: 'Āyat al-Tablīgh (5:67)', error: "Commanded the Prophet ﷺ to declare ʿAlī's Imāmah at Ghadīr", correct: 'No mention of ʿAlī or Imāmah appears in the verse; its context concerns conveying the full message of Islam' },
+        { name: 'Āyat al-Taṭhīr (33:33)', error: 'ʿAlī, Fāṭimah, Ḥasan, and Ḥusayn are infallible leaders', correct: "The verse's grammar primarily addresses the Prophet's wives (feminine plural); removing impurity does not establish political appointment" },
+        { name: 'Ḥadīth al-Thaqalayn (Two Weighty Things)', error: "Following Ahl al-Bayt is obligatory exactly like following the Qurʾān", correct: 'Even where authentic, "holding fast" means loving them and honoring their transmitted knowledge — not blind political obedience to a claimed infallible Imām' },
+        { name: "Fabricated Virtues of ʿAlī", error: "ʿAlī had miraculous powers, knowledge of the unseen, the sun returned for him", correct: 'None of these narrations have a sound chain; several are directly contradicted by authentic reports about the Prophet ﷺ himself' },
       ],
       tableHeaders: ['Argument', "Shīʿah Reading", "Ibn Taymiyyah's Response"],
       tableLabel: "📋 The Main Ghadīr-Era Arguments and Their Answers",
@@ -118,11 +124,13 @@ XenosBooks.register({
         { q: 'What is the Ḥadīth of Ghadīr Khum and how does Ibn Taymiyyah read it?', a: 'At Ghadīr Khum, the Prophet ﷺ said: "Whoever I am his mawlā, ʿAlī is his mawlā." The Rāfiḍah read this as appointing ʿAlī as political successor. Ibn Taymiyyah responds that mawlā primarily means a helper or beloved friend in Arabic — not "ruler" — and points out that no Companion present, including Abū Bakr or ʿUmar, understood the statement as a declaration of political succession, nor did ʿAlī himself ever cite it during the actual dispute over leadership.' },
         { q: 'What is the "Aaron to Moses" argument and its response?', a: 'The Prophet ﷺ told ʿAlī, "You are to me as Hārūn was to Mūsā," which the Rāfiḍah read as proof of succession. Ibn Taymiyyah notes that Hārūn (Aaron) did not succeed Mūsā (Moses) — Hārūn died before him — so the comparison establishes closeness, not succession. The Prophet ﷺ himself limited the comparison by adding "except there is no prophet after me."' },
         { q: 'What is the rational (ʿaqlī) argument for an infallible Imām, and how is it answered?', a: 'The argument runs: people need a leader; that leader must be infallible to avoid an endless chain of fallible leaders; therefore an infallible Imām, namely ʿAlī and his line, is necessary. Ibn Taymiyyah answers that the Prophet ﷺ already fills the role of the infallible guide, and that his Sunnah is fully preserved and accessible — so no additional, and in practice unreachable, infallible Imām is needed.' },
+        { q: 'What does Ibn Taymiyyah say about the many miraculous stories attached to ʿAlī specifically?', a: 'That the great majority — the sun returning for him at ʿAṣr, parting the Euphrates, speaking with jinn and snakes — trace back to no sound chain whatsoever, and some are directly contradicted by authentic reports (the Prophet ﷺ himself once missed ʿAṣr and simply made it up later, with no miracle involved). He treats this as a pattern of fabrication built up around ʿAlī\'s memory rather than a reliable historical record.' },
       ],
       quiz: [
         { q: 'What does the Arabic word "mawlā" primarily mean, according to Ibn Taymiyyah\'s reading?', choices: ['Helper / close friend', 'Political ruler', 'Prophet', 'Judge'], correct: 0 },
         { q: 'In the "Aaron to Moses" comparison, what key historical fact does Ibn Taymiyyah point out?', choices: ['Hārūn (Aaron) died before Mūsā (Moses) and did not succeed him', 'Hārūn actually did succeed Mūsā', 'The comparison never happened', 'Hārūn was younger than ʿAlī'], correct: 0 },
         { q: "What does Ibn Taymiyyah say fills the role that the Rāfiḍah assign to an infallible Imām?", choices: ["The Prophet ﷺ himself, through his preserved and accessible Sunnah", 'A council of scholars', 'The Mongol king', 'No one — the role is left unfilled in Islam'], correct: 0 },
+        { q: 'What does Ibn Taymiyyah conclude about most of the miraculous narrations attached to ʿAlī specifically?', choices: ['They have no sound chain, and some contradict authentic reports', 'They are all authentically established', 'Only the Shīʿah are qualified to judge them', 'They appear in Ṣaḥīḥ al-Bukhārī'], correct: 0 },
       ]
     },
     {
@@ -130,20 +138,74 @@ XenosBooks.register({
       intro: "The Ithnā ʿAshariyyah (Twelver) Shīʿah hold that twelve specific Imāms from the Prophet's family were divinely appointed in sequence, and that the twelfth entered occultation (al-ghaybah) as a child in 260H, to return before the Day of Judgment. Ibn Taymiyyah examines this claim from several angles.",
       bullets: [
         { label: 'الغيبة (Al-Ghaybah — The Occultation)', text: 'The claim that Muḥammad ibn al-Ḥasan al-ʿAskarī, said to be five years old, entered hiding in 260H and remains alive and hidden today.' },
-        { label: 'Not Accepted by Other Shīʿah Sects', text: 'The Zaydiyyah, Ismāʿīliyyah, and other Shīʿah groups reject this specific narrative — meaning it is far from a universally-held "concurrent" report even within Shīʿism.' },
+        { label: 'Not Accepted by Other Shīʿah Sects', text: 'The Zaydiyyah, Ismāʿīliyyah, and other Shīʿah groups reject this specific narrative. Ibn Taymiyyah also notes the Rāwandiyyah — an early Shīʿah-adjacent faction — instead transferred their allegiance toward the ʿAbbāsids, showing how contested the succession claims were even within pro-ʿAlid circles.' },
         { label: 'When the Claim Appears', text: "Ibn Taymiyyah argues this specific narrative only appears in the historical record after al-ʿAskarī's death — not earlier." },
         { label: "The Practical Question", text: 'If an infallible guide has been inaccessible for over a thousand years, what benefit does his existence provide his followers in practice?' },
+        { label: 'A Line-of-Descent Problem With the Mahdī Ḥadīth', text: "Authentic Mahdī narrations (Aḥmad, Abū Dāwūd, Tirmidhī) describe him as coming through al-Ḥasan's line, as ʿAlī himself is reported to have said. The Twelver-claimed Mahdī, Muḥammad ibn al-Ḥasan al-ʿAskarī, descends instead through al-Ḥusayn's line — a direct tension between the Twelver claim and the lineage described in these ḥadīths." },
         { label: 'Al-Mahdī — The Authentic Position', text: "Ahl al-Sunnah accept authentic narrations about a future Mahdī who will appear openly and fill the earth with justice — distinct from the claim of a person already born and hidden since 260H." },
       ],
       qanda: [
         { q: 'What is the Twelver Shīʿah claim about the twelfth Imām?', a: 'That Muḥammad ibn al-Ḥasan al-ʿAskarī entered occultation (ghaybah) as a young child in 260H and remains alive in hiding, to reappear before the Day of Judgment.' },
         { q: 'Why does Ibn Taymiyyah question the claim that this is a "concurrent" (mutawātir) report?', a: 'Because other major Shīʿah sects — the Zaydiyyah and Ismāʿīliyyah among them — do not accept this specific account, which undercuts the claim that it was universally transmitted and beyond dispute even among Shīʿah themselves.' },
-        { q: "What is the difference between the Sunni and Twelver Shīʿah understanding of the Mahdī?", a: "Ahl al-Sunnah hold that a Mahdī will appear openly in the future and fill the earth with justice, based on authentic narrations. The Twelver Shīʿah position holds that this figure was already born in the 3rd century AH and has been hidden ever since — a claim Ibn Taymiyyah treats as unestablished." },
+        { q: 'What lineage tension does Ibn Taymiyyah raise regarding the Mahdī?', a: "Authentic ḥadīths describe the coming Mahdī as being from al-Ḥasan's line. The Twelver-claimed Mahdī, however, descends through al-Ḥusayn's line via al-ʿAskarī — creating a direct mismatch between the lineage the ḥadīths describe and the lineage the Twelver claim requires." },
       ],
       quiz: [
         { q: 'In what century (AH) did the claimed occultation (ghaybah) of the twelfth Imām begin?', choices: ['3rd century AH (260H)', '1st century AH', '7th century AH', '10th century AH'], correct: 0 },
         { q: 'Which other Shīʿah sects does Ibn Taymiyyah note reject the Twelver occultation narrative?', choices: ['The Zaydiyyah and Ismāʿīliyyah', 'The Ḥanafīs and Shāfiʿīs', 'The Ashʿarīs and Māturīdīs', 'There are no other Shīʿah sects'], correct: 0 },
-        { q: "What is the Ahl al-Sunnah understanding of the Mahdī?", choices: ['A figure who will appear openly in the future, not someone already hidden for centuries', 'The same as the Twelver occultation claim', 'A purely symbolic concept with no real figure', 'A title held by every Caliph'], correct: 0 },
+        { q: 'What lineage does Ibn Taymiyyah say the authentic Mahdī ḥadīths describe, in tension with the Twelver claim?', choices: ["Descent through al-Ḥasan's line, not al-Ḥusayn's", "Descent through al-Ḥusayn's line, not al-Ḥasan's", 'No lineage is mentioned at all', "Descent through Abū Bakr's line"], correct: 0 },
+      ]
+    },
+    {
+      id: 'muta', icon: '💍', label: "The Mutʿah Issue", subtitle: "Temporary Marriage — and ʿAlī's Own Ruling", color: 'var(--burgundy-light)',
+      intro: "The Rāfiḍah claim mutʿah (temporary, fixed-term marriage) is lawful by the Qurʾān and was banned only by ʿUmar's personal opinion. Ibn Taymiyyah shows that ʿAlī himself prohibited it, citing the Prophet's ﷺ own words — meaning Shīʿah who practice mutʿah are contradicting their own claimed Imām.",
+      bullets: [
+        { label: 'Two Different "Mutʿahs" — An Important Distinction', text: "(1) Mutʿat al-Ḥajj (combining ʿUmrah and Ḥajj) — accepted, even preferred by many scholars, and not in dispute. (2) Mutʿat al-Nisāʾ (temporary marriage to a woman, with a fixed end date, no inheritance, and no formal divorce) — this is what the debate concerns." },
+        { label: "ʿAlī Himself Prohibited It", text: 'ʿAlī reportedly told Ibn ʿAbbās, who was permitting it: "The Messenger of Allāh ﷺ forbade mutʿah of women... at Khaybar" (Bukhārī and Muslim). If ʿAlī himself transmitted the prohibition from the Prophet ﷺ, the claim that only ʿUmar banned it from personal opinion does not hold up.' },
+        { label: 'The Qurʾānic Argument', text: 'Q 23:5-7 describes lawful sexual relations as limited to wives or those rightfully possessed, and calls anyone seeking beyond that a transgressor. Mutʿah, lacking the legal structure of marriage (inheritance, divorce, waiting period), falls outside both categories on this reading.' },
+      ],
+      qanda: [
+        { q: 'Why does the claim that "ʿUmar alone banned mutʿah" not hold up, in Ibn Taymiyyah\'s argument?', a: 'Because ʿAlī himself — the very figure the Shīʿah regard as the rightful Imām — is reported in Bukhārī and Muslim to have narrated that the Prophet ﷺ prohibited mutʿah of women at Khaybar, during the Prophet\'s own lifetime. If the prohibition traces to the Prophet ﷺ through ʿAlī\'s own testimony, it cannot be reduced to ʿUmar\'s later personal opinion.' },
+        { q: 'What is the difference between the two things sometimes both called "mutʿah"?', a: "Mutʿat al-Ḥajj refers to combining ʿUmrah and Ḥajj in one trip — a permitted, even preferred, practice not in dispute between the two traditions. Mutʿat al-Nisāʾ refers to a fixed-term marriage to a woman with no inheritance rights, no formal divorce process, and no waiting period — this is the specific practice the argument concerns, and it is this one Ibn Taymiyyah argues was permanently prohibited." },
+      ],
+      quiz: [
+        { q: 'According to the ḥadīth ʿAlī himself narrated in Bukhārī and Muslim, when did the Prophet ﷺ prohibit mutʿah of women?', choices: ['At Khaybar, during his own lifetime', 'He never prohibited it', 'Only after his death', 'Only ʿUmar prohibited it, decades later'], correct: 0 },
+        { q: 'Which type of "mutʿah" is NOT in dispute between the two traditions?', choices: ['Mutʿat al-Ḥajj (combining ʿUmrah and Ḥajj)', 'Mutʿat al-Nisāʾ (temporary marriage)', 'Both are equally disputed', 'Neither is disputed'], correct: 0 },
+      ]
+    },
+    {
+      id: 'fadak', icon: '🌾', label: 'The Fadak Controversy', subtitle: "Fāṭimah's Inheritance Claim, and Abū Bakr's Ruling", color: 'var(--gold)',
+      intro: "The Rāfiḍah claim Abū Bakr wrongly denied Fāṭimah RA her inheritance from the Prophet ﷺ, inventing a ḥadīth to justify it. Ibn Taymiyyah responds with a detailed case for why Abū Bakr's ruling was both textually and historically sound.",
+      bullets: [
+        { label: 'The Shīʿah Claim', text: 'That Abū Bakr refused Fāṭimah her inheritance and fabricated the ḥadīth "We Prophets do not leave inheritance; whatever we leave is charity" — allegedly contradicting Q 4:11 and the Qurʾānic example of Sulaymān inheriting from Dāwūd (Q 27:16).' },
+        { label: 'Multiple Companions Narrated the Same Ḥadīth', text: "This ruling was not narrated by Abū Bakr alone — it is also reported through ʿUmar, ʿUthmān, ʿAlī, Ṭalḥah, al-Zubayr, Saʿd, ʿAbd al-Raḥmān ibn ʿAwf, al-ʿAbbās, and several of the Prophet's ﷺ wives — a wide, independent spread that makes an \"invention by Abū Bakr alone\" implausible." },
+        { label: "Sulaymān's Inheritance Was Knowledge, Not Money", text: "Q 27:16 is read by Ibn Taymiyyah as inheritance of prophethood and knowledge, in line with the Prophetic saying: \"Scholars are the inheritors of the Prophets — they leave neither dīnār nor dirham, but leave knowledge.\"" },
+        { label: 'No Prophetic Property Was Ever Divided as Inheritance', text: 'Across all four Rightly-Guided Caliphs, the Prophet\'s ﷺ property was treated as charitable trust (waqf), never as a divided estate — accepted, in practice, even by those who had initially objected.' },
+        { label: 'Abū Bakr Personally Gained Nothing', text: 'He did not use the property himself or direct it toward his own family — it remained charity for its intended beneficiaries, which Ibn Taymiyyah treats as evidence this was a principled ruling, not a self-serving one.' },
+      ],
+      qanda: [
+        { q: "What is Ibn Taymiyyah's case that Abū Bakr did not simply invent the inheritance ḥadīth?", a: 'That the same ḥadīth — "We Prophets do not leave inheritance" — is independently narrated through at least nine other individuals, including ʿUmar, ʿUthmān, ʿAlī, and several of the Prophet\'s ﷺ own wives. A ruling repeated across that many independent lines of transmission is difficult to dismiss as one man\'s fabrication.' },
+        { q: 'How does Ibn Taymiyyah read the Qurʾānic example of Sulaymān "inheriting" from Dāwūd, which the Shīʿah cite against Abū Bakr\'s ruling?', a: 'As inheritance of prophethood, wisdom, and knowledge — not of money or property — consistent with the Prophetic statement that scholars, as inheritors of the Prophets, "leave neither dīnār nor dirham, but leave knowledge." Read this way, the verse does not actually establish a precedent for material inheritance from prophets.' },
+      ],
+      quiz: [
+        { q: 'According to Ibn Taymiyyah, how many Companions independently narrated the "Prophets do not leave inheritance" ḥadīth?', choices: ['At least nine, including ʿUmar, ʿUthmān, and ʿAlī', 'Only Abū Bakr', 'Only Fāṭimah herself', 'No one — it has no chain at all'], correct: 0 },
+        { q: 'How does Ibn Taymiyyah interpret Sulaymān "inheriting" from Dāwūd in Q 27:16?', choices: ['As inheriting prophethood and knowledge, not money', 'As inheriting a literal treasury of gold', 'As proof that all inheritance must be monetary', 'As unrelated to prophets entirely'], correct: 0 },
+      ]
+    },
+    {
+      id: 'fiqh', icon: '📐', label: 'A Fiqh Dispute — Waḍūʾ', subtitle: 'Washing or Wiping the Feet?', color: 'var(--emerald-light)',
+      intro: "The Rāfiḍah read Q 5:6 as commanding wiping (masḥ) the feet in wuḍūʾ rather than washing. Ibn Taymiyyah answers this from the Sunnah — and then, notably, from the Shīʿah's own hadith collections.",
+      bullets: [
+        { label: 'The Grammar Dispute', text: 'The Shīʿah reading connects "your feet" grammatically to "your heads" (which is wiped) rather than to "your faces" (which is washed) in Q 5:6.' },
+        { label: 'The Established Sunnah', text: 'Muslims across every generation since the Prophet ﷺ transmitted washing the feet in wuḍūʾ, through numerous independent narrations — including the warning: "Woe to the heels from the Fire," which only makes sense if the entire foot, heels included, must be washed.' },
+        { label: "The Shīʿah's Own Sources Describe Washing", text: 'Ibn Taymiyyah cites reports attributed to ʿAlī himself in Shīʿah collections describing washing the legs three times in wuḍūʾ, and a report from Imām al-Ṣādiq instructing someone who forgot to wipe their head — after already washing their feet — to wipe the head and then wash the feet again.' },
+        { label: 'Why This Matters', text: 'If wuḍūʾ is performed incorrectly, prayer built on it is invalid — which is why a seemingly technical fiqh dispute carries real weight for the validity of worship itself.' },
+      ],
+      qanda: [
+        { q: "How does Ibn Taymiyyah use the Shīʿah's own hadith collections against their position on wiping the feet?", a: "He points to reports within Shīʿah collections themselves — attributed to ʿAlī and to Imām al-Ṣādiq — that describe washing the legs, not merely wiping them. If these figures, whom the Shīʿah regard as authoritative, are recorded describing washing, that undercuts the claim that wiping is the correct and exclusively Qurʾānic practice." },
+        { q: 'Why does the ḥadīth "Woe to the heels from the Fire" support washing rather than wiping?', a: 'Because a warning specifically about the heels only makes sense if people were expected to actually wash that part of the foot thoroughly — a wipe, by contrast, would not typically raise a specific concern about the heels being missed or left dry.' },
+      ],
+      quiz: [
+        { q: 'What does the ḥadīth "Woe to the heels from the Fire" suggest about the correct practice of wuḍūʾ?', choices: ['That the feet, including the heels, must be thoroughly washed', 'That the feet should only be lightly wiped', 'That feet are not part of wuḍūʾ at all', 'That only the right foot needs attention'], correct: 0 },
       ]
     },
     {
@@ -151,39 +213,59 @@ XenosBooks.register({
       intro: "The Rāfiḍah extensively criticize the leadership of Abū Bakr, ʿUmar, and ʿUthmān. Ibn Taymiyyah defends all three, arguing their legitimacy is established by the consensus (ijmāʿ) of the Companions — including ʿAlī himself.",
       bullets: [
         { label: 'البيعة (Al-Bayʿah — The Pledge)', text: "Abū Bakr's caliphate was established through the bayʿah of the Companions, including ʿAlī, at Saqīfah Banī Sāʿidah." },
-        { label: "ʿAlī's Own Testimony", text: 'ʿAlī declared from the pulpit in Kūfah: "The best of this community after its Prophet is Abū Bakr and then ʿUmar" — recorded in Bukhārī, Abū Dāwūd, and Ibn Mājah.' },
-        { label: "On ʿUmar's Knowledge", text: 'The claim that ʿUmar lacked knowledge of Islamic law is addressed case by case; his rulings are studied across Islamic legal scholarship as examples of sound reasoning.' },
-        { label: "On ʿUthmān's Murder", text: 'The claim that Muslims collectively agreed to kill ʿUthmān is rejected — he was killed by a rebellious faction that the Companions, including ʿAlī, publicly condemned.' },
+        { label: "ʿAlī Named His Own Sons After Them", text: 'ʿAlī named two of his own sons "Abū Bakr" and "ʿUmar" — a detail Ibn Taymiyyah treats as hard to reconcile with any claim that ʿAlī privately viewed them as illegitimate usurpers of his right.' },
+        { label: "ʿUmar's Legal Standing", text: 'The claim that ʿUmar lacked knowledge of Islamic law is addressed case by case; his rulings are studied across Islamic legal scholarship as examples of sound reasoning.' },
+        { label: "ʿUthmān's Unanimous Bayʿah", text: '"All the people without any exception gave the vow of allegiance to ʿUthmān." Imam Aḥmad considered his bayʿah even more solidly agreed-upon than the others. His eventual killing was carried out by a small rebellious faction — not a broad consensus of the Ummah.' },
         { label: 'The Fitnah Between Companions', text: 'Ahl al-Sunnah hold that all parties in the civil strife acted as sincere mujtahids — the correct side receiving two rewards, the mistaken side one — rather than treating either side as villainous.' },
       ],
       qanda: [
         { q: "How was Abū Bakr's caliphate established, and why does Ibn Taymiyyah consider it legitimate?", a: 'Through the bayʿah (pledge) of the Companions, including ʿAlī, shortly after the Prophet\'s death. ʿAlī\'s own later public statement affirming Abū Bakr and ʿUmar as the best of the community after the Prophet is treated as decisive testimony against the claim that he considered the caliphate usurped.' },
-        { q: 'Did ʿAlī oppose Abū Bakr\'s caliphate, according to the evidence Ibn Taymiyyah presents?', a: "No — Ibn Taymiyyah presents ʿAlī's own recorded statement affirming Abū Bakr and ʿUmar's precedence, his continued prayer behind both of them, and the absence of any recorded claim by ʿAlī himself to have been divinely appointed and denied his right." },
+        { q: 'What everyday detail does Ibn Taymiyyah point to as evidence ʿAlī held no private grudge against Abū Bakr and ʿUmar?', a: 'That ʿAlī named two of his own sons "Abū Bakr" and "ʿUmar" — a naming choice that would be a strange thing to do if he genuinely regarded the two men as having stolen his rightful position by force or deception.' },
         { q: "What is the Ahl al-Sunnah position on the civil wars between Companions?", a: "That the participants on differing sides were sincere mujtahids rather than wrongdoers acting in bad faith — the party that was correct receives two rewards, the mistaken party one — and that Muslims should seek Allāh's mercy for all of them rather than take sides beyond what the texts establish." },
       ],
       quiz: [
         { q: "How was Abū Bakr's caliphate established?", choices: ["Through the bayʿah (pledge of allegiance) of the Companions", 'By hereditary right', 'By a written appointment from the Prophet ﷺ', 'By military conquest'], correct: 0 },
-        { q: 'What did ʿAlī himself say about Abū Bakr and ʿUmar from the pulpit in Kūfah?', choices: ['That they were the best of the community after the Prophet', 'That they had wrongfully taken his right', 'That he refused to recognize their leadership', 'Nothing — he never commented on them'], correct: 0 },
-        { q: "What is the Ahl al-Sunnah view of Companions on opposing sides of the civil wars?", choices: ['Both sides were sincere mujtahids, not wrongdoers', 'One side was entirely evil', 'Neither side deserves any respect', 'The wars never actually happened'], correct: 0 },
+        { q: 'What did ʿAlī name two of his own sons, according to this section?', choices: ['Abū Bakr and ʿUmar', 'Ḥasan and Ḥusayn only', 'Nothing related to the Caliphs', 'Muʿāwiyah and Yazīd'], correct: 0 },
+        { q: 'How solidly established does Imam Aḥmad consider ʿUthmān\'s bayʿah to have been?', choices: ['Even more unanimously agreed upon than the others', 'Weaker than the others', 'Never actually given', 'Only given by his own family'], correct: 0 },
+      ]
+    },
+    {
+      id: 'ch6', icon: '🏛️', label: "Chapter 6 — Abū Bakr's Caliphate Defended", subtitle: 'Consensus, Refusals, and the Apostasy Wars', color: 'var(--burgundy)',
+      intro: "This closing chapter answers the Rāfiḍah's specific objections to Abū Bakr's caliphate one at a time — their argument from consensus, their claims about who refused to pledge allegiance, and their criticism of the wars against apostasy.",
+      bullets: [
+        { label: 'The Consensus Trap', text: "The Rāfiḍah argue \"consensus (ijmāʿ) is not valid proof.\" Ibn Taymiyyah replies: if that's true, the Shīʿah's own claimed consensus behind the Twelve Imāms is equally invalid. If consensus IS valid proof, then the Companions' unanimous bayʿah to Abū Bakr settles the matter. Either way, the Rāfiḍī position loses." },
+        { label: 'Who Actually Refused Bayʿah?', text: 'By the consensus of the historians, only Saʿd ibn ʿUbādah refused to pledge allegiance to Abū Bakr. Claims that Salmān, al-Miqdād, Abū Dharr, ʿAmmār, Usāmah ibn Zayd, and Khālid ibn al-Walīd refused are, in Ibn Taymiyyah\'s assessment, unsupported by reliable reports about each individual.' },
+        { label: "Usāmah's Bayʿah", text: "Usāmah ibn Zayd is reported to have given bayʿah to Abū Bakr before advancing with his army, addressing him as \"successor of the Messenger of Allāh ﷺ\" — directly at odds with the claim that he withheld his allegiance." },
+        { label: 'The Apostasy Wars Were Not Merely About Zakāh', text: 'Some groups Abū Bakr fought, such as the followers of Musaylimah "the Liar" who claimed prophethood for himself, had left Islam outright — not merely refused a single obligation. Ibn Taymiyyah treats fighting these apostate movements as one of Abū Bakr\'s clearest merits, since failing to act risked the unraveling of the entire early Muslim polity.' },
+      ],
+      qanda: [
+        { q: 'How does Ibn Taymiyyah use the "consensus is not proof" argument against the Rāfiḍah?', a: 'By presenting a dilemma: if consensus really carries no evidentiary weight, then the Rāfiḍah\'s own claim of consensus behind the Twelve Imāms collapses along with it. But if consensus IS accepted as valid, then the Companions\' unanimous pledge to Abū Bakr — including ʿAlī and the whole of Banū Hāshim — becomes decisive proof of his legitimacy. Either horn of the dilemma undermines the Rāfiḍī position.' },
+        { q: 'Why does Ibn Taymiyyah treat the apostasy wars as one of Abū Bakr\'s clearest merits rather than a controversial episode?', a: "Because the groups he fought — particularly the followers of the false prophet Musaylimah — had left Islam entirely, not merely disputed a single ruling like zakāh. Had Abū Bakr not acted decisively against a movement of that scale (reportedly around 100,000 men), the young Muslim polity risked fracturing entirely in its first years, so Ibn Taymiyyah treats this as a case of necessary, principled leadership rather than harshness." },
+      ],
+      quiz: [
+        { q: 'According to the consensus of historians cited by Ibn Taymiyyah, who was the only person who refused to give bayʿah to Abū Bakr?', choices: ['Saʿd ibn ʿUbādah', 'Salmān al-Fārisī', 'Khālid ibn al-Walīd', 'Usāmah ibn Zayd'], correct: 0 },
+        { q: 'What was distinctive about the groups Abū Bakr fought in the Ridda (apostasy) wars, according to Ibn Taymiyyah?', choices: ['Some, like the followers of Musaylimah, had left Islam entirely by following a false prophet', 'They were simply late in paying taxes', 'They were foreign invaders, not Muslims', 'They were a small, insignificant group'], correct: 0 },
       ]
     },
     {
       id: 'aisha', icon: '🌙', label: "Defense of ʿĀʾishah", subtitle: 'Umm al-Muʾminīn', color: 'var(--burgundy)',
       intro: "The Rāfiḍah make specific allegations against ʿĀʾishah RA. Ibn Taymiyyah defends her using the Qurʾān, Sunnah, and the historical record of her scholarly standing among the Companions.",
       bullets: [
-        { label: 'البراءة (Al-Barāʾah — Her Innocence)', text: 'Her innocence from slander was declared directly in the Qurʾān (24:11-20) — a matter of revelation, not human judgment.' },
-        { label: 'Her Scholarly Standing', text: 'She narrated over 2,000 ḥadīths and was consulted by senior male Companions on matters of religious law, per multiple narrations.' },
-        { label: 'أم المؤمنين (Umm al-Muʾminīn)', text: 'As a wife of the Prophet ﷺ, she holds the status of "Mother of the Believers" (Q 33:6) — love and honor for her is part of honoring the Prophet ﷺ himself.' },
+        { label: 'البراءة (Al-Barāʾah — Her Innocence)', text: 'Her innocence from slander was declared directly in the Qurʾān (24:11-20) — a matter of revelation, not human judgment. Repeating those slanders after Allāh Himself declared her innocent means, in effect, disputing the Qurʾān.' },
+        { label: 'Her Scholarly Standing', text: "She is reported to have narrated around 2,210 ḥadīths and was consulted by senior male Companions on matters of religious law — Abū Mūsā al-Ashʿarī reportedly said: \"We never had a problem occur to us but that we found ʿĀʾishah had knowledge of it.\"" },
+        { label: '"Take Half Your Religion From This Ḥumayrāʾ"', text: "A saying widely cited in her honor, referencing her nickname Ḥumayrāʾ (\"the rosy-cheeked one\") — though, as with any individual narration, its precise chain of transmission is a matter hadith specialists have discussed, and it should be read alongside her firmly established, independently verified scholarly record rather than as the sole basis for it." },
+        { label: 'أم المؤمنين (Umm al-Muʾminīn)', text: 'As a wife of the Prophet ﷺ, she holds the status of "Mother of the Believers" (Q 33:6) — love and honor for her is part of honoring the Prophet ﷺ himself. Imam Mālik reportedly held that a person who slanders the Prophet\'s ﷺ wives forfeits their standing as a reliable witness.' },
         { label: 'The Battle of the Camel', text: 'Ibn Taymiyyah treats her involvement as that of a sincere mujtahidah acting on what she believed was a just cause, not as sin — noting she later expressed regret over the outcome.' },
       ],
       qanda: [
         { q: "What is the basis for ʿĀʾishah's innocence from the slander leveled against her?", a: 'It was declared directly by revelation, in Qurʾān 24:11-20 — meaning her innocence rests on the highest possible textual authority, not merely on later scholarly defense.' },
-        { q: "What does her scholarly record show?", a: 'She is reported to have narrated over 2,000 ḥadīths, and multiple narrations describe senior Companions consulting her on matters of Islamic law and the Prophet\'s ﷺ private practice.' },
+        { q: "What does her scholarly record show?", a: 'She is reported to have narrated around 2,210 ḥadīths, and multiple narrations describe senior Companions consulting her on matters of Islamic law and the Prophet\'s ﷺ private practice — Abū Mūsā al-Ashʿarī\'s comment that "we never had a problem occur to us" without finding she had knowledge of it is often cited as representative of this standing.' },
         { q: "How does Ibn Taymiyyah frame her role at the Battle of the Camel?", a: 'As a sincere mujtahidah acting on what she believed was a just cause — seeking accountability after ʿUthmān\'s murder — rather than as willful wrongdoing, noting she later expressed regret over how events unfolded.' },
       ],
       quiz: [
         { q: "Where was ʿĀʾishah's innocence from slander established?", choices: ['Directly in the Qurʾān (24:11-20)', 'Only in later scholarly opinion', 'It was never formally addressed', 'In a private statement from Abū Bakr'], correct: 0 },
         { q: 'What title does the Qurʾān give to the wives of the Prophet ﷺ, including ʿĀʾishah?', choices: ['Umm al-Muʾminīn (Mother of the Believers)', 'Ṣaḥābiyyāt only', 'Munāfiqāt', 'No special title is given'], correct: 0 },
+        { q: 'Approximately how many ḥadīths is ʿĀʾishah reported to have narrated?', choices: ['Around 2,210', 'Fewer than 10', 'Exactly 99', 'Over 100,000'], correct: 0 },
       ]
     },
     {
@@ -206,28 +288,29 @@ XenosBooks.register({
       ]
     },
     {
-      id: 'method', icon: '🔍', label: "Ibn Taymiyyah's Method", subtitle: 'Logic, Text, History, and Consistency', color: 'var(--grey-accent)',
+      id: 'method', icon: '🔍', label: "Ibn Taymiyyah's Method", subtitle: 'Six Recurring Principles', color: 'var(--grey-accent)',
       intro: "Beyond refuting specific claims, Ibn Taymiyyah applies a consistent set of methodological principles throughout the book — worth understanding on their own, since they apply broadly to evaluating any theological argument.",
       bullets: [
-        { label: 'Ḥadīth Criticism First', text: 'Any narration used to support a claim must have a sound chain (isnād) — he repeatedly asks, "where is the chain of this report?"' },
-        { label: 'إجماع الصحابة (Consensus of the Companions)', text: "Their agreement on accepting Abū Bakr, ʿUmar, and ʿUthmān's leadership is treated as decisive, outweighing isolated or later-appearing reports." },
-        { label: 'Exposing Internal Contradiction', text: 'He repeatedly shows the Rāfiḍī position undermines itself — e.g., claiming to follow ʿAlī while rejecting what ʿAlī himself stated.' },
-        { label: 'The Qurʾānic Standard', text: "When a verse is cited as proof, he checks its actual context, its Arabic grammar, and whether any Companion — including ʿAlī — ever understood it the way later Rāfiḍī scholars do." },
-        { label: 'Turning Arguments Back on Their Source', text: "If the Rāfiḍah's own reports must be mutawātir (concurrently transmitted) to be reliable, why do most other Shīʿah sects not transmit or accept them?" },
+        { label: '1. Demand the Chain First', text: 'Any claim must have a verifiable isnād — he repeatedly asks, "where is the chain of this report?" Rāfiḍī narrations elevating ʿAlī and disparaging other Companions are, in his assessment, predominantly fabricated (mawḍūʿ) or severely weak (ḍaʿīf).' },
+        { label: "2. The Companions' Consensus Is Decisive", text: "Their agreement on accepting Abū Bakr, ʿUmar, and ʿUthmān's leadership is treated as decisive, outweighing isolated or later-appearing reports — this is the generation the Qurʾān itself praised (9:100, 48:18)." },
+        { label: '3. Expose Internal Contradiction', text: 'He repeatedly shows the Rāfiḍī position undermines itself — claiming to follow ʿAlī while rejecting what ʿAlī himself stated about Abū Bakr and ʿUmar; claiming infallible Imāms whose 1,100+ years of hiddenness has benefited no one.' },
+        { label: '4. Turn Their Own Sources Against Them', text: 'His single most devastating recurring move: citing Shīʿah collections (al-Kāfī, and others) directly, showing their own transmitted material — on wuḍūʾ, on mutʿah — actually contradicts their stated theology.' },
+        { label: '5. Apply Standards Consistently', text: '"Whatever standard you use to criticize Abū Bakr, apply the same standard to ʿAlī." If a small number refusing bayʿah discredits Abū Bakr, then the far larger armed opposition ʿAlī faced (at the Camel, at Ṣiffīn, from the Khawārij) discredits ʿAlī\'s caliphate far more severely by the same logic — a standard the Rāfiḍah do not actually accept for their own side.' },
+        { label: '6. Ask What Practical Benefit a Claim Actually Provides', text: 'A leader is needed, in his framing, either to teach knowledge or to exercise real authority. A hidden Imām with 1,100+ years of silence provides neither — while the preserved Qurʾān and Sunnah remain fully accessible. The comparison, on the Shīʿah\'s own stated reasoning for needing an Imām, favors the Sunni framework.' },
       ],
       qanda: [
         { q: 'What is the first test Ibn Taymiyyah applies to any narration used as proof?', a: 'Whether it has a sound chain of transmission (isnād) — he treats ḥadīth criticism as a prerequisite to any theological argument built on a narration.' },
-        { q: 'Why does the consensus of the Companions carry special weight in his method?', a: 'Because it represents the collective judgment of the generation the Qurʾān itself praises, reached at the time closest to the events in question — outweighing isolated reports that surface generations later.' },
-        { q: 'Give an example of how Ibn Taymiyyah exposes internal contradiction in the Rāfiḍī position.', a: 'He points out that claiming to follow ʿAlī while rejecting ʿAlī\'s own recorded statement praising Abū Bakr and ʿUmar is internally inconsistent — a follower of ʿAlī should, by the Rāfiḍah\'s own logic, accept what ʿAlī himself said.' },
+        { q: 'Give an example of Ibn Taymiyyah "turning the Rāfiḍah\'s own sources against them."', a: "The clearest cases are on wuḍūʾ and mutʿah: he cites material within Shīʿah hadith collections themselves — attributed to ʿAlī and Imām al-Ṣādiq — describing washing the feet (not wiping) and prohibiting mutʿah of women, both of which contradict the positions the Rāfiḍah otherwise argue for. Using an opponent's own accepted sources against their own conclusion is harder to dismiss than an external critique alone." },
+        { q: 'How does the "apply standards consistently" principle work against the Rāfiḍah specifically regarding Abū Bakr and ʿAlī?', a: 'The Rāfiḍah criticize Abū Bakr\'s legitimacy partly because Saʿd ibn ʿUbādah refused him bayʿah. But ʿAlī\'s own caliphate faced far more serious, armed opposition — from ʿĀʾishah, Ṭalḥah, and al-Zubayr at the Battle of the Camel, from Muʿāwiyah at Ṣiffīn, and eventually an open revolt from the Khawārij who had earlier supported him. If one dissenter undermines Abū Bakr, multiple armies undermine ʿAlī far more severely by the identical standard — a standard the Rāfiḍah apply only selectively.' },
       ],
       quiz: [
         { q: "What does Ibn Taymiyyah demand before accepting any narration as proof?", choices: ['A sound chain of transmission (isnād)', 'Popular acceptance alone', 'Agreement with personal preference', 'Nothing — all narrations are treated equally'], correct: 0 },
-        { q: "Why does he treat the Companions' consensus as especially authoritative?", choices: ["It reflects the judgment of the generation closest to events, which the Qur'an itself praises", 'Because it was written down centuries later', "Because it agrees with the Rāfiḍah's position", 'It is not actually treated as significant'], correct: 0 },
+        { q: 'What is Ibn Taymiyyah\'s most distinctive recurring technique, seen especially in the wuḍūʾ and mutʿah chapters?', choices: ["Citing the Shīʿah's own hadith collections against their own conclusions", 'Ignoring Shīʿah sources entirely', 'Relying only on his personal opinion', 'Refusing to discuss fiqh matters'], correct: 0 },
       ]
     },
     {
-      id: 'sunnipos', icon: '🤍', label: 'The Ahl al-Sunnah Position', subtitle: 'On the Caliphate and the Companions', color: 'var(--emerald)',
-      intro: 'After answering the Rāfiḍī claims, Ibn Taymiyyah summarizes the constructive Ahl al-Sunnah position on the caliphate, the Companions, and Islamic leadership generally — the positive conclusion the whole book builds toward.',
+      id: 'sunnipos', icon: '🤍', label: 'The Ahl al-Sunnah Position', subtitle: 'A Full Comparison of Every Major Issue', color: 'var(--emerald)',
+      intro: 'After 605 pages of detailed refutation, Ibn Taymiyyah\'s constructive conclusion can be summarized issue by issue. This is the complete comparison of the Ahl al-Sunnah position against the Shīʿah Rāfiḍah position on every major topic the book covers.',
       bullets: [
         { label: 'ترتيب الخلفاء (The Order of the Caliphs)', text: 'Abū Bakr, then ʿUmar, then ʿUthmān, then ʿAlī — established by the consensus of the Companions and by ʿAlī\'s own testimony.' },
         { label: 'On the Companions Generally', text: 'Love them all, seek mercy for all, curse none, and do not take sides in their disputes beyond what the texts themselves establish.' },
@@ -235,11 +318,18 @@ XenosBooks.register({
         { label: 'On Leadership Generally', text: "The Ummah does not require an infallible hidden Imām to be guided — the preserved Qurʾān, authenticated Sunnah, and the example of the Companions are sufficient." },
       ],
       sectsTable: [
-        { name: 'Al-Imāmah', error: 'Most important religious principle; an obligatory belief', correct: 'Tawḥīd and belief in the Messenger come first; Imāmah is not a pillar of faith' },
-        { name: "Abū Bakr's Caliphate", error: "Usurpation of ʿAlī's right", correct: "Legitimate, by the Companions' consensus; ʿAlī himself affirmed it" },
-        { name: 'The Companions', error: 'Most were apostates except a handful', correct: 'All honored by the Qurʾān; love for them is part of the faith' },
-        { name: 'The Twelve Imāms', error: 'Divinely appointed and infallible', correct: "Respected scholarly figures from the Prophet's family; not infallible or divinely appointed" },
-        { name: 'The Hidden Imām', error: 'In occultation since 260H, will return', correct: 'His existence and status are unestablished by sound evidence' },
+        { name: 'Al-Imāmah', error: 'Most important religious principle; an obligatory belief above Tawḥīd', correct: 'Tawḥīd and belief in the Messenger come first; Imāmah is not a pillar of faith' },
+        { name: "Abū Bakr's Caliphate", error: "Usurpation of ʿAlī's right", correct: "Legitimate, by the Companions' consensus; ʿAlī himself affirmed it and gave bayʿah" },
+        { name: 'The Companions', error: 'Most were apostates except a handful', correct: 'All honored by the Qurʾān (9:100, 48:18); love for them is part of the faith' },
+        { name: 'ʿAlī RA', error: 'The divinely appointed, infallible first rightful Caliph', correct: 'Fourth Caliph in merit; ʿAlī himself publicly ranked Abū Bakr, then ʿUmar, above himself' },
+        { name: 'The Twelve Imāms', error: 'Divinely appointed and infallible; established by concurrent report', correct: "Respected scholarly figures from the Prophet's family; the \"concurrent\" claim is rejected by other Shīʿah sects themselves" },
+        { name: 'The Hidden Imām', error: 'In occultation since 260H, alive and will return', correct: 'Existence unestablished; over 1,100 years of silence provides no accessible guidance' },
+        { name: 'Shīʿah Ḥadīths on ʿAlī', error: "Concurrent narrations proving ʿAlī's divine appointment", correct: 'Predominantly fabricated or weak; the strongest ones (Ghadīr, Aaron/Moses) do not establish political succession' },
+        { name: 'Mutʿah of Women', error: 'Lawful, permitted by the Qurʾān; only ʿUmar banned it', correct: "Prohibited by the Prophet ﷺ himself at Khaybar — narrated by ʿAlī in Bukhārī and Muslim" },
+        { name: 'Fadak / Inheritance', error: 'Abū Bakr wrongly denied Fāṭimah her inheritance, using a fabricated ḥadīth', correct: '"Prophets do not leave inheritance" was narrated by at least nine Companions including ʿAlī' },
+        { name: 'Wuḍūʾ — the Feet', error: 'The Qurʾān commands wiping (masḥ), not washing', correct: "Washing is established by the Sunnah and mirrored even in the Shīʿah's own hadith collections" },
+        { name: 'ʿĀʾishah RA', error: 'Sinfully opposed ʿAlī; subject to lasting suspicion', correct: 'Innocence declared directly in the Qurʾān (24:11-20); a leading scholar among the Companions' },
+        { name: 'Muʿāwiyah RA', error: 'An illegitimate rebel against the rightful Imām', correct: 'A Companion and scribe of revelation; the erring party in ijtihād, not to be cursed' },
       ],
       tableHeaders: ['Topic', 'Rāfiḍī Position', 'Ahl al-Sunnah Position'],
       tableLabel: '📋 Key Theological Differences at a Glance',
