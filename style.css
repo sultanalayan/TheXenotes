@@ -196,7 +196,7 @@ body.view-library .sidebar { display: none; }
   transition: color 0.2s;
 }
 .back-to-library:hover { color: var(--burgundy); }
-.sidebar-label { font-family: var(--font-script); font-size: 15px; color: var(--burgundy); padding: 0 14px; margin-bottom: 8px; }
+.sidebar-label { font-family: var(--font-serif); font-style: italic; font-weight: 600; font-size: 13px; color: var(--burgundy); padding: 0 14px; margin-bottom: 8px; }
 .nav-btn {
   display: flex; align-items: center; gap: 9px; width: 100%;
   padding: 9px 14px; background: transparent; border: none; border-left: 3px solid transparent;
@@ -211,7 +211,7 @@ body.view-library .sidebar { display: none; }
 .nav-main { font-size: 12.5px; }
 .nav-sub { font-size: 10px; opacity: 0.65; }
 .sidebar-footer { margin: 20px 14px 0; padding-top: 14px; border-top: 1px solid var(--border); }
-.sidebar-footer-name { font-family: var(--font-script); font-size: 14px; color: var(--burgundy); margin-bottom: 2px; }
+.sidebar-footer-name { font-family: var(--font-serif); font-style: italic; font-weight: 600; font-size: 12.5px; color: var(--burgundy); margin-bottom: 2px; }
 .sidebar-footer-desc { font-size: 9px; color: var(--muted); opacity: 0.7; line-height: 1.5; }
 
 /* ── MAIN ── */
@@ -336,6 +336,63 @@ body.view-library .sidebar { display: none; }
 .search-box:focus { border-color: var(--burgundy); box-shadow: 0 0 0 3px color-mix(in srgb, var(--burgundy) 16%, transparent); }
 .search-box::placeholder { color: var(--muted); }
 
+/* ── NAMES OF ALLAH ── */
+.names-section {
+  max-width: 640px; margin: 0 auto 34px;
+  opacity: 0; animation: fadeUp 0.6s var(--ease) 0.3s forwards;
+}
+.names-hero {
+  text-align: center; background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px 24px; position: relative;
+  box-shadow: 0 10px 28px -18px rgba(58,46,34,0.3);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.names-hero::before {
+  content: ''; position: absolute; inset: 5px; border-radius: 10px; pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+}
+.names-hero.is-visible { opacity: 1; transform: translateY(0); }
+.names-hero-label {
+  font-family: var(--font-serif); font-style: italic; font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+}
+.names-hero-ar { font-family: var(--font-arabic); font-size: 26px; color: var(--burgundy); margin-bottom: 4px; }
+.names-hero-tr { font-family: var(--font-script); font-size: 17px; color: var(--ink); margin-bottom: 8px; }
+.names-hero-meaning { font-size: 12.5px; color: var(--muted); line-height: 1.65; font-style: italic; max-width: 440px; margin: 0 auto; }
+
+.names-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; margin-top: 10px; padding: 9px; background: transparent; border: none;
+  color: var(--muted); font-family: var(--font-serif); font-style: italic; font-size: 12px;
+  cursor: pointer; transition: color 0.2s;
+}
+.names-toggle:hover { color: var(--burgundy); }
+.names-toggle-arrow { display: inline-block; transition: transform 0.3s var(--ease); }
+.names-toggle.open .names-toggle-arrow { transform: rotate(90deg); }
+
+.names-grid-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s var(--ease); }
+.names-grid-wrap.open { grid-template-rows: 1fr; }
+.names-grid {
+  overflow: hidden;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;
+  padding-top: 6px;
+}
+.name-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 8px; text-align: center; cursor: pointer; font-family: var(--font-serif);
+  opacity: 0; animation: fadeUp 0.4s var(--ease) forwards;
+  animation-delay: calc(var(--stagger, 0) * 30ms);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.name-card:hover { border-color: var(--burgundy-light); transform: translateY(-2px); }
+.name-card-ar { font-family: var(--font-arabic); font-size: 17px; color: var(--burgundy); }
+.name-card-tr { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+.name-card-meaning-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s var(--ease); }
+.name-card.open .name-card-meaning-wrap { grid-template-rows: 1fr; }
+.name-card-meaning { overflow: hidden; font-size: 10px; color: var(--ink); line-height: 1.5; padding-top: 0; }
+.name-card.open .name-card-meaning { padding-top: 7px; }
+
 .category-group { margin-bottom: 6px; }
 .category-label {
   font-family: var(--font-serif); font-style: italic; font-weight: 600;
@@ -396,7 +453,8 @@ body.view-library .sidebar { display: none; }
 .dua-arabic { font-family: var(--font-arabic); font-size: 19px; line-height: 2.2; color: var(--ink); margin-bottom: 14px; }
 .dua-translit { font-size: 12px; font-style: italic; color: var(--muted); line-height: 1.75; margin-bottom: 13px; }
 .dua-translation { font-size: 13px; color: var(--ink); line-height: 1.8; margin-bottom: 12px; }
-.dua-footnote { font-family: var(--font-script); font-size: 16px; color: var(--burgundy); }
+.dua-footnote { font-family: var(--font-serif); font-style: italic; font-size: 13px; color: var(--burgundy); }
+.dua-footnote-ar { font-family: var(--font-arabic); font-style: normal; }
 
 /* ── CHARITY CORNER ── */
 .charity-corner {
@@ -456,7 +514,7 @@ body.view-library .sidebar { display: none; }
   animation: quoteShimmer 6s linear infinite;
 }
 .quote-en { font-size: 11px; color: var(--muted); font-style: italic; line-height: 1.65; margin-bottom: 7px; }
-.quote-ref { font-family: var(--font-script); font-size: 14px; color: var(--burgundy); }
+.quote-ref { font-family: var(--font-serif); font-style: italic; font-weight: 600; font-size: 12px; color: var(--burgundy); }
 @keyframes quoteShimmer {
   0% { background-position: 220% 0; }
   100% { background-position: -220% 0; }

@@ -95,9 +95,22 @@ function renderLibrary(filter) {
       <div class="dua-arabic">اللَّهُمَّ يَا مُقَلِّبَ الْقُلُوبِ، ثَبِّتْ قُلُوبَنَا عَلَى دِينِكَ، وَارْزُقْنَا إِيمَانًا رَاسِخًا وَيَقِينًا لَا يَتَزَعْزَعُ، وَبَارِكْ لَنَا فِي أَرْزَاقِنَا وَأَزْوَاجِنَا وَذُرِّيَّاتِنَا، وَامْنُنْ عَلَيْنَا بِالصِّحَّةِ وَالْعَافِيَةِ، وَاجْعَلْنَا مِنَ الْغُرَبَاءِ الَّذِينَ أَصْلَحُوا مَا أَفْسَدَ النَّاسُ. آمِين</div>
       <div class="dua-translit">Allāhumma yā Muqallib al-Qulūb, thabbit qulūbanā ʿalā dīnik, warzuqnā īmānan rāsikhan wa yaqīnan lā yatazaʿzaʿ, wa bārik lanā fī arzāqinā wa azwājinā wa dhurriyyātinā, wamnun ʿalaynā biṣ-ṣiḥḥati wal-ʿāfiyah, wajʿalnā minal-ghurabāʾ alladhīna aṣlaḥū mā afsada an-nās. Āmīn.</div>
       <div class="dua-translation">"O Allah, Turner of hearts — make our hearts firm upon Your religion. Grant us unshakeable faith and a certainty that never wavers. Bless our provision, our spouses, and our children. Grant us health and well-being in body and heart. And make us among the ghurabā who set right what the people corrupted."</div>
-      <div class="dua-footnote">A dua for every soul in the Xenos family — الغرباء</div>
+      <div class="dua-footnote">A dua for every soul in the Xenos family — <span class="dua-footnote-ar">الغرباء</span></div>
     </div>
   `;
+
+  const namesHtml = (window.XENOS_NAMES && window.XENOS_NAMES.length) ? `
+    <div class="names-section">
+      <div class="names-hero" id="names-hero"></div>
+      <button class="names-toggle" id="names-toggle">
+        <span>Browse all ${window.XENOS_NAMES.length} Names of Allah</span>
+        <span class="names-toggle-arrow">›</span>
+      </button>
+      <div class="names-grid-wrap" id="names-grid-wrap">
+        <div class="names-grid" id="names-grid"></div>
+      </div>
+    </div>
+  ` : '';
 
   document.getElementById('content').innerHTML = `
     <div class="library-hdr">
@@ -105,6 +118,7 @@ function renderLibrary(filter) {
       <p class="library-sub">Study notes on Islamic books &amp; topics — pick one to explore.</p>
       <input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />
     </div>
+    ${namesHtml}
     ${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}
     ${duaHtml}
   `;
@@ -113,6 +127,52 @@ function renderLibrary(filter) {
   input.addEventListener('input', () => renderLibrary(input.value));
   input.focus();
   input.setSelectionRange(input.value.length, input.value.length);
+
+  initNamesSection();
+}
+
+// ─── Names of Allah (top-of-home interactive section) ───
+function initNamesSection() {
+  const names = window.XENOS_NAMES || [];
+  const hero = document.getElementById('names-hero');
+  const grid = document.getElementById('names-grid');
+  const gridWrap = document.getElementById('names-grid-wrap');
+  const toggleBtn = document.getElementById('names-toggle');
+  if (!names.length || !hero || !grid || !gridWrap || !toggleBtn) return;
+
+  let i = Math.floor(Math.random() * names.length);
+  const renderHero = () => {
+    hero.classList.remove('is-visible');
+    setTimeout(() => {
+      const n = names[i];
+      hero.innerHTML = `
+        <div class="names-hero-label">Name of the Moment</div>
+        <div class="names-hero-ar">${n.ar}</div>
+        <div class="names-hero-tr">${n.tr}</div>
+        <div class="names-hero-meaning">${n.meaning}</div>
+      `;
+      hero.classList.add('is-visible');
+    }, 350);
+    i = (i + 1) % names.length;
+  };
+  renderHero();
+  setInterval(renderHero, 10000);
+
+  grid.innerHTML = names.map((n, idx) => `
+    <button class="name-card" style="--stagger:${idx % 14}">
+      <div class="name-card-ar">${n.ar}</div>
+      <div class="name-card-tr">${n.tr}</div>
+      <div class="name-card-meaning-wrap"><div class="name-card-meaning">${n.meaning}</div></div>
+    </button>
+  `).join('');
+  grid.querySelectorAll('.name-card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('open'));
+  });
+
+  toggleBtn.addEventListener('click', () => {
+    const open = toggleBtn.classList.toggle('open');
+    gridWrap.classList.toggle('open', open);
+  });
 }
 
 // ─── Book viewer ───
