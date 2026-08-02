@@ -165,10 +165,12 @@ function renderBookSection(book, id) {
     </div>
   ` : '';
 
+  const headers = sec.tableHeaders || ['Item', 'Core Error', 'Correction'];
   const tableHtml = sec.sectsTable ? `
+    ${sec.tableLabel ? `<div class="qa-label">${sec.tableLabel}</div>` : ''}
     <div class="sects-table-wrap">
       <table class="sects-table">
-        <thead><tr><th>Item</th><th>Core Error</th><th>Correction</th></tr></thead>
+        <thead><tr><th>${headers[0]}</th><th>${headers[1]}</th><th>${headers[2]}</th></tr></thead>
         <tbody>
           ${sec.sectsTable.map(row => `
             <tr>
