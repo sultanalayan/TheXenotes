@@ -321,6 +321,10 @@ window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 
 // ─── Custom cursor (pointer devices only) ───
+// Position is driven by a single requestAnimationFrame loop with light lerp
+// smoothing, NOT a CSS transition on transform — a CSS transition re-triggers
+// on every mousemove event, which queues/stacks on a fast mouse and feels
+// laggy. rAF + lerp gives a buttery, responsive trail at a steady 60fps.
 (function () {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
@@ -330,8 +334,13 @@ window.closeSidebar = closeSidebar;
 
   const HOVER_SELECTOR = 'a, button, .quiz-choice, .nav-btn, .book-card, .qa-btn';
 
+  let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+  let curX = targetX, curY = targetY;
+  let scaleTarget = 1, curScale = 1;
+
   window.addEventListener('mousemove', (e) => {
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    targetX = e.clientX;
+    targetY = e.clientY;
   });
   document.addEventListener('mouseover', (e) => {
     if (e.target.closest(HOVER_SELECTOR)) cursor.classList.add('is-hover');
@@ -339,6 +348,53 @@ window.closeSidebar = closeSidebar;
   document.addEventListener('mouseout', (e) => {
     if (e.target.closest(HOVER_SELECTOR)) cursor.classList.remove('is-hover');
   });
-  window.addEventListener('mousedown', () => cursor.classList.add('is-down'));
-  window.addEventListener('mouseup', () => cursor.classList.remove('is-down'));
+  window.addEventListener('mousedown', () => { cursor.classList.add('is-down'); scaleTarget = 0.82; });
+  window.addEventListener('mouseup', () => { cursor.classList.remove('is-down'); scaleTarget = 1; });
+
+  function tick() {
+    curX += (targetX - curX) * 0.35;
+    curY += (targetY - curY) * 0.35;
+    curScale += (scaleTarget - curScale) * 0.3;
+    cursor.style.transform = `translate(${curX}px, ${curY}px) scale(${curScale})`;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 })();
+
+// ─── Side quote rails (wide desktop, library home only) ───
+const XENOS_QUOTES = [
+  { ar: 'اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ', en: 'Read, in the name of your Lord who created.', ref: "Qur'an 96:1" },
+  { ar: 'وَقُل رَّبِّ زِدْنِي عِلْمًا', en: 'And say: My Lord, increase me in knowledge.', ref: "Qur'an 20:114" },
+  { ar: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ', en: 'Verily, in the remembrance of Allah do hearts find rest.', ref: "Qur'an 13:28" },
+  { ar: 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ', en: 'And whoever relies upon Allah — He is sufficient for him.', ref: "Qur'an 65:3" },
+  { ar: 'مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ', en: 'Whoever treads a path in search of knowledge, Allah makes easy for him a path to Paradise.', ref: 'Ṣaḥīḥ Muslim' },
+  { ar: 'طُوبَى لِلْغُرَبَاءِ', en: 'Glad tidings to the strangers (al-ghurabā).', ref: 'Ṣaḥīḥ Muslim' },
+];
+
+function initQuoteRails() {
+  const left = document.getElementById('quote-card-left');
+  const right = document.getElementById('quote-card-right');
+  if (!left || !right) return;
+
+  const render = (el, q) => {
+    el.classList.remove('is-visible');
+    setTimeout(() => {
+      el.innerHTML = `
+        <div class="quote-arabic">${q.ar}</div>
+        <div class="quote-en">${q.en}</div>
+        <div class="quote-ref">${q.ref}</div>
+      `;
+      el.classList.add('is-visible');
+    }, 350);
+  };
+
+  let i = 0;
+  const rotate = () => {
+    render(left, XENOS_QUOTES[i % XENOS_QUOTES.length]);
+    render(right, XENOS_QUOTES[(i + 3) % XENOS_QUOTES.length]);
+    i++;
+  };
+  rotate();
+  setInterval(rotate, 9000);
+}
+initQuoteRails();
