@@ -89,6 +89,16 @@ function renderLibrary(filter) {
     </div>
   `).join('');
 
+  const duaHtml = `
+    <div class="dua-card">
+      <div class="dua-ornament">﴾ ﴿</div>
+      <div class="dua-arabic">اللَّهُمَّ يَا مُقَلِّبَ الْقُلُوبِ، ثَبِّتْ قُلُوبَنَا عَلَى دِينِكَ، وَارْزُقْنَا إِيمَانًا رَاسِخًا وَيَقِينًا لَا يَتَزَعْزَعُ، وَبَارِكْ لَنَا فِي أَرْزَاقِنَا وَأَزْوَاجِنَا وَذُرِّيَّاتِنَا، وَامْنُنْ عَلَيْنَا بِالصِّحَّةِ وَالْعَافِيَةِ، وَاجْعَلْنَا مِنَ الْغُرَبَاءِ الَّذِينَ أَصْلَحُوا مَا أَفْسَدَ النَّاسُ. آمِين</div>
+      <div class="dua-translit">Allāhumma yā Muqallib al-Qulūb, thabbit qulūbanā ʿalā dīnik, warzuqnā īmānan rāsikhan wa yaqīnan lā yatazaʿzaʿ, wa bārik lanā fī arzāqinā wa azwājinā wa dhurriyyātinā, wamnun ʿalaynā biṣ-ṣiḥḥati wal-ʿāfiyah, wajʿalnā minal-ghurabāʾ alladhīna aṣlaḥū mā afsada an-nās. Āmīn.</div>
+      <div class="dua-translation">"O Allah, Turner of hearts — make our hearts firm upon Your religion. Grant us unshakeable faith and a certainty that never wavers. Bless our provision, our spouses, and our children. Grant us health and well-being in body and heart. And make us among the ghurabā who set right what the people corrupted."</div>
+      <div class="dua-footnote">A dua for every soul in the Xenos family — الغرباء</div>
+    </div>
+  `;
+
   document.getElementById('content').innerHTML = `
     <div class="library-hdr">
       <h1 class="library-title">Xenos Notes</h1>
@@ -96,6 +106,7 @@ function renderLibrary(filter) {
       <input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />
     </div>
     ${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}
+    ${duaHtml}
   `;
 
   const input = document.getElementById('search-box');
