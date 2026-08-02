@@ -27,6 +27,14 @@ XenosBooks.register({
         { label: 'Ibn al-Jawzī — Ṣayd al-Khāṭir, p.466', text: 'It is advisable for the wise person to choose a righteous woman, from a righteous household afflicted primarily by poverty — she will greatly appreciate what he provides for her. He should also marry someone close to his own age.' },
         { label: 'Shaykh al-Fawzān — Muḥāḍarāt fī al-ʿAqīdah wa ad-Daʿwah, p.162', text: 'If the woman is lost, the home is lost. If the home is lost, the children are lost. If the homes are lost, society is lost.' },
       ],
+      quiz: [
+        { q: 'Who said: "If a man marries a woman for her religion, Allah will give him what he desires from her. But if he marries her for her beauty or wealth, Allah will leave him to that"?', choices: ['Ibn Taymiyyah', 'Fuḍayl ibn ʿIyāḍ', 'Al-Ḥasan al-Baṣrī', 'Shaykh al-Albānī'], correct: 1 },
+        { q: 'Who observed that people during Jāhiliyyah asked about lineage, after Islam asked about religion, but today ask about wealth?', choices: ['Al-Ḥasan al-Baṣrī', 'Ibn al-Jawzī', 'Ibn al-Qayyim', 'Shaykh Ṣāliḥ al-Fawzān'], correct: 0 },
+        { q: 'Who said a woman who abandons prayer is, by scholarly agreement, worse than an adulteress, a thief, or a wine-drinker?', choices: ['Shaykh Ibn Bāz', 'Al-Qurṭubī', 'Imam Aḥmad ibn Ḥanbal', 'Ibn Taymiyyah'], correct: 3 },
+        { q: 'Who advised choosing a righteous woman from a household afflicted by poverty, since she will appreciate what is provided for her?', choices: ['Ibn al-Jawzī', 'Shaykh al-Albānī', "Shaykh Ibn 'Uthaymīn", 'Ibn Qudāmah'], correct: 0 },
+        { q: 'Who said "if the woman is lost, the home is lost... if the homes are lost, society is lost"?', choices: ['Ibn Taymiyyah', 'Al-Ḥasan al-Baṣrī', 'Shaykh al-Fawzān', 'Ibn al-Qayyim'], correct: 2 },
+        { q: 'According to the ḥadīth cited in Jāmiʿ at-Tirmidhī 1084, what happens if a suitor whose religion and character satisfy you is turned away?', choices: ['Nothing of consequence', 'There will be trials on the earth and the spread of corruption', 'The family will be blessed with wealth', 'The Prophet ﷺ gave no reason'], correct: 1 },
+      ],
     },
     {
       id: 'rights', icon: '🤝', label: 'Rights & Conduct Between Spouses', subtitle: 'Kindness, Patience, and Honouring Her Rights', color: 'var(--emerald)',
@@ -47,6 +55,14 @@ XenosBooks.register({
         { label: 'Ibn al-Jawzī — al-Mudhish, 661', text: 'Women are the trust of honourable men. None but an honourable man will honour them, and none but a dishonourable man will humiliate them.' },
         { label: "Shaykh Ibn 'Uthaymīn — Fatāwā Nūr ʿalā ad-Darb, 10/13", text: 'A happy marriage is not achieved through authoritarianism and dominance — this is wrong. Rather, the husband must look at his wife as a partner, the mother of his children, and the guardian of his home, treating her with the same respect he desires from her.' },
       ],
+      quiz: [
+        { q: 'Who described leaving his wisdom "in some corner" to joke and laugh playfully with his wife?', choices: ['Ibn al-Qayyim', 'Ibn Bāz', "Shaykh Ibn 'Uthaymīn", 'Ibn ʿAqīl al-Ḥanbalī'], correct: 3 },
+        { q: 'Who said "women are not a garment that you wear and take off whenever you wish. They are honoured, and they have rights"?', choices: ['Ibn Taymiyyah', "Shaykh Ibn 'Uthaymīn", 'Ibn al-Jawzī', 'Abul-Aswad'], correct: 1 },
+        { q: 'Who advised, in advice to his daughter, "honour his eyes, honour his nose, honour his ears"?', choices: ["Abul-Aswad's advice to his daughter", 'Ibn al-Qayyim', 'Ibn Bāz', 'The Prophet ﷺ'], correct: 0 },
+        { q: 'Who said a woman "needs protection and preservation more than a little boy"?', choices: ['Ibn al-Jawzī', 'Ibn al-Qayyim', "Shaykh Ibn 'Uthaymīn", 'Ibn Taymiyyah'], correct: 3 },
+        { q: 'Who said "women are the trust of honourable men. None but an honourable man will honour them, and none but a dishonourable man will humiliate them"?', choices: ['Ibn al-Jawzī', 'Ibn Bāz', 'Ibn Taymiyyah', "Shaykh Ibn 'Uthaymīn"], correct: 0 },
+        { q: 'According to the ḥadīth in Mukhtaṣar Ṣaḥīḥ al-Jāmiʿ aṣ-Ṣaghīr, what makes a woman "the best of women"?', choices: ['Her lineage and beauty', 'Her wealth and generosity', 'Her knowledge of fiqh', 'Pleasing her husband, obeying him, and not opposing him regarding herself and wealth in ways he dislikes'], correct: 3 },
+      ],
     },
     {
       id: 'love', icon: '❤️', label: 'Love, Intimacy & the Heart', subtitle: 'What Real Love Looks Like Between Spouses', color: 'var(--burgundy-light)',
@@ -62,6 +78,14 @@ XenosBooks.register({
         { label: 'Ibn Taymiyyah — Majmūʿ al-Fatāwā, 38/28', text: "If love isn't for the sake of Allah, then it will inevitably come to an end." },
         { label: 'ʿUmar ibn al-Khaṭṭāb — Tārīkh al-Ṭabarī, 4/409', text: 'I wish you knew what I have in my heart for you, but there is no way for you to know except by my actions.' },
       ],
+      quiz: [
+        { q: 'Who said, of romantic attachment, "if hearts were to be given, I would have offered you my heart, but this belongs to Allah alone"?', choices: ['Ibn al-Qayyim', 'Ibn Taymiyyah', 'Shaykh al-Albānī', 'Ibn Kathīr'], correct: 2 },
+        { q: 'Who said "there is no love like marriage — being married to your beloved is the cure for desire which Allah has made lawful and destined"?', choices: ['Ibn Taymiyyah', 'Ibn Kathīr', 'ʿUmar ibn al-Khaṭṭāb', 'Ibn al-Qayyim'], correct: 3 },
+        { q: 'Who said "there is no greater friendship between two souls than a married couple"?', choices: ['Ibn Kathīr', 'Ibn al-Qayyim', 'Ibn Taymiyyah', 'Al-Ḥasan al-Baṣrī'], correct: 0 },
+        { q: 'Who said "if love isn\'t for the sake of Allah, then it will inevitably come to an end"?', choices: ['Ibn al-Qayyim', 'Ibn Kathīr', 'Ibn Taymiyyah', "Shaykh Ibn 'Uthaymīn"], correct: 2 },
+        { q: 'Who wrote, "I wish you knew what I have in my heart for you, but there is no way for you to know except by my actions"?', choices: ['Ibn Taymiyyah', 'ʿUmar ibn al-Khaṭṭāb', 'Ibn al-Qayyim', 'Imam Shurayḥ'], correct: 1 },
+        { q: 'Who said there is no blame in a man\'s passionate love for his wife, "except if it distracts him from the love of Allah and His Messenger ﷺ"?', choices: ['Ibn al-Qayyim', 'Ibn Taymiyyah', 'Ibn Kathīr', 'Ibn al-Jawzī'], correct: 0 },
+      ],
     },
     {
       id: 'chastity', icon: '🛡️', label: 'Guarding the Heart & Chastity', subtitle: 'Fitnah, Ḥayāʾ, and Protecting the Soul', color: 'var(--grey-accent)',
@@ -73,6 +97,14 @@ XenosBooks.register({
         { label: 'The Prophet ﷺ — Ṣaḥīḥ al-Jāmiʿ, 5045', text: 'For one of you to be stabbed in the head with an iron needle is better for him than to touch a woman who is not permissible for him.' },
         { label: 'Ibn al-Qayyim — Rawḍat al-Muḥibbīn', text: 'Zinā brings darkness to the face, tightness in the chest, curses on the tongue, restlessness in the soul, and brokenness in provision. It is the enemy of light, clarity, and honour.' },
         { label: 'Ibn al-Qayyim — Rawḍat al-Muḥibbīn wa Nuzhat al-Mushtāqīn, p.457', text: 'Likewise the fornicator: if he were to give up unlawful intimacy for the sake of Allah, Allah would reward him with lawful intimacy, or with something better than it, in a lawful manner.' },
+      ],
+      quiz: [
+        { q: 'Who narrated the ḥadīth "I have not left behind me any fitnah more harmful to men than women"?', choices: ['Ibn Taymiyyah, quoting a scholar', 'The Prophet ﷺ', 'Imam Aḥmad ibn Ḥanbal', 'Ibn al-Qayyim'], correct: 1 },
+        { q: 'Who described obsessive impermissible love as containing "corruption that only the Lord of servants fully knows," corrupting religion, mind, then body?', choices: ['Ibn al-Qayyim', 'Ibn Taymiyyah', 'Ibn al-Jawzī', 'Imam Aḥmad ibn Ḥanbal'], correct: 1 },
+        { q: 'Who said "whoever protects his soul from what is forbidden and waits for what is lawful, Allah prepares for him the best provision and the best companion"?', choices: ['Imam Aḥmad ibn Ḥanbal', 'Ibn Taymiyyah', 'Ibn al-Qayyim', 'The Prophet ﷺ'], correct: 0 },
+        { q: 'According to the ḥadīth in Ṣaḥīḥ al-Jāmiʿ 5045, what is better than touching an impermissible woman?', choices: ['Fasting for a month', 'Being stabbed in the head with an iron needle', 'Giving up marriage entirely', 'Performing extra prayers'], correct: 1 },
+        { q: 'Who described zinā as bringing "darkness to the face, tightness in the chest, curses on the tongue"?', choices: ['Ibn al-Qayyim', 'Ibn Taymiyyah', 'The Prophet ﷺ', 'Imam Aḥmad ibn Ḥanbal'], correct: 0 },
+        { q: 'Who said that if a fornicator gives up unlawful intimacy for Allah\'s sake, Allah rewards him with lawful intimacy or something better?', choices: ['Ibn Taymiyyah', 'Ibn al-Jawzī', 'Ibn al-Qayyim', 'Imam Aḥmad ibn Ḥanbal'], correct: 2 },
       ],
     },
     {
@@ -86,6 +118,14 @@ XenosBooks.register({
         { label: 'Shaykh Ibn Bāz — Majmūʿ al-Fatāwā wa Maqālāt Mutanawwiʿah, 4/20-408', text: 'Remaining unmarried is extremely dangerous. It is not appropriate at all for a young man to delay marriage if he has the means, nor is it right for a young woman to delay marriage when a suitable proposal comes her way.' },
         { label: 'Shaykh al-Fawzān — al-Ittiḥāf, p.857', text: 'A man who comes to an empty home and doesn\'t have a wife lives a difficult life, even if the home is full of money and enjoyments.' },
       ],
+      quiz: [
+        { q: 'Who said "when a man has the means and fears falling into sin, marriage becomes obligatory upon him"?', choices: ['Shaykh Ibn Bāz', 'Ibn Taymiyyah', "Shaykh Ibn 'Uthaymīn", 'Shaykh al-Fawzān'], correct: 1 },
+        { q: 'Who said a man\'s "condition is not perfected... except by marrying a righteous wife"?', choices: ["Shaykh Ibn 'Uthaymīn", 'Shaykh Aḥmad ibn Yaḥyā an-Najmī', 'Shaykh Ibn Bāz', 'Ibn Taymiyyah'], correct: 1 },
+        { q: 'Who advised the youth to "hasten to get married, especially in these times when the causes of corruption and temptation are many"?', choices: ['Shaykh Ibn Bāz', "Shaykh Ibn 'Uthaymīn", 'Ibn Taymiyyah', 'Shaykh al-Fawzān'], correct: 1 },
+        { q: 'Who said "no young man or young woman should delay marriage for the sake of studies"?', choices: ['Shaykh Ibn Bāz', "Shaykh Ibn 'Uthaymīn", 'Shaykh al-Fawzān', 'Ibn Taymiyyah'], correct: 0 },
+        { q: 'Who called remaining unmarried "extremely dangerous"?', choices: ["Shaykh Ibn 'Uthaymīn", 'Shaykh Ibn Bāz', 'Shaykh al-Fawzān', 'Ibn Taymiyyah'], correct: 1 },
+        { q: 'Who said a man without a wife "lives a difficult life, even if the home is full of money and enjoyments"?', choices: ['Shaykh Ibn Bāz', "Shaykh Ibn 'Uthaymīn", 'Shaykh al-Fawzān', 'Shaykh an-Najmī'], correct: 2 },
+      ],
     },
     {
       id: 'patience', icon: '🌊', label: 'Patience & Contentment', subtitle: 'Living Realistically With a Spouse\'s Nature', color: 'var(--burgundy-deep)',
@@ -96,6 +136,12 @@ XenosBooks.register({
         { label: "Imam Shurayḥ, on his wife Zainab — Siyar Aʿlām an-Nubalāʾ, 5/52", text: 'I have seen men beating their women. May my right hand be paralyzed if I beat Zainab. Zainab is like a sun, and other women are like stars — when the sun rises, other stars do not shine.' },
         { label: 'ʿUmar ibn al-Khaṭṭāb — al-Adab al-Mufrad li-l-Imām al-Bukhārī, no.1322', text: 'When you love, do not love with blind attachment like a child. And when you hate, do not hate to the point of wishing for another\'s destruction.' },
       ],
+      quiz: [
+        { q: 'Who said an unmarried woman will be married off by Allah in Paradise "to the one whom she finds delight in"?', choices: ["Shaykh Ibn 'Uthaymīn", 'Ibn al-Jawzī', 'Ibn al-Qayyim', 'ʿUmar ibn al-Khaṭṭāb'], correct: 0 },
+        { q: 'Who compared a woman to "a delicate vessel; her moods and states change with time"?', choices: ["Shaykh Ibn 'Uthaymīn", 'Ibn al-Jawzī', 'Imam Shurayḥ', 'Ibn Taymiyyah'], correct: 1 },
+        { q: 'Who said, of his own wife Zainab, "may my right hand be paralyzed if I beat Zainab"?', choices: ['Ibn al-Jawzī', 'ʿUmar ibn al-Khaṭṭāb', 'Imam Shurayḥ', "Shaykh Ibn 'Uthaymīn"], correct: 2 },
+        { q: 'Who advised, "when you love, do not love with blind attachment like a child; when you hate, do not hate to the point of wishing for another\'s destruction"?', choices: ['Imam Shurayḥ', 'Ibn al-Jawzī', 'ʿUmar ibn al-Khaṭṭāb', "Shaykh Ibn 'Uthaymīn"], correct: 2 },
+      ],
     },
     {
       id: 'wealth', icon: '🌾', label: 'Trusting Allah With Provision', subtitle: 'Not Fearing Poverty When It Comes to Marriage', color: 'var(--emerald-light)',
@@ -104,6 +150,11 @@ XenosBooks.register({
         { label: "Qur'an — An-Nūr (24:32)", text: 'And marry those among you who are single... If they be poor, Allah will enrich them out of His Bounty. And Allah is All-Sufficient for His creatures\' needs, All-Knowing.' },
         { label: 'Al-Qurṭubī — Tafsīr al-Qurṭubī, 12/218', text: 'Do not refrain from getting married because the man or the woman is poor. If they are poor, Allah will make them independent of means by His bounty. This is a promise of independence to those who get married seeking the pleasure of Allah and seeking to protect themselves from sin.' },
         { label: 'Ibn Qudāmah — Mukhtaṣar Minhāj al-Qāṣidīn, p.85', text: 'There were women among the salaf — when a man would leave his home, his wife would say to him: "Beware of ḥarām earnings, for we can be patient upon hunger, but we cannot be patient upon the Hellfire."' },
+      ],
+      quiz: [
+        { q: 'Which sūrah promises that Allah will enrich the poor who marry seeking His pleasure?', choices: ['Al-Baqarah', 'An-Nūr (24:32)', 'Yā-Sīn', 'Al-Fātiḥah'], correct: 1 },
+        { q: 'Who explained that Q 24:32\'s promise of independence applies to those marrying "seeking the pleasure of Allah and seeking to protect themselves from sin"?', choices: ['Ibn Qudāmah', 'Al-Qurṭubī', 'Ibn Taymiyyah', 'Ibn al-Qayyim'], correct: 1 },
+        { q: 'Which source records a salaf wife telling her husband, "we can be patient upon hunger, but we cannot be patient upon the Hellfire"?', choices: ['Al-Qurṭubī\'s Tafsīr', 'Ibn Qudāmah\'s Mukhtaṣar Minhāj al-Qāṣidīn', 'Ibn al-Qayyim\'s Zād al-Maʿād', 'Ibn Taymiyyah\'s Majmūʿ al-Fatāwā'], correct: 1 },
       ],
     },
     {
@@ -114,6 +165,12 @@ XenosBooks.register({
         { label: 'Shaykh Aḥmad an-Najmī — Fatḥ ar-Rabb al-Wadūd, 2/372', text: 'Be good to your mother and be patient with her. Do not let her see from you any sign of annoyance. Be certain that Allah will surely compensate you for the expenses you spend on her and the service you give her.' },
         { label: 'Shaykh Muqbil — ar-Riḥlah al-Akhīrah, p.240', text: 'It is possible that a supplication from the parents may destroy a man and ruin his Dunyā and also his Ākhirah, due to a duʿāʾ made against him by his mother or his father.' },
         { label: 'The Prophet ﷺ — Sunan Abī Dāwūd, 1308, authenticated by al-Albānī', text: 'May Allah have mercy on a man who gets up at night and prays, and wakes up his wife — and if she refuses, he sprinkles water in her face. And may Allah have mercy on a woman who gets up at night and prays, and wakes up her husband — and if he refuses, she sprinkles water in his face.' },
+      ],
+      quiz: [
+        { q: 'Who said women who are believers and callers to Islam should each "start in her own home, with her daughters and her sons"?', choices: ['Shaykh Ṣāliḥ al-Fawzān', 'Shaykh Aḥmad an-Najmī', 'Shaykh Muqbil', 'Ibn Taymiyyah'], correct: 0 },
+        { q: 'Who advised, "be good to your mother and be patient with her. Do not let her see from you any sign of annoyance"?', choices: ['Shaykh Ṣāliḥ al-Fawzān', 'Shaykh Aḥmad an-Najmī', 'Shaykh Muqbil', "Shaykh Ibn 'Uthaymīn"], correct: 1 },
+        { q: 'Who warned that "a supplication from the parents may destroy a man and ruin his Dunyā and also his Ākhirah"?', choices: ['Shaykh Muqbil', 'Shaykh al-Fawzān', 'Shaykh an-Najmī', 'Ibn Taymiyyah'], correct: 0 },
+        { q: 'According to the ḥadīth in Sunan Abī Dāwūd 1308, what does a spouse do if their partner refuses to wake for night prayer?', choices: ['They let them sleep undisturbed', 'They sprinkle water in their face', 'They call for the imam', 'They recite the adhān loudly'], correct: 1 },
       ],
     },
   ]
