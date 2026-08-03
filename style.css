@@ -579,14 +579,26 @@ body.view-library .sidebar { display: none; }
   50%      { transform: translateY(-2px) rotate(6deg); }
 }
 .winners-title { font-style: italic; font-weight: 600; font-size: 12px; color: var(--burgundy); letter-spacing: 0.03em; }
-.winner-row { display: flex; align-items: baseline; gap: 6px; font-size: 10.5px; color: var(--muted); position: relative; z-index: 1; white-space: nowrap; }
-.winner-row + .winner-row { margin-top: 3px; }
-.winner-medal { font-size: 12px; }
-.winner-name { color: var(--ink); font-weight: 600; }
-.winner-badge { font-style: italic; opacity: 0.85; }
+.winners-table { position: relative; z-index: 1; border-collapse: collapse; }
+.winners-table th {
+  font-family: var(--font-serif); font-style: italic; font-weight: 600;
+  font-size: 9.5px; color: var(--burgundy); text-transform: uppercase; letter-spacing: 0.03em;
+  text-align: left; padding: 0 12px 5px 0; white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+.winners-table th:first-child { border-right: 1px solid var(--border); padding-left: 0; }
+.winners-table td {
+  padding: 4px 12px 4px 0; vertical-align: middle; white-space: nowrap;
+}
+.winners-table td:first-child { border-right: 1px solid var(--border); }
+.winners-table tr:first-child td { padding-top: 6px; }
+.winner-medal { font-size: 12px; margin-right: 5px; }
+.winner-name { color: var(--ink); font-weight: 600; font-size: 11px; }
 @media (max-width: 720px) {
   .winners-corner { left: 12px; bottom: 14px; padding: 10px 12px 8px; }
-  .winner-badge { display: none; }
+  .winners-table th { font-size: 8.5px; padding-right: 8px; }
+  .winners-table td { padding-right: 8px; }
+  .winner-name { font-size: 10px; }
 }
 
 /* ── QUOTE RAILS (wide desktop, library home only) ── */
