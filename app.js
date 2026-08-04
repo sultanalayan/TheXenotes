@@ -215,21 +215,12 @@ function huroofSingleForms(letter) {
   ];
 }
 
-function huroofPairForms(huroof) {
-  const m = HARAKAT;
-  return huroof.map((h, idx) => {
-    const h2 = huroof[(idx + 1) % huroof.length];
-    return { ar: h.ar + m.fatha + h2.ar + m.fatha, label: `${h.tr}${h2.tr.toLowerCase()}` };
-  });
+function huroofPairForms() {
+  return (window.XENOS_HUROOF_PAIRS || []).map(w => ({ ar: w.ar, label: `${w.tr} — ${w.en}` }));
 }
 
-function huroofTripleForms(huroof) {
-  const m = HARAKAT;
-  return huroof.map((h, idx) => {
-    const h2 = huroof[(idx + 1) % huroof.length];
-    const h3 = huroof[(idx + 2) % huroof.length];
-    return { ar: h.ar + m.fatha + h2.ar + m.fatha + h3.ar + m.fatha, label: `${h.tr}${h2.tr.toLowerCase()}${h3.tr.toLowerCase()}` };
-  });
+function huroofTripleForms() {
+  return (window.XENOS_HUROOF_TRIPLES || []).map(w => ({ ar: w.ar, label: `${w.tr} — ${w.en}` }));
 }
 
 function initHuroofSection() {
@@ -281,8 +272,8 @@ function initHuroofSection() {
 
   function formsForDeck() {
     if (deck === 1) return huroofSingleForms(huroof[selectedIdx].ar);
-    if (deck === 2) return huroofPairForms(huroof);
-    return huroofTripleForms(huroof);
+    if (deck === 2) return huroofPairForms();
+    return huroofTripleForms();
   }
 
   function renderFormsGrid() {
@@ -322,6 +313,7 @@ function initHuroofSection() {
         <div class="huroof-detail-hero">
           <div class="huroof-detail-letter">${h.ar}</div>
           <div class="huroof-detail-name">${h.name} (${h.tr})</div>
+          ${h.word ? `<div class="huroof-detail-word"><span class="huroof-detail-word-ar">${h.word}</span>${h.wordTr} — ${h.wordEn}</div>` : ''}
         </div>
         <div class="huroof-deck-tabs">
           ${[1, 2, 3].map(d => `<button class="huroof-deck-tab ${deck === d ? 'active' : ''}" data-deck="${d}">${deckLabels[d]}</button>`).join('')}
@@ -658,10 +650,11 @@ initQuoteRails();
 
 // ─── Winners corner (cycling display) ───
 const XENOS_WINNERS = [
-  { medal: '🥇', label: 'Quiz Competition', name: 'Mu' },
-  { medal: '🥇', label: 'Khatm Competition · 1st', name: 'Dziri' },
-  { medal: '🥈', label: 'Khatm Competition · 2nd', name: 'Cofe' },
+  { medal: '🥇', accent: '🧠', label: 'Quiz Competition', name: 'Mu' },
+  { medal: '🥇', accent: '📖', label: 'Khatm Competition · 1st', name: 'Dziri' },
+  { medal: '🥈', accent: '🎉', label: 'Khatm Competition · 2nd', name: 'Cofe' },
 ];
+const WINNERS_ROTATIONS = ['-2deg', '2deg', '-1.5deg', '1.5deg'];
 
 function initWinnersCycle() {
   const el = document.getElementById('winners-cycle');
@@ -672,7 +665,9 @@ function initWinnersCycle() {
     el.classList.remove('is-visible');
     setTimeout(() => {
       const w = XENOS_WINNERS[i % XENOS_WINNERS.length];
+      el.style.setProperty('--enter-rotate', WINNERS_ROTATIONS[i % WINNERS_ROTATIONS.length]);
       el.innerHTML = `
+        <span class="winner-accent" aria-hidden="true">${w.accent}</span>
         <span class="winner-medal" aria-hidden="true">${w.medal}</span>
         <span class="winner-cycle-label">${w.label}</span>
         <span class="winner-name">${w.name}</span>
