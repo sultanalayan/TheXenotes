@@ -558,6 +558,11 @@ body.view-library .sidebar { display: none; }
   margin-top: 6px; letter-spacing: 0.02em; display: block;
 }
 
+.huroof-forms-empty {
+  grid-column: 1 / -1; text-align: center; font-family: var(--font-serif); font-style: italic;
+  color: var(--muted); font-size: 12px; padding: 18px 8px;
+}
+
 .huroof-swipe-hint {
   text-align: center; font-size: 10px; color: var(--muted); font-style: italic;
   margin-top: 12px; opacity: 0.75;

@@ -215,12 +215,12 @@ function huroofSingleForms(letter) {
   ];
 }
 
-function huroofPairForms() {
-  return (window.XENOS_HUROOF_PAIRS || []).map(w => ({ ar: w.ar, label: `${w.tr} — ${w.en}` }));
+function huroofPairForms(letterObj) {
+  return (letterObj.pairs || []).map(w => ({ ar: w.ar, label: `${w.tr} — ${w.en}` }));
 }
 
-function huroofTripleForms() {
-  return (window.XENOS_HUROOF_TRIPLES || []).map(w => ({ ar: w.ar, label: `${w.tr} — ${w.en}` }));
+function huroofTripleForms(letterObj) {
+  return (letterObj.triples || []).map(w => ({ ar: w.ar, label: `${w.tr} — ${w.en}` }));
 }
 
 function initHuroofSection() {
@@ -271,9 +271,10 @@ function initHuroofSection() {
   }
 
   function formsForDeck() {
-    if (deck === 1) return huroofSingleForms(huroof[selectedIdx].ar);
-    if (deck === 2) return huroofPairForms();
-    return huroofTripleForms();
+    const h = huroof[selectedIdx];
+    if (deck === 1) return huroofSingleForms(h.ar);
+    if (deck === 2) return huroofPairForms(h);
+    return huroofTripleForms(h);
   }
 
   function renderFormsGrid() {
@@ -282,12 +283,13 @@ function initHuroofSection() {
     grid.style.animation = 'none';
     void grid.offsetWidth;
     grid.style.animation = '';
-    grid.innerHTML = formsForDeck().map(f => `
+    const forms = formsForDeck();
+    grid.innerHTML = forms.length ? forms.map(f => `
       <div class="huroof-form-card">
         <div class="huroof-form-ar">${f.ar}</div>
         <div class="huroof-form-label">${f.label}</div>
       </div>
-    `).join('');
+    `).join('') : `<div class="huroof-forms-empty">No words for this letter yet — try another tab.</div>`;
   }
 
   function updateDeckTabs() {
