@@ -112,6 +112,19 @@ function renderLibrary(filter) {
     </div>
   ` : '';
 
+  const huroofHtml = (window.XENOS_HUROOF && window.XENOS_HUROOF.length) ? `
+    <div class="huroof-section">
+      <div class="huroof-hero" id="huroof-hero"></div>
+      <button class="huroof-toggle" id="huroof-toggle">
+        <span>Explore the Arabic Alphabet</span>
+        <span class="huroof-toggle-arrow">›</span>
+      </button>
+      <div class="huroof-panel-wrap" id="huroof-panel-wrap">
+        <div class="huroof-panel" id="huroof-panel"></div>
+      </div>
+    </div>
+  ` : '';
+
   document.getElementById('content').innerHTML = `
     <div class="library-hdr">
       <h1 class="library-title">Xenos Notes</h1>
@@ -119,6 +132,7 @@ function renderLibrary(filter) {
       <input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />
     </div>
     ${namesHtml}
+    ${huroofHtml}
     ${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}
     ${duaHtml}
   `;
@@ -129,6 +143,7 @@ function renderLibrary(filter) {
   input.setSelectionRange(input.value.length, input.value.length);
 
   initNamesSection();
+  initHuroofSection();
 }
 
 // ─── Names of Allah (top-of-home interactive section) ───
@@ -172,6 +187,188 @@ function initNamesSection() {
   toggleBtn.addEventListener('click', () => {
     const open = toggleBtn.classList.toggle('open');
     gridWrap.classList.toggle('open', open);
+  });
+}
+
+// ─── Ḥurūf (Arabic alphabet — one letter, then pairs, then triples) ───
+const HARAKAT = {
+  fatha: 'َ', kasra: 'ِ', damma: 'ُ', sukun: 'ْ', shadda: 'ّ',
+  tanwinFath: 'ً', tanwinKasr: 'ٍ', tanwinDamm: 'ٌ',
+};
+
+function huroofSingleForms(letter) {
+  const m = HARAKAT;
+  return [
+    { ar: letter + m.fatha, label: 'Fatḥah' },
+    { ar: letter + m.kasra, label: 'Kasrah' },
+    { ar: letter + m.damma, label: 'Ḍammah' },
+    { ar: letter + m.sukun, label: 'Sukūn' },
+    { ar: letter + m.shadda + m.fatha, label: 'Shaddah + Fatḥah' },
+    { ar: letter + m.shadda + m.kasra, label: 'Shaddah + Kasrah' },
+    { ar: letter + m.shadda + m.damma, label: 'Shaddah + Ḍammah' },
+    { ar: letter + m.tanwinFath + 'ا', label: 'Tanwīn Fatḥ' },
+    { ar: letter + m.tanwinKasr, label: 'Tanwīn Kasr' },
+    { ar: letter + m.tanwinDamm, label: 'Tanwīn Ḍamm' },
+    { ar: letter + m.fatha + 'ا', label: 'Madd — Alif' },
+    { ar: letter + m.kasra + 'ي', label: 'Madd — Yāʾ' },
+    { ar: letter + m.damma + 'و', label: 'Madd — Wāw' },
+  ];
+}
+
+function huroofPairForms(huroof) {
+  const m = HARAKAT;
+  return huroof.map((h, idx) => {
+    const h2 = huroof[(idx + 1) % huroof.length];
+    return { ar: h.ar + m.fatha + h2.ar + m.fatha, label: `${h.tr}${h2.tr.toLowerCase()}` };
+  });
+}
+
+function huroofTripleForms(huroof) {
+  const m = HARAKAT;
+  return huroof.map((h, idx) => {
+    const h2 = huroof[(idx + 1) % huroof.length];
+    const h3 = huroof[(idx + 2) % huroof.length];
+    return { ar: h.ar + m.fatha + h2.ar + m.fatha + h3.ar + m.fatha, label: `${h.tr}${h2.tr.toLowerCase()}${h3.tr.toLowerCase()}` };
+  });
+}
+
+function initHuroofSection() {
+  const huroof = window.XENOS_HUROOF || [];
+  const hero = document.getElementById('huroof-hero');
+  const panelWrap = document.getElementById('huroof-panel-wrap');
+  const panel = document.getElementById('huroof-panel');
+  const toggleBtn = document.getElementById('huroof-toggle');
+  if (!huroof.length || !hero || !panelWrap || !panel || !toggleBtn) return;
+
+  // Hero: one huge letter, auto-cycling
+  let hi = Math.floor(Math.random() * huroof.length);
+  const renderHeroLetter = () => {
+    hero.classList.remove('is-visible');
+    setTimeout(() => {
+      const h = huroof[hi];
+      hero.innerHTML = `
+        <div class="huroof-hero-label">Letter of the Moment</div>
+        <div class="huroof-hero-letter">${h.ar}</div>
+        <div class="huroof-hero-name">${h.name} (${h.tr})</div>
+      `;
+      hero.classList.add('is-visible');
+      hi = (hi + 1) % huroof.length;
+    }, 350);
+  };
+  renderHeroLetter();
+  setInterval(renderHeroLetter, 3200);
+  hero.addEventListener('click', () => toggleBtn.click());
+
+  // State for the expanded panel
+  let selectedIdx = 0;
+  let deck = 1; // 1 = single letter, 2 = pairs, 3 = triples
+
+  function renderGrid() {
+    panel.innerHTML = `<div class="huroof-grid">${huroof.map((h, idx) => `
+      <button class="huroof-letter-card" data-idx="${idx}" style="--stagger:${idx % 14}">
+        <div class="huroof-letter-card-ar">${h.ar}</div>
+        <div class="huroof-letter-card-name">${h.name}</div>
+      </button>
+    `).join('')}</div>`;
+    panel.querySelectorAll('.huroof-letter-card').forEach(card => {
+      card.addEventListener('click', () => {
+        selectedIdx = parseInt(card.dataset.idx, 10);
+        deck = 1;
+        renderDetail();
+      });
+    });
+  }
+
+  function formsForDeck() {
+    if (deck === 1) return huroofSingleForms(huroof[selectedIdx].ar);
+    if (deck === 2) return huroofPairForms(huroof);
+    return huroofTripleForms(huroof);
+  }
+
+  function renderFormsGrid() {
+    const grid = document.getElementById('huroof-forms-grid');
+    if (!grid) return;
+    grid.style.animation = 'none';
+    void grid.offsetWidth;
+    grid.style.animation = '';
+    grid.innerHTML = formsForDeck().map(f => `
+      <div class="huroof-form-card">
+        <div class="huroof-form-ar">${f.ar}</div>
+        <div class="huroof-form-label">${f.label}</div>
+      </div>
+    `).join('');
+  }
+
+  function updateDeckTabs() {
+    panel.querySelectorAll('.huroof-deck-tab').forEach(btn => {
+      btn.classList.toggle('active', parseInt(btn.dataset.deck, 10) === deck);
+    });
+    const nav = panel.querySelector('.huroof-letter-nav');
+    if (nav) nav.style.visibility = deck === 1 ? 'visible' : 'hidden';
+  }
+
+  function renderDetail() {
+    const h = huroof[selectedIdx];
+    const deckLabels = { 1: '1 Letter', 2: '2 Letters', 3: '3 Letters' };
+    panel.innerHTML = `
+      <div class="huroof-detail">
+        <div class="huroof-detail-topbar">
+          <button class="huroof-back">← All Letters</button>
+          <div class="huroof-letter-nav">
+            <button class="huroof-nav-arrow" data-dir="-1" aria-label="Previous letter">‹</button>
+            <button class="huroof-nav-arrow" data-dir="1" aria-label="Next letter">›</button>
+          </div>
+        </div>
+        <div class="huroof-detail-hero">
+          <div class="huroof-detail-letter">${h.ar}</div>
+          <div class="huroof-detail-name">${h.name} (${h.tr})</div>
+        </div>
+        <div class="huroof-deck-tabs">
+          ${[1, 2, 3].map(d => `<button class="huroof-deck-tab ${deck === d ? 'active' : ''}" data-deck="${d}">${deckLabels[d]}</button>`).join('')}
+        </div>
+        <div class="huroof-forms-grid" id="huroof-forms-grid"></div>
+        <div class="huroof-swipe-hint">Swipe, or use the tabs above, to move between one letter, pairs, and triples</div>
+      </div>
+    `;
+    renderFormsGrid();
+    updateDeckTabs();
+
+    panel.querySelector('.huroof-back').addEventListener('click', renderGrid);
+    panel.querySelectorAll('.huroof-nav-arrow').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dir = parseInt(btn.dataset.dir, 10);
+        selectedIdx = (selectedIdx + dir + huroof.length) % huroof.length;
+        renderDetail();
+      });
+    });
+    panel.querySelectorAll('.huroof-deck-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        deck = parseInt(btn.dataset.deck, 10);
+        updateDeckTabs();
+        renderFormsGrid();
+      });
+    });
+
+    let touchX = null;
+    const detailEl = panel.querySelector('.huroof-detail');
+    detailEl.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+    detailEl.addEventListener('touchend', (e) => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0 && deck < 3) deck++;
+        else if (dx > 0 && deck > 1) deck--;
+        updateDeckTabs();
+        renderFormsGrid();
+      }
+      touchX = null;
+    }, { passive: true });
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    const open = toggleBtn.classList.toggle('open');
+    panelWrap.classList.toggle('open', open);
+    if (open && !panel.innerHTML) renderGrid();
   });
 }
 
@@ -458,3 +655,33 @@ function initQuoteRails() {
   setInterval(rotate, 9000);
 }
 initQuoteRails();
+
+// ─── Winners corner (cycling display) ───
+const XENOS_WINNERS = [
+  { medal: '🥇', label: 'Quiz Competition', name: 'Mu' },
+  { medal: '🥇', label: 'Khatm Competition · 1st', name: 'Dziri' },
+  { medal: '🥈', label: 'Khatm Competition · 2nd', name: 'Cofe' },
+];
+
+function initWinnersCycle() {
+  const el = document.getElementById('winners-cycle');
+  if (!el) return;
+
+  let i = 0;
+  const render = () => {
+    el.classList.remove('is-visible');
+    setTimeout(() => {
+      const w = XENOS_WINNERS[i % XENOS_WINNERS.length];
+      el.innerHTML = `
+        <span class="winner-medal" aria-hidden="true">${w.medal}</span>
+        <span class="winner-cycle-label">${w.label}</span>
+        <span class="winner-name">${w.name}</span>
+      `;
+      el.classList.add('is-visible');
+      i++;
+    }, 350);
+  };
+  render();
+  setInterval(render, 2400);
+}
+initWinnersCycle();

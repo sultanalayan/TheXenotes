@@ -446,6 +446,121 @@ body.view-library .sidebar { display: none; }
 .name-card-meaning { overflow: hidden; font-size: 10px; color: var(--ink); line-height: 1.5; padding-top: 0; }
 .name-card.open .name-card-meaning { padding-top: 7px; }
 
+/* ── ḤURŪF (ARABIC ALPHABET) ── */
+.huroof-section {
+  max-width: 640px; margin: 0 auto 34px;
+  opacity: 0; animation: fadeUp 0.6s var(--ease) 0.4s forwards;
+}
+.huroof-hero {
+  text-align: center; background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 24px 18px; position: relative; cursor: pointer;
+  box-shadow: 0 10px 28px -18px rgba(58,46,34,0.3);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), border-color 0.2s;
+}
+.huroof-hero:hover { border-color: var(--gold); }
+.huroof-hero::before {
+  content: ''; position: absolute; inset: 5px; border-radius: 10px; pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--emerald) 35%, transparent);
+}
+.huroof-hero.is-visible { opacity: 1; transform: translateY(0); }
+.huroof-hero-label {
+  font-family: var(--font-serif); font-style: italic; font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--emerald); margin-bottom: 4px;
+}
+.huroof-hero-letter {
+  font-family: var(--font-arabic); font-size: 76px; line-height: 1.1; color: var(--burgundy);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.huroof-hero-name { font-family: var(--font-serif); font-style: italic; font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+.huroof-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; margin-top: 10px; padding: 9px; background: transparent; border: none;
+  color: var(--muted); font-family: var(--font-serif); font-style: italic; font-size: 12px;
+  cursor: pointer; transition: color 0.2s;
+}
+.huroof-toggle:hover { color: var(--emerald); }
+.huroof-toggle-arrow { display: inline-block; transition: transform 0.3s var(--ease); }
+.huroof-toggle.open .huroof-toggle-arrow { transform: rotate(90deg); }
+
+.huroof-panel-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s var(--ease); }
+.huroof-panel-wrap.open { grid-template-rows: 1fr; }
+.huroof-panel { overflow: hidden; padding-top: 6px; }
+
+.huroof-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 8px;
+}
+.huroof-letter-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 6px 10px; text-align: center; cursor: pointer; font-family: var(--font-serif);
+  opacity: 0; animation: fadeUp 0.4s var(--ease) forwards;
+  animation-delay: calc(var(--stagger, 0) * 25ms);
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+.huroof-letter-card:hover { border-color: var(--emerald); transform: translateY(-2px) scale(1.04); background: color-mix(in srgb, var(--emerald) 6%, var(--card)); }
+.huroof-letter-card-ar { font-family: var(--font-arabic); font-size: 30px; color: var(--burgundy); }
+.huroof-letter-card-name { font-size: 9.5px; color: var(--muted); margin-top: 4px; }
+
+/* Detail view — replaces the grid once a letter is tapped; visually "bigger" */
+.huroof-detail {
+  opacity: 0; transform: scale(0.97);
+  animation: huroofDetailIn 0.35s var(--ease) forwards;
+}
+@keyframes huroofDetailIn { to { opacity: 1; transform: scale(1); } }
+.huroof-detail-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.huroof-back {
+  background: none; border: none; color: var(--muted); font-family: var(--font-serif);
+  font-style: italic; font-size: 11.5px; cursor: pointer; padding: 4px 0; transition: color 0.2s;
+}
+.huroof-back:hover { color: var(--burgundy); }
+.huroof-letter-nav { display: flex; align-items: center; gap: 10px; }
+.huroof-nav-arrow {
+  background: var(--card2); border: 1px solid var(--border); border-radius: 50%;
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  color: var(--burgundy); font-size: 14px; cursor: pointer; transition: border-color 0.2s, transform 0.15s;
+}
+.huroof-nav-arrow:hover { border-color: var(--emerald); transform: scale(1.08); }
+.huroof-detail-hero {
+  text-align: center; background: color-mix(in srgb, var(--emerald) 5%, var(--card));
+  border: 1px solid var(--border); border-radius: 14px; padding: 20px 10px 16px; margin-bottom: 14px;
+  box-shadow: 0 10px 28px -18px rgba(58,46,34,0.3);
+}
+.huroof-detail-letter { font-family: var(--font-arabic); font-size: 68px; color: var(--burgundy); line-height: 1.1; }
+.huroof-detail-name { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--muted); margin-top: 4px; }
+
+.huroof-deck-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.huroof-deck-tab {
+  flex: 1; background: var(--card2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 4px; font-family: var(--font-serif); font-size: 11px; color: var(--muted);
+  cursor: pointer; text-align: center; transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.huroof-deck-tab.active { border-color: var(--emerald); color: var(--emerald); background: color-mix(in srgb, var(--emerald) 8%, var(--card2)); font-weight: 600; }
+
+.huroof-forms-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 7px;
+  opacity: 0; transform: translateX(10px);
+  animation: huroofFormsIn 0.3s var(--ease) forwards;
+}
+@keyframes huroofFormsIn { to { opacity: 1; transform: translateX(0); } }
+.huroof-form-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 9px;
+  padding: 10px 4px 7px; text-align: center;
+}
+.huroof-form-ar { font-family: var(--font-arabic); font-size: 24px; color: var(--burgundy); direction: rtl; }
+.huroof-form-label { font-size: 8.5px; color: var(--muted); margin-top: 3px; letter-spacing: 0.02em; }
+
+.huroof-swipe-hint {
+  text-align: center; font-size: 10px; color: var(--muted); font-style: italic;
+  margin-top: 12px; opacity: 0.75;
+}
+@media (max-width: 720px) {
+  .huroof-hero-letter { font-size: 60px; }
+  .huroof-detail-letter { font-size: 54px; }
+  .huroof-grid { grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); }
+  .huroof-forms-grid { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); }
+}
+
 .category-group { margin-bottom: 6px; }
 .category-label {
   font-family: var(--font-serif); font-style: italic; font-weight: 600;
@@ -580,26 +695,24 @@ body.view-book .winners-corner { display: none; }
   50%      { transform: translateY(-2px) rotate(6deg); }
 }
 .winners-title { font-style: italic; font-weight: 600; font-size: 12px; color: var(--burgundy); letter-spacing: 0.03em; }
-.winners-table { position: relative; z-index: 1; border-collapse: collapse; }
-.winners-table th {
-  font-family: var(--font-serif); font-style: italic; font-weight: 600;
-  font-size: 9.5px; color: var(--burgundy); text-transform: uppercase; letter-spacing: 0.03em;
-  text-align: left; padding: 0 12px 5px 0; white-space: nowrap;
-  border-bottom: 1px solid var(--border);
+.winners-cycle {
+  position: relative; z-index: 1; min-height: 34px; min-width: 158px;
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
-.winners-table th:first-child { border-right: 1px solid var(--border); padding-left: 0; }
-.winners-table td {
-  padding: 4px 12px 4px 0; vertical-align: middle; white-space: nowrap;
+.winners-cycle.is-visible { opacity: 1; transform: translateY(0); }
+.winner-medal { font-size: 14px; }
+.winner-cycle-label {
+  font-family: var(--font-serif); font-style: italic; font-size: 10px;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em;
 }
-.winners-table td:first-child { border-right: 1px solid var(--border); }
-.winners-table tr:first-child td { padding-top: 6px; }
-.winner-medal { font-size: 12px; margin-right: 5px; }
-.winner-name { color: var(--ink); font-weight: 600; font-size: 11px; }
+.winner-name { color: var(--ink); font-weight: 600; font-size: 12.5px; }
 @media (max-width: 720px) {
   .winners-corner { left: 12px; bottom: 14px; padding: 10px 12px 8px; }
-  .winners-table th { font-size: 8.5px; padding-right: 8px; }
-  .winners-table td { padding-right: 8px; }
-  .winner-name { font-size: 10px; }
+  .winners-cycle { min-width: 130px; }
+  .winner-cycle-label { font-size: 9px; }
+  .winner-name { font-size: 11px; }
 }
 
 /* ── QUOTE RAILS (wide desktop, library home only) ── */
