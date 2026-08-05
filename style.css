@@ -255,6 +255,18 @@ body.view-library .sidebar { display: none; }
 .bullet-label { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 6px; }
 .bullet-text { font-size: 15.5px; color: var(--ink); line-height: 1.6; white-space: pre-line; }
 
+/* Themed emphasis for key terms (Tawḥīd, Allāh, named principles) marked up
+   with <b>/<strong> inside prose fields — a warm gold-burgundy accent rather
+   than plain browser bold, applied everywhere prose renders as HTML. */
+.intro-card b, .intro-card strong,
+.bullet-text b, .bullet-text strong,
+.qa-answer b, .qa-answer strong,
+.xn-acc-body b, .xn-acc-body strong,
+.xn-flow-node-body b, .xn-flow-node-body strong,
+.claim-response-block b, .claim-response-block strong {
+  color: var(--burgundy); font-weight: 700;
+}
+
 /* ── QA SECTION ── */
 .qa-label { font-family: var(--font-script); font-size: 17px; color: var(--burgundy); margin-bottom: 10px; }
 .qa-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
@@ -307,6 +319,27 @@ body.view-library .sidebar { display: none; }
 .xn-acc-marker { font-size: 18px; color: var(--muted); transition: transform 0.25s var(--ease), color 0.25s; flex-shrink: 0; }
 .xn-acc-item[open] .xn-acc-marker { transform: rotate(45deg); color: var(--burgundy); }
 .xn-acc-body { padding: 2px 16px 14px; font-size: 14px; line-height: 1.75; color: var(--ink); border-top: 1px solid var(--border); }
+
+/* claim / Atharī-response scheme (used by the Refutations section) — each
+   item opens into two side-marked panels rather than one plain body, so a
+   claim and its response read as visually distinct without leaving the
+   accordion pattern used everywhere else on the site. */
+.xn-refute-list { display: flex; flex-direction: column; gap: 8px; }
+.xn-refute-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.xn-refute-item summary { cursor: pointer; padding: 12px 16px; list-style: none; display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
+.xn-refute-item summary:hover { background: var(--card2); }
+.xn-refute-item summary::-webkit-details-marker { display: none; }
+.xn-refute-item[open] .xn-acc-marker { transform: rotate(45deg); color: var(--burgundy); }
+.xn-refute-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--card2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.xn-refute-q { flex: 1; font-family: var(--font-serif); font-weight: 600; font-size: 13.5px; color: var(--ink); font-style: italic; line-height: 1.4; }
+.xn-refute-body { padding: 2px 16px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+.xn-refute-claim, .xn-refute-answer { padding: 10px 13px; border-radius: 6px; font-size: 13.5px; line-height: 1.7; }
+.xn-refute-claim { background: color-mix(in srgb, var(--grey-accent) 14%, var(--card2)); border-left: 3px solid var(--grey-accent); color: var(--muted); }
+.xn-refute-answer { background: color-mix(in srgb, var(--emerald) 10%, var(--card2)); border-left: 3px solid var(--emerald); color: var(--ink); }
+.xn-refute-tag { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.75; }
+.xn-refute-claim .xn-refute-tag { color: var(--muted); }
+.xn-refute-answer .xn-refute-tag { color: var(--emerald); }
+@media (max-width: 720px) { .xn-refute-q { font-size: 12.5px; } }
 
 /* radio-hack tab switcher */
 .xn-tabs { position: relative; }
