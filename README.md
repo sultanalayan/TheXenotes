@@ -2,7 +2,7 @@
 
 Study notes on Islamic books and topics, hosted as a static site on GitHub Pages.
 
-**Live site:** https://sultanalayan.github.io/TheXenotes/
+**Live site:** https://thexenotes.com/
 
 ## Structure
 

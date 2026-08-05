@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sultanalayan.github.io/TheXenotes/sitemap.xml
+Sitemap: https://thexenotes.com/sitemap.xml
