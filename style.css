@@ -115,6 +115,7 @@ body::before {
   transition: all 0.25s var(--ease);
 }
 .discord-link:hover { color: var(--emerald); border-color: var(--emerald-light); background: color-mix(in srgb, var(--emerald) 10%, transparent); }
+.discord-icon { width: 14px; height: 14px; flex-shrink: 0; }
 
 .header-main {
   background: var(--paper);
