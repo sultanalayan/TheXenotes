@@ -22,6 +22,7 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --font-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
   --font-script: 'Mrs Saint Delafield', cursive;
+  --font-heading: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
   --font-arabic: 'Aref Ruqaa', serif;
   --font-arabic-clear: 'Noto Naskh Arabic', 'Aref Ruqaa', serif;
 }
@@ -268,7 +269,7 @@ body.view-library .sidebar { display: none; }
 }
 
 /* ── QA SECTION ── */
-.qa-label { font-family: var(--font-script); font-size: 17px; color: var(--burgundy); margin-bottom: 10px; }
+.qa-label { font-family: var(--font-heading); font-weight: 700; font-size: 19px; letter-spacing: 0.01em; color: var(--burgundy); margin-bottom: 10px; }
 .qa-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
 .qa-btn {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
@@ -288,7 +289,7 @@ body.view-library .sidebar { display: none; }
 .qa-item:has(.qa-btn.open) .qa-answer { padding: 14px 16px; }
 
 /* ── QUIZ ── */
-.quiz-label { font-family: var(--font-script); font-size: 18px; color: var(--emerald); margin: 6px 0 12px; }
+.quiz-label { font-family: var(--font-heading); font-weight: 700; font-size: 20px; letter-spacing: 0.01em; color: var(--emerald); margin: 6px 0 12px; }
 .quiz-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
 .quiz-q { font-size: 15.5px; font-weight: 600; color: var(--ink); margin-bottom: 11px; line-height: 1.5; }
 .quiz-choices { display: flex; flex-direction: column; gap: 6px; }
@@ -308,7 +309,7 @@ body.view-library .sidebar { display: none; }
 
 /* ── INTERACTIVE DIAGRAMS (accordion / tab-switcher / flow map) ── */
 .xn-diagram-wrap { margin-top: 18px; }
-.xn-diagram-title { font-family: var(--font-script); font-size: 16px; margin-bottom: 10px; }
+.xn-diagram-title { font-family: var(--font-heading); font-weight: 700; font-size: 19px; letter-spacing: 0.01em; color: var(--burgundy); margin-bottom: 10px; }
 
 /* accordion */
 .xn-accordion { display: flex; flex-direction: column; gap: 8px; }
