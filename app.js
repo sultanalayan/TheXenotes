@@ -17,6 +17,26 @@ function tintedBg(color, alpha) {
   return `color-mix(in srgb, ${color} ${Math.round(alpha * 100)}%, transparent)`;
 }
 
+// ─── Theme toggle (light ⇄ dark) ───
+(function initThemeToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  function apply(isDark) {
+    if (isDark) root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  // index.html's inline head script already set data-theme before first paint;
+  // just sync the button label to whatever state that left us in.
+  apply(root.getAttribute('data-theme') === 'dark');
+  btn.addEventListener('click', () => {
+    const goingDark = root.getAttribute('data-theme') !== 'dark';
+    apply(goingDark);
+    try { localStorage.setItem('xenos-theme', goingDark ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+
 // ─── Routing ───
 function parseHash() {
   const raw = location.hash.replace(/^#\/?/, '');
