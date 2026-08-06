@@ -88,7 +88,7 @@
   --emerald: #FFFFFF;
   --emerald-light: #FFFFFF;
   --grey-accent: #FFFFFF;
-  --gold: #FFE600;
+  --gold: #FFD700;
 }
 :root[data-theme="contrast"] body {
   font-size: 19px;
