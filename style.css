@@ -186,6 +186,56 @@ body::before {
 :root[data-theme="dark"] .theme-toggle-icon-sun { opacity: 0.35; }
 :root:not([data-theme="dark"]) .theme-toggle-icon-moon { opacity: 0.35; }
 
+/* ─── Sign-in widget (Discord / Google) ─── */
+.auth-widget { position: relative; }
+.auth-trigger {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-serif); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); background: none; border: 1px solid var(--border); padding: 3px 11px 3px 4px; border-radius: 20px;
+  cursor: pointer; transition: all 0.25s var(--ease);
+}
+.auth-trigger:hover { color: var(--burgundy); border-color: var(--burgundy-light); background: color-mix(in srgb, var(--burgundy) 8%, transparent); }
+.auth-widget.is-signed-in .auth-trigger { color: var(--ink); border-color: var(--gold); }
+.auth-trigger-avatar {
+  width: 18px; height: 18px; border-radius: 50%; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; font-size: 11px;
+  background: var(--card2); flex-shrink: 0; line-height: 1;
+}
+.auth-trigger-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.auth-panel {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 40;
+  width: 230px; background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px; box-shadow: 0 14px 32px -14px rgba(0,0,0,0.35);
+  opacity: 0; visibility: hidden; transform: translateY(-6px) scale(0.98);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
+}
+.auth-panel.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.auth-panel-hint { font-size: 11px; color: var(--muted); margin-bottom: 10px; line-height: 1.4; }
+.auth-provider-btn {
+  width: 100%; display: flex; align-items: center; gap: 9px;
+  font-family: var(--font-serif); font-size: 12.5px; color: var(--ink);
+  background: var(--card2); border: 1px solid var(--border); border-radius: 9px;
+  padding: 8px 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s var(--ease);
+}
+.auth-provider-btn:last-child { margin-bottom: 0; }
+.auth-provider-btn:hover { transform: translateY(-1px); border-color: var(--gold); box-shadow: 0 6px 16px -10px rgba(0,0,0,0.3); }
+.auth-provider-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+.auth-signed-in-name { font-size: 12px; color: var(--ink); line-height: 1.4; margin-bottom: 10px; }
+.auth-signout-btn {
+  width: 100%; font-family: var(--font-serif); font-size: 12px; letter-spacing: 0.03em;
+  color: var(--burgundy); background: none; border: 1px solid var(--burgundy-light); border-radius: 9px;
+  padding: 7px 12px; cursor: pointer; transition: all 0.2s var(--ease);
+}
+.auth-signout-btn:hover { background: color-mix(in srgb, var(--burgundy) 10%, transparent); }
+
+/* Best-score badge shown above a quiz when a signed-in visitor has a saved result */
+.quiz-best-badge {
+  display: inline-block; font-size: 11.5px; color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  border-radius: 20px; padding: 3px 12px; margin: 6px 0 10px;
+}
+
 .header-main {
   background: var(--paper);
   border-bottom: 1px solid var(--border);

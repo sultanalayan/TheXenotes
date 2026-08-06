@@ -17,6 +17,17 @@ function tintedBg(color, alpha) {
   return `color-mix(in srgb, ${color} ${Math.round(alpha * 100)}%, transparent)`;
 }
 
+// Shows a small "Your best: X / Y" badge above a quiz, pulled from Supabase
+// if the visitor is signed in and has a saved result for this section.
+function showBestBadge(badgeEl, bookSlug, sectionId) {
+  if (!badgeEl || !window.XenosAuth || !window.XenosAuth.getQuizResult) return;
+  window.XenosAuth.getQuizResult(bookSlug, sectionId).then(result => {
+    if (!result) { badgeEl.style.display = 'none'; return; }
+    badgeEl.textContent = `⭐ Your best: ${result.correct} / ${result.total}`;
+    badgeEl.style.display = '';
+  });
+}
+
 // ─── Theme toggle (light ⇄ dark) ───
 (function initThemeToggle() {
   const root = document.documentElement;
@@ -482,6 +493,7 @@ function renderBookSection(book, id) {
   const quizHtml = (sec.quiz && sec.quiz.length) ? `
     <div class="quiz-block" data-total="${sec.quiz.length}" data-correct="0" data-answered="0">
       <div class="quiz-label">🧠 Quick Quiz — Test Yourself</div>
+      <div class="quiz-best-badge" style="display:none;"></div>
       ${sec.quiz.map((qz, qi) => `
         <div class="quiz-item">
           <div class="quiz-q">${qi + 1}. ${qz.q}</div>
@@ -546,6 +558,7 @@ function renderBookSection(book, id) {
   content.querySelectorAll('.quiz-block').forEach(block => {
     const total = parseInt(block.dataset.total, 10);
     const scoreEl = block.querySelector('.quiz-score');
+    const bestBadge = block.querySelector('.quiz-best-badge');
     const updateScore = () => {
       const correct = parseInt(block.dataset.correct, 10);
       const answered = parseInt(block.dataset.answered, 10);
@@ -553,7 +566,13 @@ function renderBookSection(book, id) {
       scoreEl.textContent = answered === total
         ? `Quiz complete — ${correct} / ${total} correct`
         : `Score so far: ${correct} / ${answered}`;
+      if (answered === total && window.XenosAuth && window.XenosAuth.saveQuizResult) {
+        window.XenosAuth.saveQuizResult(book.slug, sec.id, correct, total).then(() => {
+          if (bestBadge) showBestBadge(bestBadge, book.slug, sec.id);
+        });
+      }
     };
+    if (window.XenosAuth && window.XenosAuth.getQuizResult) showBestBadge(bestBadge, book.slug, sec.id);
     block.querySelectorAll('.quiz-item').forEach(item => {
       const choices = item.querySelectorAll('.quiz-choice');
       const explainWrap = item.querySelector('.quiz-explain-wrap');
