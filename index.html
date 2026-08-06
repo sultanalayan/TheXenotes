@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>(function(){try{if(localStorage.getItem('xenos-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+  <script>(function(){try{
+    if(localStorage.getItem('xenos-contrast')==='on'){document.documentElement.setAttribute('data-theme','contrast');}
+    else if(localStorage.getItem('xenos-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}
+  }catch(e){}})();</script>
   <title>The XeNotes</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="alternate icon" href="favicon.svg" />
@@ -41,6 +44,13 @@
         <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">☀️</span>
         <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">🌙</span>
         <span class="theme-toggle-thumb"></span>
+      </span>
+    </button>
+    <button class="contrast-toggle" id="contrast-toggle" type="button" aria-label="Turn on high-contrast mode" title="High-contrast mode — pure black background, sharp white text (for color blindness or low vision)">
+      <span class="contrast-toggle-track">
+        <span class="contrast-toggle-icon contrast-toggle-icon-off" aria-hidden="true">👁️</span>
+        <span class="contrast-toggle-icon contrast-toggle-icon-on" aria-hidden="true">◐</span>
+        <span class="contrast-toggle-thumb"></span>
       </span>
     </button>
     <a class="discord-link" href="https://discord.gg/Z4Rn9WwR4R" target="_blank" rel="noopener">

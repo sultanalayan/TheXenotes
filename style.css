@@ -62,6 +62,46 @@
 :root[data-theme="dark"] .logo-pattern,
 :root[data-theme="dark"] .logo-branch { filter: brightness(0.92) contrast(1.05); }
 
+/* ─── High-contrast mode ───
+   A separate, independent switch (not a third state of the light/dark
+   pill) for visitors with color blindness or low vision: true black
+   background, pure sharp-white text, and every accent color collapsed
+   to white/yellow only — deliberately dropping the burgundy/emerald
+   red-green pairing this site otherwise leans on for section colors,
+   since that exact hue pair is the hardest to distinguish for the most
+   common forms of color blindness. */
+:root[data-theme="contrast"] {
+  --paper: #000000;
+  --cream: #000000;
+  --cream-deep: #000000;
+  --bg: #000000;
+  --card: #000000;
+  --card2: #0D0D0D;
+  --border: #FFFFFF;
+  --ink: #FFFFFF;
+  --text: #FFFFFF;
+  --muted: #F2F2F2;
+
+  --burgundy: #FFFFFF;
+  --burgundy-light: #FFFFFF;
+  --burgundy-deep: #FFFFFF;
+  --emerald: #FFFFFF;
+  --emerald-light: #FFFFFF;
+  --grey-accent: #FFFFFF;
+  --gold: #FFE600;
+}
+:root[data-theme="contrast"] body {
+  font-size: 19px;
+  font-weight: 500;
+  background: #000000;
+}
+:root[data-theme="contrast"] * { text-shadow: none !important; }
+:root[data-theme="contrast"] img,
+:root[data-theme="contrast"] .logo-pattern,
+:root[data-theme="contrast"] .logo-branch { filter: grayscale(1) contrast(1.6) brightness(1.4); }
+/* the light/dark pill is inert while high-contrast overrides it */
+:root[data-theme="contrast"] #theme-toggle { opacity: 0.35; pointer-events: none; }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -185,6 +225,32 @@ body::before {
 }
 :root[data-theme="dark"] .theme-toggle-icon-sun { opacity: 0.35; }
 :root:not([data-theme="dark"]) .theme-toggle-icon-moon { opacity: 0.35; }
+
+/* ─── High-contrast toggle — a second little switch, independent of light/dark ─── */
+.contrast-toggle {
+  background: none; border: none; padding: 2px; cursor: pointer;
+  display: flex; align-items: center; border-radius: 999px;
+  transition: transform 0.2s var(--ease);
+}
+.contrast-toggle:hover { transform: scale(1.06); }
+.contrast-toggle:active { transform: scale(0.94); }
+.contrast-toggle-track {
+  position: relative; width: 44px; height: 23px; border-radius: 999px;
+  background: var(--card2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5px; overflow: hidden;
+  transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.contrast-toggle-icon { font-size: 10px; line-height: 1; z-index: 1; opacity: 0.75; transition: opacity 0.35s var(--ease); }
+.contrast-toggle-thumb {
+  position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; border-radius: 50%;
+  background: linear-gradient(135deg, #FFFFFF 50%, #0A0A0A 50%);
+  box-shadow: 0 2px 6px -2px rgba(0,0,0,0.45);
+  transition: transform 0.4s var(--ease), background 0.4s var(--ease);
+}
+:root[data-theme="contrast"] .contrast-toggle-thumb { transform: translateX(21px); background: #FFE600; }
+:root[data-theme="contrast"] .contrast-toggle-icon-off { opacity: 0.35; }
+:root:not([data-theme="contrast"]) .contrast-toggle-icon-on { opacity: 0.35; }
 
 /* ─── Sign-in widget (Discord / Google) ─── */
 .auth-widget { position: relative; }

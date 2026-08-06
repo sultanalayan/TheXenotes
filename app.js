@@ -28,24 +28,56 @@ function showBestBadge(badgeEl, bookSlug, sectionId) {
   });
 }
 
-// ─── Theme toggle (light ⇄ dark) ───
-(function initThemeToggle() {
+// ─── Theme: light ⇄ dark switch, plus an independent high-contrast override ───
+// Two stored preferences: 'xenos-theme' ('light'/'dark') and 'xenos-contrast'
+// ('on'/'off'). High-contrast wins whenever it's on; turning it off returns
+// to whatever light/dark was set. index.html's inline head script already
+// applied the right data-theme before first paint — this just syncs the
+// two switches to match and wires up their clicks.
+(function initThemeToggles() {
   const root = document.documentElement;
-  const btn = document.getElementById('theme-toggle');
-  if (!btn) return;
-  function apply(isDark) {
-    if (isDark) root.setAttribute('data-theme', 'dark');
-    else root.removeAttribute('data-theme');
-    btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  const themeBtn = document.getElementById('theme-toggle');
+  const contrastBtn = document.getElementById('contrast-toggle');
+  if (!themeBtn && !contrastBtn) return;
+
+  function isContrastOn() {
+    try { return localStorage.getItem('xenos-contrast') === 'on'; } catch (e) { return false; }
   }
-  // index.html's inline head script already set data-theme before first paint;
-  // just sync the button label to whatever state that left us in.
-  apply(root.getAttribute('data-theme') === 'dark');
-  btn.addEventListener('click', () => {
-    const goingDark = root.getAttribute('data-theme') !== 'dark';
-    apply(goingDark);
-    try { localStorage.setItem('xenos-theme', goingDark ? 'dark' : 'light'); } catch (e) {}
-  });
+  function storedTheme() {
+    try { return localStorage.getItem('xenos-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; }
+  }
+  function applyEffectiveTheme() {
+    const contrast = isContrastOn();
+    const theme = storedTheme();
+    if (contrast) root.setAttribute('data-theme', 'contrast');
+    else if (theme === 'dark') root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+
+    if (themeBtn) {
+      themeBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      themeBtn.disabled = contrast;
+    }
+    if (contrastBtn) {
+      contrastBtn.setAttribute('aria-label', contrast ? 'Turn off high-contrast mode' : 'Turn on high-contrast mode');
+    }
+  }
+  applyEffectiveTheme();
+
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      if (isContrastOn()) return; // dimmed + inert while contrast mode overrides it
+      const goingDark = storedTheme() !== 'dark';
+      try { localStorage.setItem('xenos-theme', goingDark ? 'dark' : 'light'); } catch (e) {}
+      applyEffectiveTheme();
+    });
+  }
+  if (contrastBtn) {
+    contrastBtn.addEventListener('click', () => {
+      const goingOn = !isContrastOn();
+      try { localStorage.setItem('xenos-contrast', goingOn ? 'on' : 'off'); } catch (e) {}
+      applyEffectiveTheme();
+    });
+  }
 })();
 
 // ─── Routing ───
