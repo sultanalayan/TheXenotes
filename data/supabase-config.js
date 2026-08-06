@@ -11,6 +11,6 @@
  *      quiz_progress table
  */
 window.XENOS_SUPABASE = {
-  url: 'YOUR_SUPABASE_PROJECT_URL',   // e.g. 'https://abcdefghijk.supabase.co'
-  anonKey: 'YOUR_SUPABASE_ANON_KEY',  // the public "anon" key — safe to expose client-side
+  url: 'https://tbuchyimzduxcefgerew.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidWNoeWltemR1eGNlZmdlcmV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5NjkyNDIsImV4cCI6MjEwMTU0NTI0Mn0.a6BPacay2EzPbDv1_e6cu2WWr2F-wMg4tL1-jEUc3QY',
 };
