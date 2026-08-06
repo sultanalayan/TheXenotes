@@ -81,10 +81,18 @@ create policy "Users manage their own progress"
   on quiz_progress for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- Needed because "Automatically expose new tables" is off (the safer
+-- setting) — this explicitly exposes just this one table to signed-in
+-- users via the Data API, instead of exposing every new table by default.
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on public.quiz_progress to authenticated;
 ```
 
 This lets each signed-in visitor read and write *only their own* quiz
-rows — nobody can see or touch anyone else's scores.
+rows — nobody can see or touch anyone else's scores. It works whether
+"Automatically expose new tables" is on or off, since the `grant`
+statements make the access explicit either way.
 
 ---
 
