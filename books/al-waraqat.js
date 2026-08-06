@@ -10,7 +10,7 @@ XenosBooks.register({
   title: 'Al-Waraqāt fī Uṣūl al-Fiqh',
   subtitle: "Imām al-Juwaynī's Foundational Primer — Complete Study Notes",
   icon: '📜',
-  category: 'Uṣūl al-Fiqh',
+  category: 'Fiqh',
   arabicBg: 'الورقات',
   tags: ['Uṣūl al-Fiqh', 'Al-Juwaynī', 'Aḥkām', 'Qiyās', 'Ijtihād', 'Khuṭṭaāt'],
   footer: "Imām al-Ḥaramayn al-Juwaynī's foundational primer in Islamic legal theory — the sources, rulings, and methodology every derived fiqh ruling ultimately rests on.",

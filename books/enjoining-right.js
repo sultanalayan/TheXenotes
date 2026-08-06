@@ -7,7 +7,7 @@ XenosBooks.register({
   title: 'Enjoining Right & Forbidding Wrong',
   subtitle: 'By Shaykh al-Islām Ibn Taymiyyah (d.728H) · Trans. Salim Abdallah ibn Morgan',
   icon: '📢',
-  category: 'Manhaj',
+  category: 'Aqeedah',
   arabicBg: 'الأمر بالمعروف',
   tags: ['Al-Amr bil-Maʿrūf', 'Manhaj', 'Ibn Taymiyyah', 'Daʿwah', 'Ṣabr'],
   footer: 'Ibn Taymiyyah (d.728H) · "Enjoining Right & Forbidding Wrong" · Trans. Salim Abdallah ibn Morgan',
