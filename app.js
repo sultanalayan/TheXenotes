@@ -28,56 +28,35 @@ function showBestBadge(badgeEl, bookSlug, sectionId) {
   });
 }
 
-// ─── Theme: light ⇄ dark switch, plus an independent high-contrast override ───
-// Two stored preferences: 'xenos-theme' ('light'/'dark') and 'xenos-contrast'
-// ('on'/'off'). High-contrast wins whenever it's on; turning it off returns
-// to whatever light/dark was set. index.html's inline head script already
-// applied the right data-theme before first paint — this just syncs the
-// two switches to match and wires up their clicks.
-(function initThemeToggles() {
+// ─── Mode switch — ☀️ light · ⭐ dark (brown/pink) · 🌙 high-contrast (black & white) ───
+// One stored preference, 'xenos-theme', one of 'light' | 'dark' | 'contrast'.
+// index.html's inline head script already applied the right data-theme
+// before first paint — this just syncs the three buttons and wires clicks.
+(function initModeSwitch() {
   const root = document.documentElement;
-  const themeBtn = document.getElementById('theme-toggle');
-  const contrastBtn = document.getElementById('contrast-toggle');
-  if (!themeBtn && !contrastBtn) return;
+  const buttons = document.querySelectorAll('.mode-btn');
+  if (!buttons.length) return;
 
-  function isContrastOn() {
-    try { return localStorage.getItem('xenos-contrast') === 'on'; } catch (e) { return false; }
+  function current() {
+    try {
+      const m = localStorage.getItem('xenos-theme');
+      return (m === 'dark' || m === 'contrast') ? m : 'light';
+    } catch (e) { return 'light'; }
   }
-  function storedTheme() {
-    try { return localStorage.getItem('xenos-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; }
+  function apply(mode) {
+    if (mode === 'light') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', mode);
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
   }
-  function applyEffectiveTheme() {
-    const contrast = isContrastOn();
-    const theme = storedTheme();
-    if (contrast) root.setAttribute('data-theme', 'contrast');
-    else if (theme === 'dark') root.setAttribute('data-theme', 'dark');
-    else root.removeAttribute('data-theme');
+  apply(current());
 
-    if (themeBtn) {
-      themeBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-      themeBtn.disabled = contrast;
-    }
-    if (contrastBtn) {
-      contrastBtn.setAttribute('aria-label', contrast ? 'Turn off high-contrast mode' : 'Turn on high-contrast mode');
-    }
-  }
-  applyEffectiveTheme();
-
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      if (isContrastOn()) return; // dimmed + inert while contrast mode overrides it
-      const goingDark = storedTheme() !== 'dark';
-      try { localStorage.setItem('xenos-theme', goingDark ? 'dark' : 'light'); } catch (e) {}
-      applyEffectiveTheme();
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      try { localStorage.setItem('xenos-theme', mode); } catch (e) {}
+      apply(mode);
     });
-  }
-  if (contrastBtn) {
-    contrastBtn.addEventListener('click', () => {
-      const goingOn = !isContrastOn();
-      try { localStorage.setItem('xenos-contrast', goingOn ? 'on' : 'off'); } catch (e) {}
-      applyEffectiveTheme();
-    });
-  }
+  });
 })();
 
 // ─── Routing ───
