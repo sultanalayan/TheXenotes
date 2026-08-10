@@ -70,9 +70,14 @@ function parseHash() {
   return { view: 'library' };
 }
 
+function isGated() {
+  const acc = window.XenosAccess;
+  return !!(acc && acc.gateEnabled && acc.status !== 'granted');
+}
+
 function route() {
   const r = parseHash();
-  if (r.view === 'book' && XenosBooks.get(r.slug)) {
+  if (r.view === 'book' && XenosBooks.get(r.slug) && !isGated()) {
     renderBook(r.slug, r.section);
   } else {
     renderLibrary();
@@ -83,6 +88,61 @@ function route() {
 
 window.addEventListener('hashchange', route);
 window.addEventListener('DOMContentLoaded', route);
+// auth.js dispatches this once sign-in state / Discord-membership status
+// resolves (it's async, so the very first route() call usually fires
+// while status is still 'checking') — re-render with the final result.
+window.addEventListener('xenos-access-changed', route);
+
+// ─── Access gate — "join the Discord & sign in" wall around the book content ───
+function renderAccessGate() {
+  const acc = window.XenosAccess || {};
+  let title, body, actionsHtml;
+  if (acc.status === 'checking') {
+    title = 'Checking your access…';
+    body = 'One moment while we confirm your Discord membership.';
+    actionsHtml = '';
+  } else if (acc.reason === 'not-member') {
+    title = "You're signed in — but haven't joined the server yet";
+    body = 'These study notes are a perk for members of the Xenos Discord server. Join, then check again.';
+    actionsHtml = `
+      <a class="gate-btn gate-btn-primary" href="${acc.inviteUrl}" target="_blank" rel="noopener">Join the Discord</a>
+      <button class="gate-btn gate-btn-secondary" id="gate-retry-btn" type="button">I've joined — check again</button>
+    `;
+  } else if (acc.reason === 'wrong-provider') {
+    title = 'Sign in with Discord to unlock the notes';
+    body = "You're signed in with Google — membership can only be verified through Discord. Sign in with Discord instead (your Google sign-in still saves quiz scores just fine).";
+    actionsHtml = `<button class="gate-btn gate-btn-primary" id="gate-discord-btn" type="button">Continue with Discord</button>`;
+  } else if (acc.reason === 'unverified') {
+    title = 'Quick re-confirmation needed';
+    body = "We can't re-check Discord membership from a saved session — sign in with Discord once more to confirm you're still a member.";
+    actionsHtml = `<button class="gate-btn gate-btn-primary" id="gate-discord-btn" type="button">Continue with Discord</button>`;
+  } else {
+    title = 'Sign in with Discord to unlock the notes';
+    body = 'These study notes are a perk for members of the Xenos Discord server. Join the server, then sign in with Discord to unlock everything below.';
+    actionsHtml = `<button class="gate-btn gate-btn-primary" id="gate-discord-btn" type="button">Continue with Discord</button>`;
+  }
+  return `
+    <div class="access-gate">
+      <div class="access-gate-icon">🔒</div>
+      <div class="access-gate-title">${title}</div>
+      <div class="access-gate-body">${body}</div>
+      <div class="access-gate-actions">${actionsHtml}</div>
+    </div>
+  `;
+}
+function wireAccessGate() {
+  const retryBtn = document.getElementById('gate-retry-btn');
+  if (retryBtn) retryBtn.addEventListener('click', async () => {
+    retryBtn.disabled = true;
+    retryBtn.textContent = 'Checking…';
+    await window.XenosAccess.retry();
+  });
+  const discordBtn = document.getElementById('gate-discord-btn');
+  if (discordBtn) discordBtn.addEventListener('click', () => {
+    const realBtn = document.querySelector('.auth-provider-discord');
+    if (realBtn) realBtn.click();
+  });
+}
 
 // ─── Library home ───
 function renderLibrary(filter) {
@@ -167,22 +227,30 @@ function renderLibrary(filter) {
     </div>
   ` : '';
 
+  const gated = isGated();
+  const booksAreaHtml = gated
+    ? renderAccessGate()
+    : `${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}${duaHtml}`;
+
   document.getElementById('content').innerHTML = `
     <div class="library-hdr">
       <h1 class="library-title">Xenos Notes</h1>
       <p class="library-sub">Study notes on Islamic books &amp; topics — pick one to explore.</p>
-      <input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />
+      ${gated ? '' : `<input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />`}
     </div>
     ${namesHtml}
     ${huroofHtml}
-    ${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}
-    ${duaHtml}
+    ${booksAreaHtml}
   `;
 
-  const input = document.getElementById('search-box');
-  input.addEventListener('input', () => renderLibrary(input.value));
-  input.focus();
-  input.setSelectionRange(input.value.length, input.value.length);
+  if (gated) {
+    wireAccessGate();
+  } else {
+    const input = document.getElementById('search-box');
+    input.addEventListener('input', () => renderLibrary(input.value));
+    input.focus();
+    input.setSelectionRange(input.value.length, input.value.length);
+  }
 
   initNamesSection();
   initHuroofSection();

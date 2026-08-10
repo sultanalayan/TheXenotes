@@ -12,12 +12,86 @@
     !cfg.url.includes('YOUR_') && !cfg.anonKey.includes('YOUR_') &&
     window.supabase && typeof window.supabase.createClient === 'function';
 
+  // Whether the "must be a Discord-server member" gate is actually active.
+  // Fails open (site behaves exactly as before) if Supabase itself isn't
+  // configured yet, or a real guild ID hasn't been filled in.
+  const gateEnabled = ready && !!cfg.requireDiscordMembership &&
+    cfg.discordGuildId && !cfg.discordGuildId.includes('YOUR_');
+
+  window.XenosAccess = {
+    gateEnabled,
+    status: gateEnabled ? 'checking' : 'granted', // 'checking' | 'granted' | 'denied'
+    reason: null, // 'not-signed-in' | 'wrong-provider' | 'not-member' | 'unverified'
+    inviteUrl: (cfg && cfg.discordInviteUrl) || 'https://discord.gg/Z4Rn9WwR4R',
+    async retry() { await evaluateAccess(true); },
+  };
+
   if (!ready) {
     if (widget) widget.style.display = 'none';
     return;
   }
 
   const sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+  const MEMBER_CACHE_KEY = (uid) => `xenos-discord-member-${uid}`;
+
+  function setAccess(status, reason) {
+    window.XenosAccess.status = status;
+    window.XenosAccess.reason = reason || null;
+    window.dispatchEvent(new CustomEvent('xenos-access-changed'));
+  }
+
+  async function checkGuildMembership(providerToken) {
+    try {
+      const res = await fetch('https://discord.com/api/users/@me/guilds', {
+        headers: { Authorization: `Bearer ${providerToken}` },
+      });
+      if (!res.ok) return null; // couldn't verify (expired token, rate limit, etc.)
+      const guilds = await res.json();
+      return Array.isArray(guilds) && guilds.some(g => g.id === cfg.discordGuildId);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // session.provider_token (the Discord access token) is only present right
+  // after a fresh OAuth redirect — Supabase doesn't persist or refresh it.
+  // So: verify once, cache the result per-user, and trust the cache on
+  // later visits rather than needing a fresh token every time.
+  async function evaluateAccess(forceReverify) {
+    if (!gateEnabled) { setAccess('granted'); return; }
+
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { setAccess('denied', 'not-signed-in'); return; }
+
+    const provider = session.user.app_metadata && session.user.app_metadata.provider;
+    if (provider !== 'discord') { setAccess('denied', 'wrong-provider'); return; }
+
+    const cacheKey = MEMBER_CACHE_KEY(session.user.id);
+    let cached = null;
+    try { cached = localStorage.getItem(cacheKey); } catch (e) {}
+
+    if (cached === 'true' && !forceReverify) { setAccess('granted'); return; }
+
+    if (session.provider_token) {
+      const isMember = await checkGuildMembership(session.provider_token);
+      if (isMember === true) {
+        try { localStorage.setItem(cacheKey, 'true'); } catch (e) {}
+        setAccess('granted');
+        return;
+      }
+      if (isMember === false) {
+        try { localStorage.setItem(cacheKey, 'false'); } catch (e) {}
+        setAccess('denied', 'not-member');
+        return;
+      }
+      // isMember === null: Discord API call failed — fall through to cache/unverified below
+    }
+
+    if (cached === 'false') { setAccess('denied', 'not-member'); return; }
+    // No usable token on this visit (normal on a page reload) and nothing
+    // cached yet — ask them to re-confirm via a fresh Discord sign-in.
+    setAccess('denied', 'unverified');
+  }
 
   const trigger = document.getElementById('auth-trigger');
   const panel = document.getElementById('auth-panel');
@@ -69,20 +143,31 @@
   signedOutEl.querySelectorAll('[data-provider]').forEach(btn => {
     btn.addEventListener('click', async () => {
       btn.disabled = true;
-      await sb.auth.signInWithOAuth({
-        provider: btn.dataset.provider,
-        options: { redirectTo: window.location.origin + window.location.pathname + window.location.hash },
-      });
+      const provider = btn.dataset.provider;
+      const options = { redirectTo: window.location.origin + window.location.pathname + window.location.hash };
+      // Extra scope so we can check server membership after Discord sign-in.
+      if (provider === 'discord') options.scopes = 'identify guilds';
+      await sb.auth.signInWithOAuth({ provider, options });
     });
   });
 
   signoutBtn.addEventListener('click', async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      try { localStorage.removeItem(MEMBER_CACHE_KEY(session.user.id)); } catch (e) {}
+    }
     await sb.auth.signOut();
     panel.classList.remove('open');
   });
 
-  sb.auth.onAuthStateChange((_event, session) => renderSession(session));
-  sb.auth.getSession().then(({ data }) => renderSession(data.session));
+  sb.auth.onAuthStateChange((_event, session) => {
+    renderSession(session);
+    evaluateAccess();
+  });
+  sb.auth.getSession().then(({ data }) => {
+    renderSession(data.session);
+    evaluateAccess();
+  });
 
   // ─── Per-user quiz progress, called from app.js's quiz handler ───
   window.XenosAuth = {

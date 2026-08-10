@@ -13,4 +13,12 @@
 window.XENOS_SUPABASE = {
   url: 'https://tbuchyimzduxcefgerew.supabase.co',
   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRidWNoeWltemR1eGNlZmdlcmV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5NjkyNDIsImV4cCI6MjEwMTU0NTI0Mn0.a6BPacay2EzPbDv1_e6cu2WWr2F-wMg4tL1-jEUc3QY',
+
+  // Gate: book content stays hidden until the visitor signs in with
+  // Discord AND is a member of this server. Set to false to turn the
+  // gate off entirely (site behaves as fully open, like before).
+  requireDiscordMembership: true,
+  // Right-click your server icon in Discord (Developer Mode on) -> Copy Server ID.
+  discordGuildId: '1511176707779072160',
+  discordInviteUrl: 'https://discord.gg/Z4Rn9WwR4R',
 };

@@ -815,6 +815,30 @@ body.view-library .sidebar { display: none; }
 .book-card:hover .book-card-arrow { transform: translateX(4px); color: var(--emerald); }
 .empty-state { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0; font-style: italic; }
 
+/* ── ACCESS GATE (Discord-membership wall around the book content) ── */
+.access-gate {
+  max-width: 480px; margin: 18px auto 50px; text-align: center; position: relative;
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 38px 30px 32px;
+  box-shadow: 0 12px 32px -18px rgba(58,46,34,0.3);
+  opacity: 0; animation: fadeUp 0.6s var(--ease) 0.2s forwards;
+}
+.access-gate-icon { font-size: 30px; margin-bottom: 12px; }
+.access-gate-title { font-family: var(--font-heading); font-weight: 700; font-size: 19px; color: var(--ink); margin-bottom: 10px; }
+.access-gate-body { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+.access-gate-actions { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+.gate-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-serif); font-size: 13.5px; font-weight: 600;
+  padding: 11px 18px; border-radius: 10px; cursor: pointer;
+  transition: all 0.2s var(--ease); border: 1px solid transparent;
+}
+.gate-btn-primary { background: linear-gradient(135deg, var(--burgundy), var(--burgundy-deep)); color: #fff; }
+.gate-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--burgundy) 55%, transparent); }
+.gate-btn-secondary { background: none; border-color: var(--border); color: var(--muted); }
+.gate-btn-secondary:hover { border-color: var(--gold); color: var(--ink); }
+.gate-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+
 /* ── DUA CARD ── */
 .dua-card {
   max-width: 640px; margin: 12px auto 40px; text-align: center; position: relative;
