@@ -31,8 +31,23 @@
     return;
   }
 
-  const sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+  // flowType: 'pkce' is required here — this site uses #/... hash-based
+  // routing for navigation, and Supabase's older "implicit" OAuth flow
+  // returns the session as #access_token=... in the URL hash, which
+  // collides with our own router reading location.hash on every load.
+  // PKCE returns a ?code=... query param instead, so the two don't fight.
+  const sb = window.supabase.createClient(cfg.url, cfg.anonKey, {
+    auth: { flowType: 'pkce', detectSessionInUrl: true },
+  });
   const MEMBER_CACHE_KEY = (uid) => `xenos-discord-member-${uid}`;
+
+  // Surface any failed-login redirect (e.g. "access_denied") instead of
+  // silently doing nothing, which is what it looked like before this fix.
+  (function reportAuthRedirectError() {
+    const params = new URLSearchParams(window.location.search);
+    const err = params.get('error_description') || params.get('error');
+    if (err) console.error('[Xenos sign-in] OAuth redirect returned an error:', err);
+  })();
 
   function setAccess(status, reason) {
     window.XenosAccess.status = status;
@@ -144,7 +159,10 @@
     btn.addEventListener('click', async () => {
       btn.disabled = true;
       const provider = btn.dataset.provider;
-      const options = { redirectTo: window.location.origin + window.location.pathname + window.location.hash };
+      // Deliberately NOT including window.location.hash here — this site's
+      // own #/... router would otherwise collide with the auth redirect.
+      // Landing back on the plain home URL, already signed in, is fine.
+      const options = { redirectTo: window.location.origin + window.location.pathname };
       // Extra scope so we can check server membership after Discord sign-in.
       if (provider === 'discord') options.scopes = 'identify guilds';
       await sb.auth.signInWithOAuth({ provider, options });
