@@ -99,6 +99,17 @@
 :root[data-theme="contrast"] img,
 :root[data-theme="contrast"] .logo-pattern,
 :root[data-theme="contrast"] .logo-branch { filter: grayscale(1) contrast(1.6) brightness(1.4); }
+/* Quiz feedback needs its own colors here — burgundy/emerald are both
+   collapsed to white above, so correct/incorrect answers would otherwise
+   be indistinguishable. Gold for right, red for wrong. */
+:root[data-theme="contrast"] .quiz-choice.correct {
+  background: color-mix(in srgb, var(--gold) 25%, #000000);
+  border-color: var(--gold); color: var(--gold);
+}
+:root[data-theme="contrast"] .quiz-choice.incorrect {
+  background: color-mix(in srgb, #FF4136 22%, #000000);
+  border-color: #FF4136; color: #FF4136;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -862,7 +873,7 @@ body.view-library .sidebar { display: none; }
   padding: 4px 8px; overflow: visible; font-family: var(--font-serif);
   transition: transform 0.25s var(--ease);
 }
-body.view-book .winners-corner { display: none; }
+body.view-book .winners-corner { display: none !important; visibility: hidden; pointer-events: none; }
 .winners-corner:hover { transform: translateY(-3px); }
 .winners-confetti { position: absolute; inset: -18px -14px; pointer-events: none; overflow: visible; }
 .confetti-piece {

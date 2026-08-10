@@ -714,8 +714,14 @@ function initWinnersCycle() {
 
   let i = 0;
   const render = () => {
+    // Skip while a book/section is open — the corner is CSS-hidden there
+    // anyway, but not re-rendering it every 2.4s avoids any chance of a
+    // fixed-position element "leaking" through display:none during a
+    // repaint on some mobile browsers.
+    if (document.body.classList.contains('view-book')) return;
     el.classList.remove('is-visible');
     setTimeout(() => {
+      if (document.body.classList.contains('view-book')) return;
       const w = XENOS_WINNERS[i % XENOS_WINNERS.length];
       el.style.setProperty('--enter-rotate', WINNERS_ROTATIONS[i % WINNERS_ROTATIONS.length]);
       el.innerHTML = `
