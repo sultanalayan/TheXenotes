@@ -113,7 +113,39 @@ just localhost.
   "⭐ Your best: X / Y" badge shows above that quiz next time they visit.
 - You can see everyone who's signed up any time in **Supabase dashboard
   → Authentication → Users** — no extra building needed for that.
+- **The book content itself is gated** behind Discord sign-in + being a
+  member of the server (see below) — everyone can still browse the
+  Names of Allah and Arabic Letters sections without signing in.
 
 Not built yet, but easy to add later if you want it: a public
 leaderboard page, or wiring the existing "Winners" corner to pull from
 real quiz data instead of the manually-curated list it uses today.
+
+---
+
+## 6. The Discord-membership gate (already configured)
+
+`data/supabase-config.js` has two extra fields controlling this:
+
+```js
+requireDiscordMembership: true,   // set false to turn the gate off entirely
+discordGuildId: '...',            // your server's ID
+discordInviteUrl: 'https://discord.gg/...',
+```
+
+How it works: Discord sign-in requests the `guilds` scope, and right
+after sign-in the site checks the person's guild list against
+`discordGuildId`. Since Supabase doesn't keep that Discord token around
+across page reloads, the verified result is cached per-user in
+`localStorage` — so it's only re-checked against Discord's API on a
+fresh sign-in, not on every visit. Google sign-in can't satisfy this
+gate (there's no way to verify Discord membership from a Google
+account), so it stays available for quiz-score saving but won't unlock
+the content.
+
+**Heads up on what "gate" actually means here**: this is a static site
+with no server, so this is enforced in the browser (a "soft" gate) —
+it stops casual browsing without joining the server, but the book
+content is technically still reachable by someone who deliberately
+inspects the site's own JS files. Fine for "join the Discord to read
+this," not appropriate if the content ever needs to be truly private.
