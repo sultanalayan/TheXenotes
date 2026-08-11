@@ -387,47 +387,41 @@
     drawActivity();
   }
 
-  // ─── Level select grid ───
-  function renderLevelGrid(host) {
-    const levels = window.XENOS_ARABIC_LEVELS || [];
-    const progress = loadProgress();
-    host.innerHTML = `
-      <div class="aa-level-grid">
-        ${levels.map(lvl => {
-          const p = progress[lvl.id];
-          return `
-            <button class="aa-level-card" data-id="${lvl.id}" style="--lvl-color:${lvl.color}">
-              <div class="aa-level-card-icon">${lvl.icon}</div>
-              <div class="aa-level-card-num">Level ${lvl.id}</div>
-              <div class="aa-level-card-title">${lvl.subtitle.replace(/^Level \d+ — /, '')}</div>
-              <div class="aa-level-card-stars">${p ? '⭐'.repeat(p.stars) + '☆'.repeat(3 - p.stars) : 'Not started'}</div>
-            </button>
-          `;
-        }).join('')}
-      </div>
-    `;
-    host.querySelectorAll('.aa-level-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const id = parseInt(card.dataset.id, 10);
-        const level = levels.find(l => l.id === id);
-        if (!level) return;
-        renderLevelDetail(level, host, () => renderLevelGrid(host));
-        host.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // ─── Entry point — called by app.js's renderArabicApp(), which owns the
+  // page shell (header + sidebar) the same way it does for a book. ───
+  window.XenosArabicApp = {
+    // Level-select grid, shown at #/arabic
+    renderGrid(host, onSelectLevel) {
+      const levels = window.XENOS_ARABIC_LEVELS || [];
+      const progress = loadProgress();
+      host.innerHTML = `
+        <div class="aa-intro">
+          <div class="aa-intro-title">اِخْتَرِ الْمُسْتَوَى — Choose a Level</div>
+          <div class="aa-intro-sub">Work through them in order, or jump straight to whichever fits you — each level chains a few activities together and finishes with a star rating.</div>
+        </div>
+        <div class="aa-level-grid">
+          ${levels.map(lvl => {
+            const p = progress[lvl.id];
+            return `
+              <button class="aa-level-card" data-id="${lvl.id}" style="--lvl-color:${lvl.color}">
+                <div class="aa-level-card-icon">${lvl.icon}</div>
+                <div class="aa-level-card-num">Level ${lvl.id}</div>
+                <div class="aa-level-card-title">${lvl.subtitle.replace(/^Level \d+ — /, '')}</div>
+                <div class="aa-level-card-stars">${p ? '⭐'.repeat(p.stars) + '☆'.repeat(3 - p.stars) : 'Not started'}</div>
+              </button>
+            `;
+          }).join('')}
+        </div>
+      `;
+      host.querySelectorAll('.aa-level-card').forEach(card => {
+        card.addEventListener('click', () => onSelectLevel(parseInt(card.dataset.id, 10)));
       });
-    });
-  }
-
-  // ─── Entry point, wired from app.js the same way initHuroofSection is ───
-  window.initArabicApp = function initArabicApp() {
-    const toggleBtn = document.getElementById('arabic-app-toggle');
-    const panelWrap = document.getElementById('arabic-app-panel-wrap');
-    const panel = document.getElementById('arabic-app-panel');
-    if (!toggleBtn || !panelWrap || !panel || !window.XENOS_ARABIC_LEVELS) return;
-    let built = false;
-    toggleBtn.addEventListener('click', () => {
-      const open = toggleBtn.classList.toggle('open');
-      panelWrap.classList.toggle('open', open);
-      if (open && !built) { renderLevelGrid(panel); built = true; }
-    });
+    },
+    // A single level's activity sequence, shown at #/arabic/<id>
+    renderLevel(host, levelId, onBack) {
+      const level = (window.XENOS_ARABIC_LEVELS || []).find(l => l.id === levelId);
+      if (!level) { host.innerHTML = '<div class="empty-state">Level not found.</div>'; return; }
+      renderLevelDetail(level, host, onBack);
+    },
   };
 })();

@@ -67,6 +67,9 @@ function parseHash() {
   if (parts[0] === 'book' && parts[1]) {
     return { view: 'book', slug: parts[1], section: parts[2] || null };
   }
+  if (parts[0] === 'arabic') {
+    return { view: 'arabic', levelId: parts[1] ? parseInt(parts[1], 10) : null };
+  }
   return { view: 'library' };
 }
 
@@ -79,11 +82,65 @@ function route() {
   const r = parseHash();
   if (r.view === 'book' && XenosBooks.get(r.slug) && !isGated()) {
     renderBook(r.slug, r.section);
+  } else if (r.view === 'arabic') {
+    renderArabicApp(r.levelId);
   } else {
     renderLibrary();
   }
   closeSidebar();
   window.scrollTo(0, 0);
+}
+
+// ─── Learn Arabic — its own full page, same shell as a book (header +
+// sidebar), not gated behind Discord sign-in since it lives next to the
+// always-public Names/Huroof sections on the home page. ───
+function renderArabicApp(levelId) {
+  const levels = window.XENOS_ARABIC_LEVELS || [];
+  if (!levels.length || !window.XenosArabicApp) { renderLibrary(); return; }
+  document.body.classList.add('view-book');
+  document.body.classList.remove('view-library');
+
+  document.getElementById('header-title').textContent = 'Learn Arabic — Interactive';
+  document.getElementById('header-sub').textContent = 'Six levels, from your first letter to full sentence parsing (iʿrāb).';
+  document.getElementById('header-arabic-bg').textContent = 'تعلم العربية';
+  document.getElementById('header-tags').innerHTML = ['Ḥurūf', 'Naḥw', 'Iʿrāb', 'Qirāʾah'].map(t => `<span class="header-tag">${t}</span>`).join('');
+
+  const validLevel = levelId && levels.find(l => l.id === levelId);
+  document.getElementById('sidebar-wrap').innerHTML = `
+    <a href="#/" class="back-to-library">← All Notes</a>
+    <p class="sidebar-label">Learn Arabic</p>
+    <div id="arabic-nav-items">
+      ${levels.map(lvl => `
+        <button class="nav-btn ${validLevel && levelId === lvl.id ? 'active' : ''}" data-goto="${lvl.id}" style="--accent:${lvl.color}">
+          <span class="nav-icon">${lvl.icon}</span>
+          <span class="nav-labels">
+            <span class="nav-main">Level ${lvl.id}</span>
+            <span class="nav-sub">${lvl.subtitle.replace(/^Level \d+ — /, '')}</span>
+          </span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-name">Learn Arabic — Interactive</div>
+      <div class="sidebar-footer-desc">Built from two real Arabic-language course books — flashcards, matching, listening, reading, and full sentence parsing.</div>
+    </div>
+  `;
+  document.querySelectorAll('#arabic-nav-items .nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => { location.hash = `#/arabic/${btn.dataset.goto}`; });
+  });
+
+  const content = document.getElementById('content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+  content.innerHTML = `<div class="arabic-page"><div class="arabic-page-host" id="arabic-page-host"></div></div>`;
+  content.classList.add('fade-in');
+
+  const host = document.getElementById('arabic-page-host');
+  if (validLevel) {
+    window.XenosArabicApp.renderLevel(host, levelId, () => { location.hash = '#/arabic'; });
+  } else {
+    window.XenosArabicApp.renderGrid(host, (id) => { location.hash = `#/arabic/${id}`; });
+  }
 }
 
 window.addEventListener('hashchange', route);
@@ -228,19 +285,13 @@ function renderLibrary(filter) {
   ` : '';
 
   const arabicAppHtml = (window.XENOS_ARABIC_LEVELS && window.XENOS_ARABIC_LEVELS.length) ? `
-    <div class="arabic-app-section">
+    <a href="#/arabic" class="arabic-app-section">
       <div class="arabic-app-hero">
         <div class="arabic-app-hero-title">📚 Learn Arabic — Interactive</div>
         <div class="arabic-app-hero-sub">Six levels, from your first letter to full sentence parsing (iʿrāb) — flashcards, matching, listening, and reading, built from real Arabic-language course books.</div>
+        <div class="arabic-app-cta">LEARN <span class="arabic-app-cta-arrow">→</span></div>
       </div>
-      <button class="arabic-app-toggle" id="arabic-app-toggle">
-        <span>LEARN</span>
-        <span class="arabic-app-toggle-arrow">›</span>
-      </button>
-      <div class="arabic-app-panel-wrap" id="arabic-app-panel-wrap">
-        <div class="arabic-app-panel" id="arabic-app-panel"></div>
-      </div>
-    </div>
+    </a>
   ` : '';
 
   const gated = isGated();
@@ -271,7 +322,6 @@ function renderLibrary(filter) {
 
   initNamesSection();
   initHuroofSection();
-  if (window.initArabicApp) window.initArabicApp();
 }
 
 // ─── Names of Allah (top-of-home interactive section) ───
