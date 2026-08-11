@@ -227,6 +227,22 @@ function renderLibrary(filter) {
     </div>
   ` : '';
 
+  const arabicAppHtml = (window.XENOS_ARABIC_LEVELS && window.XENOS_ARABIC_LEVELS.length) ? `
+    <div class="arabic-app-section">
+      <div class="arabic-app-hero">
+        <div class="arabic-app-hero-title">📚 Learn Arabic — Interactive</div>
+        <div class="arabic-app-hero-sub">Six levels, from your first letter to full sentence parsing (iʿrāb) — flashcards, matching, listening, and reading, built from real Arabic-language course books.</div>
+      </div>
+      <button class="arabic-app-toggle" id="arabic-app-toggle">
+        <span>LEARN</span>
+        <span class="arabic-app-toggle-arrow">›</span>
+      </button>
+      <div class="arabic-app-panel-wrap" id="arabic-app-panel-wrap">
+        <div class="arabic-app-panel" id="arabic-app-panel"></div>
+      </div>
+    </div>
+  ` : '';
+
   const gated = isGated();
   const booksAreaHtml = gated
     ? renderAccessGate()
@@ -240,6 +256,7 @@ function renderLibrary(filter) {
     </div>
     ${namesHtml}
     ${huroofHtml}
+    ${arabicAppHtml}
     ${booksAreaHtml}
   `;
 
@@ -254,6 +271,7 @@ function renderLibrary(filter) {
 
   initNamesSection();
   initHuroofSection();
+  if (window.initArabicApp) window.initArabicApp();
 }
 
 // ─── Names of Allah (top-of-home interactive section) ───
