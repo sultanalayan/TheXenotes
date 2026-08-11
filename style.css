@@ -845,6 +845,7 @@ body.view-library .sidebar { display: none; }
   cursor: pointer; font-size: 15px; flex-shrink: 0; transition: all 0.2s var(--ease);
 }
 .aa-speak-btn:hover { border-color: var(--gold); transform: scale(1.08); }
+.aa-speak-btn-nosound { border-color: var(--burgundy); background: color-mix(in srgb, var(--burgundy) 12%, var(--card)); }
 .aa-flash-name { font-family: var(--font-serif); font-style: italic; font-size: 13px; color: var(--muted); margin: 4px 0 16px; }
 .aa-flash-words { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 .aa-flash-word {

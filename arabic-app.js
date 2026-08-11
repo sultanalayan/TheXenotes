@@ -10,15 +10,41 @@
  * visitor's browser/OS, not real human recordings.
  */
 (function () {
-  function speak(text) {
+  // Chrome/Edge/Safari all load the voice list asynchronously — calling
+  // getVoices() right on page load very often returns an empty array, so
+  // we cache it and refresh on the voiceschanged event that fires once
+  // it's actually populated. Without this, speak() would frequently pick
+  // no voice at all and produce nothing, with no error to catch.
+  let cachedVoices = [];
+  function refreshVoices() { cachedVoices = window.speechSynthesis ? window.speechSynthesis.getVoices() : []; }
+  if (window.speechSynthesis) {
+    refreshVoices();
+    window.speechSynthesis.onvoiceschanged = refreshVoices;
+  }
+  function findArabicVoice() { return cachedVoices.find(v => /^ar/i.test(v.lang)) || null; }
+  function hasArabicVoice() { return !!findArabicVoice(); }
+
+  function speak(text, btn) {
     try {
-      if (!window.speechSynthesis) return;
+      if (!window.speechSynthesis) { flashNoVoice(btn); return; }
+      if (!cachedVoices.length) refreshVoices();
+      const voice = findArabicVoice();
+      if (!voice) { flashNoVoice(btn); return; }
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'ar-SA';
-      u.rate = 0.85;
+      u.voice = voice;
+      u.lang = voice.lang;
+      u.rate = 0.8;
       window.speechSynthesis.speak(u);
-    } catch (e) {}
+    } catch (e) { flashNoVoice(btn); }
+  }
+  function flashNoVoice(btn) {
+    if (!btn) return;
+    const original = btn.innerHTML;
+    btn.classList.add('aa-speak-btn-nosound');
+    btn.title = 'No Arabic voice found on this device/browser. Try Microsoft Edge, or add an Arabic language/voice pack in your system\'s language settings.';
+    btn.textContent = '🔇';
+    setTimeout(() => { btn.innerHTML = original; }, 1600);
   }
 
   function loadProgress() {
@@ -62,7 +88,7 @@
           </div>
         </div>
       `;
-      host.querySelector('.aa-speak-btn').addEventListener('click', () => speak(c.ar));
+      { const b = host.querySelector('.aa-speak-btn'); b.addEventListener('click', () => speak(c.ar, b)); }
       const prevBtn = host.querySelector('.aa-flash-prev');
       if (prevBtn) prevBtn.addEventListener('click', () => { i--; draw(); });
       host.querySelector('.aa-flash-next').addEventListener('click', () => {
@@ -149,7 +175,7 @@
         </div>
       `;
       const speakBtn = host.querySelector('.aa-speak-btn');
-      if (speakBtn) { speakBtn.addEventListener('click', () => speak(q.audioText)); speak(q.audioText); }
+      if (speakBtn) { speakBtn.addEventListener('click', () => speak(q.audioText, speakBtn)); speak(q.audioText, speakBtn); }
       let answered = false;
       host.querySelectorAll('.aa-mcq-choice').forEach(btn => {
         btn.addEventListener('click', () => {
