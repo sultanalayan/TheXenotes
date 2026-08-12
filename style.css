@@ -475,6 +475,23 @@ body.view-library .sidebar { display: none; }
 .xn-diagram-wrap { margin-top: 18px; }
 .xn-diagram-title { font-family: var(--font-heading); font-weight: 700; font-size: 19px; letter-spacing: 0.01em; color: var(--burgundy); margin-bottom: 10px; }
 
+/* bilingual quote card (Top-Quotes sections) */
+.xn-quote-lede { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; font-size: 13.5px; line-height: 1.7; color: var(--muted); }
+.xn-quote-lede b, .xn-quote-lede strong { color: var(--burgundy); }
+.xn-quote-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; }
+.xn-quote-card:last-child { margin-bottom: 0; }
+.xn-quote-num { display: inline-block; font-family: var(--font-serif); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.xn-quote-ar { direction: rtl; text-align: right; font-family: var(--font-arabic-clear); font-size: 19px; line-height: 2; color: var(--ink); margin-bottom: 10px; }
+.xn-quote-en { font-style: italic; font-size: 14px; line-height: 1.7; color: var(--ink); }
+.xn-quote-en b, .xn-quote-en strong { color: var(--burgundy); font-style: normal; }
+.xn-quote-cite { margin-top: 8px; font-size: 11.5px; color: var(--muted); font-family: var(--font-serif); }
+.xn-quote-table-wrap { overflow-x: auto; margin: 6px 0 4px; }
+.xn-quote-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+.xn-quote-table th, .xn-quote-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.xn-quote-table th { background: var(--card2); color: var(--burgundy); font-family: var(--font-serif); font-weight: 700; }
+.xn-quote-table td[dir='rtl'] { text-align: right; font-family: var(--font-arabic-clear); font-size: 14.5px; }
+@media (max-width: 720px) { .xn-quote-ar { font-size: 17px; } }
+
 /* accordion */
 .xn-accordion { display: flex; flex-direction: column; gap: 8px; }
 .xn-acc-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
