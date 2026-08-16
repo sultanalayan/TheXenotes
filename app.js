@@ -59,6 +59,22 @@ function showBestBadge(badgeEl, bookSlug, sectionId) {
   });
 })();
 
+// ─── Mascot buttons — M (left) & A (right), bob on the library home page,
+// both are just two cute doors into the same game. Wired on DOMContentLoaded
+// (not immediately) since data/mascot-sprites.js loads after this file. ───
+function initMascotButtons() {
+  const btnM = document.getElementById('mascot-btn-m');
+  const btnA = document.getElementById('mascot-btn-a');
+  if (!btnM || !btnA || !window.XENOS_MASCOTS) return;
+  const svgM = window.XENOS_MASCOTS.toSVG('M', 1);
+  const svgA = window.XENOS_MASCOTS.toSVG('A', 1);
+  btnM.insertAdjacentHTML('afterbegin', svgM);
+  btnA.insertAdjacentHTML('afterbegin', svgA);
+  btnM.addEventListener('click', () => { location.hash = '#/play/m'; });
+  btnA.addEventListener('click', () => { location.hash = '#/play/a'; });
+}
+window.addEventListener('DOMContentLoaded', initMascotButtons);
+
 // ─── Routing ───
 function parseHash() {
   const raw = location.hash.replace(/^#\/?/, '');
@@ -70,6 +86,9 @@ function parseHash() {
   if (parts[0] === 'arabic') {
     return { view: 'arabic', levelId: parts[1] ? parseInt(parts[1], 10) : null };
   }
+  if (parts[0] === 'play') {
+    return { view: 'play', who: parts[1] === 'a' ? 'a' : (parts[1] === 'm' ? 'm' : null) };
+  }
   return { view: 'library' };
 }
 
@@ -80,10 +99,13 @@ function isGated() {
 
 function route() {
   const r = parseHash();
+  if (window.XenosGame && r.view !== 'play') window.XenosGame.stop();
   if (r.view === 'book' && XenosBooks.get(r.slug) && !isGated()) {
     renderBook(r.slug, r.section);
   } else if (r.view === 'arabic') {
     renderArabicApp(r.levelId);
+  } else if (r.view === 'play') {
+    renderPlayPage(r.who);
   } else {
     renderLibrary();
   }
@@ -98,7 +120,7 @@ function renderArabicApp(levelId) {
   const levels = window.XENOS_ARABIC_LEVELS || [];
   if (!levels.length || !window.XenosArabicApp) { renderLibrary(); return; }
   document.body.classList.add('view-book');
-  document.body.classList.remove('view-library');
+  document.body.classList.remove('view-library', 'view-play');
 
   document.getElementById('header-title').textContent = 'Learn Arabic — Interactive';
   document.getElementById('header-sub').textContent = 'Six levels, from your first letter to full sentence parsing (iʿrāb).';
@@ -140,6 +162,101 @@ function renderArabicApp(levelId) {
     window.XenosArabicApp.renderLevel(host, levelId, () => { location.hash = '#/arabic'; });
   } else {
     window.XenosArabicApp.renderGrid(host, (id) => { location.hash = `#/arabic/${id}`; });
+  }
+}
+
+// ─── The Game — M & A's little jump-and-catch. Same one game behind both
+// mascots ("two cute doors"); `who` only changes the welcome line and which
+// sprite you play as. Not gated — it's a fun extra, not study content. ───
+const XENOS_GAME_HIGHSCORE_KEY = 'xenos-game-highscore';
+function getGameHighScore() {
+  try { return parseInt(localStorage.getItem(XENOS_GAME_HIGHSCORE_KEY), 10) || 0; } catch (e) { return 0; }
+}
+
+const MASCOT_LINES = {
+  m: "Assalamu alaikum! I'm M — tap or press Space to jump. Clear the obstacles and catch the stars with me!",
+  a: "Hey, I'm A! Bet you can't beat my high score. Tap or press Space to jump — let's see what you've got!",
+};
+
+function renderPlayPage(whoParam) {
+  const who = whoParam === 'a' ? 'a' : 'm';
+  document.body.classList.add('view-play');
+  document.body.classList.remove('view-library', 'view-book');
+
+  document.getElementById('header-title').textContent = "M & A's Little Game";
+  document.getElementById('header-sub').textContent = 'A tiny arcade break — jump the obstacles, catch the stars.';
+  document.getElementById('header-arabic-bg').textContent = 'العب';
+  document.getElementById('header-tags').innerHTML = ['Jump', 'Catch', 'High Score'].map(t => `<span class="header-tag">${t}</span>`).join('');
+  document.getElementById('sidebar-wrap').innerHTML = '';
+
+  const mascotSvg = window.XENOS_MASCOTS ? window.XENOS_MASCOTS.toSVG(who === 'a' ? 'A' : 'M', 1) : '';
+  const best = getGameHighScore();
+
+  const content = document.getElementById('content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+  content.innerHTML = `
+    <div class="play-page">
+      <a href="#/" class="back-to-library play-back-link">← All Notes</a>
+
+      <div class="play-intro" id="play-intro">
+        <div class="play-mascot-big">${mascotSvg}</div>
+        <div class="play-speech" id="play-speech">${MASCOT_LINES[who]}</div>
+        <div class="play-door-switch" role="group" aria-label="Choose your mascot">
+          <button class="play-door-btn ${who === 'm' ? 'active' : ''}" data-who="m" type="button">M</button>
+          <button class="play-door-btn ${who === 'a' ? 'active' : ''}" data-who="a" type="button">A</button>
+        </div>
+        <div class="play-highscore">🏆 Best score: <span id="play-highscore-val">${best}</span></div>
+        <button class="play-start-btn" id="play-start-btn" type="button">▶ Start Game</button>
+        <div class="play-controls-hint">Tap the screen, click, or press <b>Space</b> to jump — clear the obstacles, catch the stars for bonus points!</div>
+      </div>
+
+      <div class="play-canvas-wrap" id="play-canvas-wrap" style="display:none;">
+        <div class="play-hud">
+          <span id="play-hud-score">Score: 0</span>
+          <span id="play-hud-best">Best: ${best}</span>
+        </div>
+        <canvas id="xenos-game-canvas" class="xenos-game-canvas"></canvas>
+        <button class="play-jump-btn" id="play-jump-btn" type="button">JUMP</button>
+      </div>
+
+      <div class="play-gameover" id="play-gameover" style="display:none;">
+        <div class="play-gameover-title">Game Over</div>
+        <div class="play-gameover-score" id="play-gameover-score"></div>
+        <button class="play-btn-primary" id="play-again-btn" type="button">↻ Play Again</button>
+        <a href="#/" class="play-btn-secondary">← Back to Library</a>
+      </div>
+    </div>
+  `;
+  content.classList.add('fade-in');
+
+  const introEl = document.getElementById('play-intro');
+  const canvasWrapEl = document.getElementById('play-canvas-wrap');
+  const gameOverEl = document.getElementById('play-gameover');
+  const canvas = document.getElementById('xenos-game-canvas');
+
+  document.querySelectorAll('.play-door-btn').forEach(btn => {
+    btn.addEventListener('click', () => { location.hash = `#/play/${btn.dataset.who}`; });
+  });
+
+  document.getElementById('play-start-btn').addEventListener('click', () => {
+    introEl.style.display = 'none';
+    gameOverEl.style.display = 'none';
+    canvasWrapEl.style.display = '';
+    if (window.XenosGame) window.XenosGame.start(canvas, who, onGameOver);
+  });
+
+  document.getElementById('play-again-btn').addEventListener('click', () => {
+    gameOverEl.style.display = 'none';
+    canvasWrapEl.style.display = '';
+    if (window.XenosGame) window.XenosGame.start(canvas, who, onGameOver);
+  });
+
+  function onGameOver(finalScore, highScore, isNewHigh) {
+    canvasWrapEl.style.display = 'none';
+    gameOverEl.style.display = '';
+    document.getElementById('play-gameover-score').innerHTML =
+      `Score: <b>${finalScore}</b>` + (isNewHigh ? ' — <span class="play-newhigh">✨ New high score!</span>' : ` · Best: <b>${highScore}</b>`);
   }
 }
 
@@ -204,7 +321,7 @@ function wireAccessGate() {
 // ─── Library home ───
 function renderLibrary(filter) {
   document.body.classList.add('view-library');
-  document.body.classList.remove('view-book');
+  document.body.classList.remove('view-book', 'view-play');
   document.getElementById('sidebar-wrap').innerHTML = '';
 
   const books = XenosBooks.all();
@@ -294,6 +411,22 @@ function renderLibrary(filter) {
     </a>
   ` : '';
 
+  const mascotInviteHtml = window.XENOS_MASCOTS ? `
+    <a href="#/play" class="mascot-invite-section">
+      <div class="mascot-invite-hero">
+        <div class="mascot-invite-faces">
+          <div class="mascot-invite-face">${window.XENOS_MASCOTS.toSVG('M', 1)}</div>
+          <div class="mascot-invite-face">${window.XENOS_MASCOTS.toSVG('A', 1)}</div>
+        </div>
+        <div class="mascot-invite-body">
+          <div class="mascot-invite-title">Take a break with M &amp; A 🎮</div>
+          <div class="mascot-invite-sub">A tiny arcade game — jump the obstacles, catch the stars, beat your high score.</div>
+        </div>
+        <div class="mascot-invite-cta">PLAY →</div>
+      </div>
+    </a>
+  ` : '';
+
   const gated = isGated();
   const booksAreaHtml = gated
     ? renderAccessGate()
@@ -308,6 +441,7 @@ function renderLibrary(filter) {
     ${namesHtml}
     ${huroofHtml}
     ${arabicAppHtml}
+    ${mascotInviteHtml}
     ${booksAreaHtml}
   `;
 
@@ -549,7 +683,7 @@ function renderBook(slug, sectionId) {
   const book = XenosBooks.get(slug);
   if (!book) { renderLibrary(); return; }
   document.body.classList.add('view-book');
-  document.body.classList.remove('view-library');
+  document.body.classList.remove('view-library', 'view-play');
 
   const sections = book.sections;
   const activeId = sectionId && sections.find(s => s.id === sectionId) ? sectionId : sections[0].id;
