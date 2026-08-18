@@ -11,6 +11,8 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="alternate icon" href="favicon.svg" />
   <link rel="apple-touch-icon" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#A03B54" />
   <meta name="description" content="Xenos study notes on Islamic books and topics — Aqeedah, Ilm al-Ḥadīth, and more, with detailed quizzes for every section." />
   <link rel="canonical" href="https://thexenotes.com/" />
   <meta name="robots" content="index, follow" />
@@ -227,6 +229,15 @@
 <script src="books/mantiq-bayan.js"></script>
 <!-- 7. Iʿjāz -->
 <script src="books/ijaz-ilmi.js"></script>
+
+<!-- ═══════════════ PWA (offline support) ═══════════════ -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
 
 </body>
 </html>

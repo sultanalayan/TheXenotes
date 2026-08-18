@@ -1,0 +1,20 @@
+{
+  "name": "The XeNotes — Xenos Study Notes",
+  "short_name": "Xenos Notes",
+  "description": "Islamic study notes on Aqeedah, Ilm al-Ḥadīth, Fiqh, and more — with quizzes and an interactive Arabic-learning app.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF5EA",
+  "theme_color": "#A03B54",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
