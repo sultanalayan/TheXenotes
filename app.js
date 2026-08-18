@@ -318,6 +318,94 @@ function wireAccessGate() {
   });
 }
 
+// ─── Content search — searches *inside* every book's sections (bullets,
+// Q&A, intro text), not just book titles/tags like the plain card filter
+// above. Built once and cached; each book registers once at load time so
+// the index never goes stale within a page session. ───
+let _contentSearchIndex = null;
+function _stripHtml(html) {
+  return (html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function buildContentSearchIndex() {
+  if (_contentSearchIndex) return _contentSearchIndex;
+  const index = [];
+  XenosBooks.all().forEach(book => {
+    (book.sections || []).forEach(section => {
+      if (section.intro) {
+        const text = _stripHtml(section.intro);
+        if (text) index.push({ book, section, kind: 'intro', label: section.label, text });
+      }
+      (section.bullets || []).forEach(b => {
+        const text = _stripHtml(`${b.label || ''}. ${b.text || ''}`);
+        if (text) index.push({ book, section, kind: 'bullet', label: b.label || section.label, text });
+      });
+      (section.qanda || []).forEach(qa => {
+        const text = _stripHtml(`${qa.q || ''} ${qa.a || ''}`);
+        if (text) index.push({ book, section, kind: 'qanda', label: qa.q, text });
+      });
+    });
+  });
+  _contentSearchIndex = index;
+  return index;
+}
+function searchContent(query) {
+  const q = query.trim().toLowerCase();
+  if (q.length < 3) return [];
+  const index = buildContentSearchIndex();
+  const seenSections = new Set();
+  const results = [];
+  for (const entry of index) {
+    const hay = entry.text.toLowerCase();
+    const idx = hay.indexOf(q);
+    if (idx === -1) continue;
+    const dedupeKey = entry.book.slug + '::' + entry.section.id;
+    if (seenSections.has(dedupeKey)) continue; // one hit per section is enough to link to it
+    seenSections.add(dedupeKey);
+    const start = Math.max(0, idx - 60);
+    const end = Math.min(entry.text.length, idx + q.length + 60);
+    let snippet = entry.text.slice(start, end);
+    if (start > 0) snippet = '…' + snippet;
+    if (end < entry.text.length) snippet = snippet + '…';
+    results.push({ ...entry, snippet, matchIndex: idx - start + (start > 0 ? 1 : 0) });
+    if (results.length >= 30) break;
+  }
+  return results;
+}
+function escapeHtml(s) {
+  return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function highlightSnippet(snippet, query, matchIndex) {
+  const escaped = escapeHtml(snippet);
+  // matchIndex was computed on the raw (unescaped) snippet; escaping only
+  // ever grows length via multi-char entities, so re-find the query in the
+  // escaped text directly rather than trusting the offset across that shift.
+  const q = escapeHtml(query.trim());
+  const lower = escaped.toLowerCase();
+  const i = lower.indexOf(q.toLowerCase());
+  if (i === -1) return escaped;
+  return escaped.slice(0, i) + '<mark>' + escaped.slice(i, i + q.length) + '</mark>' + escaped.slice(i + q.length);
+}
+
+// ─── Daily quote widget — same quote for everyone on a given calendar day,
+// picked deterministically from the day-of-year so it needs no server and
+// no stored state. Only shown on the plain (unfiltered, ungated) home view.
+function renderDailyQuote() {
+  const quotes = window.XENOS_DAILY_QUOTES;
+  if (!quotes || !quotes.length) return '';
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - startOfYear) / 86400000);
+  const q = quotes[dayOfYear % quotes.length];
+  return `
+    <div class="daily-quote-card">
+      <div class="daily-quote-label">Today's Reminder</div>
+      <div class="daily-quote-ar">${q.ar}</div>
+      <div class="daily-quote-en">"${q.en}"</div>
+      <div class="daily-quote-source">${q.source}</div>
+    </div>
+  `;
+}
+
 // ─── Library home ───
 function renderLibrary(filter) {
   document.body.classList.add('view-library');
@@ -428,16 +516,34 @@ function renderLibrary(filter) {
   ` : '';
 
   const gated = isGated();
+  const contentResults = (!gated && q) ? searchContent(q) : [];
+  const contentResultsHtml = contentResults.length ? `
+    <div class="content-search-results">
+      <div class="content-search-label">Found inside ${contentResults.length === 30 ? '30+' : contentResults.length} note${contentResults.length === 1 ? '' : 's'}</div>
+      <div class="content-search-list">
+        ${contentResults.map(r => `
+          <a class="content-result-card" href="#/book/${r.book.slug}/${r.section.id}">
+            <div class="content-result-icon">${r.book.icon}</div>
+            <div class="content-result-body">
+              <div class="content-result-path">${r.book.title} <span class="content-result-sep">›</span> ${r.section.label}</div>
+              <div class="content-result-snippet">${highlightSnippet(r.snippet, q, r.matchIndex)}</div>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  ` : '';
   const booksAreaHtml = gated
     ? renderAccessGate()
-    : `${groupsHtml || `<div class="empty-state">No notes match "${q}" yet.</div>`}${duaHtml}`;
+    : `${groupsHtml || (contentResults.length ? '' : `<div class="empty-state">No notes match "${q}" yet.</div>`)}${contentResultsHtml}${duaHtml}`;
 
   document.getElementById('content').innerHTML = `
     <div class="library-hdr">
       <h1 class="library-title">Xenos Notes</h1>
       <p class="library-sub">Study notes on Islamic books &amp; topics — pick one to explore.</p>
-      ${gated ? '' : `<input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />`}
+      ${gated ? '' : `<input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags, or anything inside a book…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />`}
     </div>
+    ${(!filter && !gated) ? renderDailyQuote() : ''}
     ${namesHtml}
     ${huroofHtml}
     ${arabicAppHtml}
