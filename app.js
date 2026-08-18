@@ -817,11 +817,31 @@ function renderBook(slug, sectionId) {
     <div class="sidebar-footer">
       <div class="sidebar-footer-name">${book.title}</div>
       <div class="sidebar-footer-desc">${book.footer || ''}</div>
+      <button class="share-book-btn" id="share-book-btn" type="button">🔗 Copy shareable link</button>
     </div>
   `;
   document.querySelectorAll('#nav-items .nav-btn').forEach(btn => {
     btn.addEventListener('click', () => { location.hash = `#/book/${slug}/${btn.dataset.goto}`; });
   });
+
+  const shareBtn = document.getElementById('share-book-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      // Points at the static /book/<slug>.html share page (not the #/book/
+      // hash route) — that page carries real per-book Open Graph meta tags
+      // so links shared to Discord/WhatsApp show this book's own preview
+      // card instead of the site's generic one, then redirects the visitor
+      // straight into the normal app.
+      const shareUrl = `${location.origin}/book/${slug}.html`;
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        shareBtn.textContent = '✓ Link copied!';
+      } catch (e) {
+        shareBtn.textContent = shareUrl;
+      }
+      setTimeout(() => { shareBtn.textContent = '🔗 Copy shareable link'; }, 2200);
+    });
+  }
 
   renderBookSection(book, activeId);
 }
