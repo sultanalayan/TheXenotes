@@ -818,6 +818,7 @@ function renderBook(slug, sectionId) {
       <div class="sidebar-footer-name">${book.title}</div>
       <div class="sidebar-footer-desc">${book.footer || ''}</div>
       <button class="share-book-btn" id="share-book-btn" type="button">🔗 Copy shareable link</button>
+      <button class="share-book-btn" id="print-book-btn" type="button">🖨️ Print / Save as PDF</button>
     </div>
   `;
   document.querySelectorAll('#nav-items .nav-btn').forEach(btn => {
@@ -843,7 +844,85 @@ function renderBook(slug, sectionId) {
     });
   }
 
+  const printBtn = document.getElementById('print-book-btn');
+  if (printBtn) printBtn.addEventListener('click', () => printBook(book));
+
   renderBookSection(book, activeId);
+}
+
+// ─── Print / export-to-PDF — the SPA only ever has the *current* section
+// in the DOM, so this builds a separate full-book document (every section,
+// concatenated) into a print-only container, prints it via the browser's
+// native print dialog (which is also how a visitor saves it as a PDF —
+// no server-side PDF generation needed for a static site), then tears the
+// container back down afterward. ───
+function printBook(book) {
+  const parts = book.sections.map(sec => {
+    const bulletsHtml = (sec.bullets && sec.bullets.length) ? `
+      <div class="bullets-grid">
+        ${sec.bullets.map(b => `
+          <div class="bullet-card" style="border-top-color:${sec.color}">
+            <div class="bullet-label" style="color:${sec.color}">${b.label}</div>
+            <div class="bullet-text">${b.text}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    const qaHtml = (sec.qanda && sec.qanda.length) ? `
+      <div class="qa-label">Study Questions &amp; Answers</div>
+      ${sec.qanda.map(qa => `
+        <div class="print-qa-item">
+          <div class="print-qa-q">${qa.q}</div>
+          <div class="qa-answer">${qa.a}</div>
+        </div>
+      `).join('')}
+    ` : '';
+
+    // Quizzes render as a plain answer key in print — the interactive
+    // click-to-reveal buttons don't mean anything on paper.
+    const quizHtml = (sec.quiz && sec.quiz.length) ? `
+      <div class="quiz-label">Quiz — Answer Key</div>
+      ${sec.quiz.map((qz, qi) => `
+        <div class="print-quiz-item">
+          <div class="print-qa-q">${qi + 1}. ${qz.q}</div>
+          <div class="qa-answer">Answer: ${qz.choices[qz.correct]}${qz.explain ? ' — ' + qz.explain : ''}</div>
+        </div>
+      `).join('')}
+    ` : '';
+
+    return `
+      <div class="print-section">
+        <div class="section-title">${sec.label}</div>
+        <div class="section-subtitle">${sec.subtitle}</div>
+        <div class="intro-card" style="border-left-color:${sec.color}">${sec.intro}</div>
+        ${bulletsHtml}
+        ${qaHtml}
+        ${quizHtml}
+      </div>
+    `;
+  }).join('');
+
+  const container = document.createElement('div');
+  container.id = 'print-book-content';
+  container.innerHTML = `
+    <div class="print-book-title">${book.title}</div>
+    <div class="print-book-subtitle">${book.subtitle}</div>
+    <div class="print-book-footer-note">${book.footer || ''}</div>
+    ${parts}
+    <div class="print-book-colophon">Printed from thexenotes.com — ${book.title}</div>
+  `;
+  document.body.appendChild(container);
+  document.body.classList.add('printing-book');
+
+  const cleanup = () => {
+    document.body.classList.remove('printing-book');
+    container.remove();
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup);
+
+  window.print();
 }
 
 function renderBookSection(book, id) {

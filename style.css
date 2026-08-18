@@ -386,6 +386,7 @@ body.view-library .sidebar { display: none; }
   transition: all 0.2s var(--ease);
 }
 .share-book-btn:hover { border-color: var(--gold); color: var(--ink); }
+.share-book-btn + .share-book-btn { margin-top: 6px; }
 
 /* ── MAIN ── */
 .main { flex: 1; padding: 26px 28px 56px; overflow-y: auto; min-width: 0; }
@@ -1445,4 +1446,42 @@ body.view-library .mobile-controls { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ── PRINT / EXPORT-TO-PDF ──
+   #print-book-content is only ever in the DOM while body.printing-book is
+   set (see printBook() in app.js) — everything else on the page is hidden
+   for the duration so the print/PDF output is just the book. */
+#print-book-content { display: none; }
+body.printing-book > *:not(#print-book-content) { display: none !important; }
+body.printing-book #print-book-content {
+  display: block; max-width: 100%; padding: 24px; font-family: var(--font-serif); color: #1a1410;
+}
+.print-book-title { font-family: var(--font-heading); font-size: 30px; font-weight: 700; margin-bottom: 4px; }
+.print-book-subtitle { font-size: 15px; font-style: italic; color: #555; margin-bottom: 6px; }
+.print-book-footer-note { font-size: 11px; color: #777; margin-bottom: 26px; padding-bottom: 14px; border-bottom: 2px solid #1a1410; }
+.print-section { margin-bottom: 30px; page-break-inside: avoid; }
+.print-section .section-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 2px; }
+.print-section .section-subtitle { font-size: 12px; font-style: italic; color: #555; margin-bottom: 10px; }
+.print-section .intro-card { border-left: 3px solid #999; padding: 4px 0 4px 14px; margin-bottom: 12px; font-size: 12.5px; line-height: 1.6; }
+.print-section .bullets-grid { display: block; }
+.print-section .bullet-card { border: none; border-top: 2px solid; padding: 6px 0 6px 10px; margin-bottom: 8px; page-break-inside: avoid; }
+.print-section .bullet-label { font-weight: 700; font-size: 12px; margin-bottom: 2px; }
+.print-section .bullet-text { font-size: 12px; line-height: 1.55; }
+.print-qa-item, .print-quiz-item { margin-bottom: 10px; page-break-inside: avoid; }
+.print-qa-q { font-weight: 700; font-size: 12.5px; margin-bottom: 2px; }
+.print-section .qa-answer { font-size: 12px; line-height: 1.5; color: #333; }
+.print-section .qa-label, .print-section .quiz-label { font-weight: 700; font-size: 12.5px; margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.print-book-colophon { margin-top: 30px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 10px; color: #999; text-align: center; }
+
+@media print {
+  @page { margin: 18mm 16mm; }
+  body.printing-book { background: #fff !important; }
+  #print-book-content a { color: inherit; text-decoration: none; }
+  #print-book-content .intro-card b,
+  #print-book-content .intro-card strong,
+  #print-book-content .bullet-text b,
+  #print-book-content .bullet-text strong,
+  #print-book-content .qa-answer b,
+  #print-book-content .qa-answer strong { color: #000; }
 }
