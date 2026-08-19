@@ -119,6 +119,8 @@
 
   function firstName(name) { return (name || '').trim().split(/\s+/)[0] || 'Friend'; }
 
+  const streakBadgeEl = document.getElementById('auth-streak-badge');
+
   function renderSession(session) {
     const user = session && session.user;
     if (user) {
@@ -131,12 +133,23 @@
       signedOutEl.style.display = 'none';
       signedInEl.style.display = '';
       nameEl.textContent = `Signed in as ${name}`;
+      if (streakBadgeEl && window.XenosAuth) {
+        window.XenosAuth.getCurrentStreak().then(streak => {
+          if (streak > 0) {
+            streakBadgeEl.textContent = `🔥 ${streak}-day streak`;
+            streakBadgeEl.style.display = '';
+          } else {
+            streakBadgeEl.style.display = 'none';
+          }
+        });
+      }
     } else {
       labelEl.textContent = 'Sign in';
       avatarEl.textContent = '👤';
       widget.classList.remove('is-signed-in');
       signedOutEl.style.display = '';
       signedInEl.style.display = 'none';
+      if (streakBadgeEl) streakBadgeEl.style.display = 'none';
     }
   }
 
@@ -187,18 +200,33 @@
     evaluateAccess();
   });
 
-  // ─── Per-user quiz progress, called from app.js's quiz handler ───
+  // ─── Per-user quiz progress, reading progress, bookmarks, streaks, and
+  // the leaderboard — all called from app.js. ───
   window.XenosAuth = {
+    async getCurrentUser() {
+      const { data: { session } } = await sb.auth.getSession();
+      return session ? session.user : null;
+    },
     async saveQuizResult(bookSlug, sectionId, correct, total) {
       const { data: { session } } = await sb.auth.getSession();
       if (!session) return;
-      await sb.from('quiz_progress').upsert({
-        user_id: session.user.id,
-        book_slug: bookSlug,
-        section_id: sectionId,
-        correct, total,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,book_slug,section_id' });
+      const meta = session.user.user_metadata || {};
+      const displayName = meta.full_name || meta.name || meta.user_name || (session.user.email || '').split('@')[0] || 'Anonymous';
+      const avatarUrl = meta.avatar_url || meta.picture || null;
+      const base = {
+        user_id: session.user.id, book_slug: bookSlug, section_id: sectionId,
+        correct, total, updated_at: new Date().toISOString(),
+      };
+      // display_name/avatar_url are an optional second migration (needed
+      // only for the leaderboard to show real names) — if those columns
+      // don't exist yet, retry without them so quiz-saving itself never
+      // breaks on account of a leaderboard feature the site owner hasn't
+      // finished setting up.
+      const { error } = await sb.from('quiz_progress')
+        .upsert({ ...base, display_name: displayName, avatar_url: avatarUrl }, { onConflict: 'user_id,book_slug,section_id' });
+      if (error) {
+        await sb.from('quiz_progress').upsert(base, { onConflict: 'user_id,book_slug,section_id' });
+      }
     },
     async getQuizResult(bookSlug, sectionId) {
       const { data: { session } } = await sb.auth.getSession();
@@ -210,6 +238,112 @@
         .eq('section_id', sectionId)
         .maybeSingle();
       return data || null;
+    },
+
+    // ─── Reading progress ───
+    async markSectionRead(bookSlug, sectionId) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return;
+      await sb.from('reading_progress').upsert({
+        user_id: session.user.id, book_slug: bookSlug, section_id: sectionId,
+        read_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,book_slug,section_id' });
+    },
+    async getReadSections(bookSlug) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return [];
+      const { data } = await sb.from('reading_progress').select('section_id').eq('user_id', session.user.id).eq('book_slug', bookSlug);
+      return (data || []).map(r => r.section_id);
+    },
+    async getAllReadingProgress() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return [];
+      const { data } = await sb.from('reading_progress').select('book_slug,section_id,read_at').eq('user_id', session.user.id);
+      return data || [];
+    },
+
+    // ─── Bookmarks (section-level for now — bullet_index is reserved for
+    // a future finer-grained "bookmark this exact point" feature) ───
+    async addBookmark(bookSlug, sectionId, note) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return null;
+      const { data, error } = await sb.from('bookmarks')
+        .insert({ user_id: session.user.id, book_slug: bookSlug, section_id: sectionId, note: note || null })
+        .select().single();
+      return error ? null : data;
+    },
+    async removeBookmark(id) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return;
+      await sb.from('bookmarks').delete().eq('id', id).eq('user_id', session.user.id);
+    },
+    async getBookmarks() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return [];
+      const { data } = await sb.from('bookmarks').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+      return data || [];
+    },
+    async findBookmark(bookSlug, sectionId) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return null;
+      const { data } = await sb.from('bookmarks').select('id')
+        .eq('user_id', session.user.id).eq('book_slug', bookSlug).eq('section_id', sectionId)
+        .is('bullet_index', null).maybeSingle();
+      return data ? data.id : null;
+    },
+
+    // ─── Streak — consecutive calendar days with any quiz or reading
+    // activity, ending today (or yesterday, if nothing logged yet today).
+    // Dates are compared as UTC calendar days (the timestamp's own date),
+    // not the visitor's local timezone — close enough for a streak counter,
+    // and avoids needing a timezone round-trip per check. ───
+    async getCurrentStreak() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return 0;
+      const [quizRes, readRes] = await Promise.all([
+        sb.from('quiz_progress').select('updated_at').eq('user_id', session.user.id),
+        sb.from('reading_progress').select('read_at').eq('user_id', session.user.id),
+      ]);
+      const days = new Set();
+      (quizRes.data || []).forEach(r => days.add(r.updated_at.slice(0, 10)));
+      (readRes.data || []).forEach(r => days.add(r.read_at.slice(0, 10)));
+      if (!days.size) return 0;
+      const fmt = (d) => d.toISOString().slice(0, 10);
+      let cursor = new Date();
+      if (!days.has(fmt(cursor))) cursor = new Date(cursor.getTime() - 86400000);
+      let streak = 0;
+      while (days.has(fmt(cursor))) {
+        streak++;
+        cursor = new Date(cursor.getTime() - 86400000);
+      }
+      return streak;
+    },
+
+    // ─── Leaderboard — aggregated client-side from every visible
+    // quiz_progress row (SELECT is open to any signed-in user for exactly
+    // this reason; see the migration). Requires the display_name/avatar_url
+    // columns from the second migration — returns {error} instead of throwing
+    // if they're missing, so callers can show a friendly "not set up yet"
+    // state instead of a broken page. ───
+    async getLeaderboard(limit) {
+      const { data, error } = await sb.from('quiz_progress')
+        .select('user_id,display_name,avatar_url,correct,total');
+      if (error) return { error: error.message, rows: [] };
+      const byUser = {};
+      (data || []).forEach(r => {
+        if (!byUser[r.user_id]) {
+          byUser[r.user_id] = {
+            user_id: r.user_id, display_name: r.display_name || 'Anonymous', avatar_url: r.avatar_url,
+            totalCorrect: 0, totalQuestions: 0, sectionsCompleted: 0,
+          };
+        }
+        const u = byUser[r.user_id];
+        u.totalCorrect += r.correct;
+        u.totalQuestions += r.total;
+        u.sectionsCompleted += 1;
+      });
+      const rows = Object.values(byUser).sort((a, b) => b.totalCorrect - a.totalCorrect);
+      return { error: null, rows: limit ? rows.slice(0, limit) : rows };
     },
   };
 })();

@@ -89,6 +89,12 @@ function parseHash() {
   if (parts[0] === 'play') {
     return { view: 'play', who: parts[1] === 'a' ? 'a' : (parts[1] === 'm' ? 'm' : null) };
   }
+  if (parts[0] === 'saved') {
+    return { view: 'saved' };
+  }
+  if (parts[0] === 'leaderboard') {
+    return { view: 'leaderboard' };
+  }
   return { view: 'library' };
 }
 
@@ -106,6 +112,10 @@ function route() {
     renderArabicApp(r.levelId);
   } else if (r.view === 'play') {
     renderPlayPage(r.who);
+  } else if (r.view === 'saved') {
+    renderSavedNotes();
+  } else if (r.view === 'leaderboard') {
+    renderLeaderboardPage();
   } else {
     renderLibrary();
   }
@@ -258,6 +268,149 @@ function renderPlayPage(whoParam) {
     document.getElementById('play-gameover-score').innerHTML =
       `Score: <b>${finalScore}</b>` + (isNewHigh ? ' — <span class="play-newhigh">✨ New high score!</span>' : ` · Best: <b>${highScore}</b>`);
   }
+}
+
+// ─── My Saved Notes — every bookmark a signed-in visitor has made, across
+// every book, linking straight back to the section it was saved from. ───
+async function renderSavedNotes() {
+  document.body.classList.add('view-play');
+  document.body.classList.remove('view-library', 'view-book');
+
+  document.getElementById('header-title').textContent = 'My Saved Notes';
+  document.getElementById('header-sub').textContent = 'Every section you\'ve bookmarked, in one place.';
+  document.getElementById('header-arabic-bg').textContent = 'المحفوظات';
+  document.getElementById('header-tags').innerHTML = '';
+  document.getElementById('sidebar-wrap').innerHTML = '';
+
+  const content = document.getElementById('content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+
+  const currentUser = window.XenosAuth && window.XenosAuth.getCurrentUser ? await window.XenosAuth.getCurrentUser() : null;
+
+  if (!currentUser || !window.XenosAuth) {
+    content.innerHTML = `
+      <div class="play-page">
+        <a href="#/" class="back-to-library play-back-link">← All Notes</a>
+        <div class="play-intro">
+          <div class="play-mascot-big" style="font-size:44px;">🔖</div>
+          <div class="play-speech">Sign in to bookmark sections and build your own saved-notes list.</div>
+        </div>
+      </div>
+    `;
+    content.classList.add('fade-in');
+    return;
+  }
+
+  content.innerHTML = `
+    <div class="play-page">
+      <a href="#/" class="back-to-library play-back-link">← All Notes</a>
+      <div class="saved-notes-list" id="saved-notes-list"><div class="empty-state">Loading…</div></div>
+    </div>
+  `;
+  content.classList.add('fade-in');
+
+  const bookmarks = await window.XenosAuth.getBookmarks();
+  const listEl = document.getElementById('saved-notes-list');
+  if (!listEl) return; // navigated away while loading
+
+  if (!bookmarks.length) {
+    listEl.innerHTML = `<div class="empty-state">No saved notes yet — open any section and tap 🔖 to save it here.</div>`;
+    return;
+  }
+
+  listEl.innerHTML = bookmarks.map(bm => {
+    const book = XenosBooks.get(bm.book_slug);
+    const sec = book && book.sections.find(s => s.id === bm.section_id);
+    if (!book || !sec) return ''; // book/section since removed or renamed
+    return `
+      <div class="saved-note-card" data-bookmark-id="${bm.id}">
+        <a class="saved-note-link" href="#/book/${book.slug}/${sec.id}">
+          <div class="saved-note-icon">${sec.icon}</div>
+          <div class="saved-note-body">
+            <div class="saved-note-path">${book.title} <span class="content-result-sep">›</span> ${sec.label}</div>
+            <div class="saved-note-date">Saved ${new Date(bm.created_at).toLocaleDateString()}</div>
+          </div>
+        </a>
+        <button class="saved-note-remove" title="Remove">✕</button>
+      </div>
+    `;
+  }).join('') || `<div class="empty-state">No saved notes yet — open any section and tap 🔖 to save it here.</div>`;
+
+  listEl.querySelectorAll('.saved-note-remove').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const card = btn.closest('.saved-note-card');
+      btn.disabled = true;
+      await window.XenosAuth.removeBookmark(card.dataset.bookmarkId);
+      card.remove();
+      if (!listEl.querySelector('.saved-note-card')) {
+        listEl.innerHTML = `<div class="empty-state">No saved notes yet — open any section and tap 🔖 to save it here.</div>`;
+      }
+    });
+  });
+}
+
+// ─── Leaderboard — aggregated from every visible quiz_progress row. ───
+async function renderLeaderboardPage() {
+  document.body.classList.add('view-play');
+  document.body.classList.remove('view-library', 'view-book');
+
+  document.getElementById('header-title').textContent = 'Leaderboard';
+  document.getElementById('header-sub').textContent = 'Top quiz scores across every book.';
+  document.getElementById('header-arabic-bg').textContent = 'المتصدرون';
+  document.getElementById('header-tags').innerHTML = '';
+  document.getElementById('sidebar-wrap').innerHTML = '';
+
+  const content = document.getElementById('content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+  content.innerHTML = `
+    <div class="play-page">
+      <a href="#/" class="back-to-library play-back-link">← All Notes</a>
+      <div class="leaderboard-list" id="leaderboard-list"><div class="empty-state">Loading…</div></div>
+    </div>
+  `;
+  content.classList.add('fade-in');
+
+  if (!window.XenosAuth || !window.XenosAuth.getLeaderboard) {
+    document.getElementById('leaderboard-list').innerHTML = `<div class="empty-state">Sign-in isn't set up on this site yet.</div>`;
+    return;
+  }
+
+  const { error, rows } = await window.XenosAuth.getLeaderboard(50);
+  const listEl = document.getElementById('leaderboard-list');
+  if (!listEl) return;
+
+  if (error) {
+    // Two very different reasons produce an error here — tell them apart so
+    // the message is actually useful: a visitor who isn't signed in just
+    // needs to sign in (SELECT is restricted to authenticated users so
+    // scores stay behind the same sign-in as the rest of the site), while a
+    // missing column means the site owner hasn't run the small follow-up
+    // migration that adds display_name/avatar_url to quiz_progress yet.
+    const needsSignIn = /permission denied/i.test(error);
+    listEl.innerHTML = needsSignIn
+      ? `<div class="empty-state">Sign in to see the leaderboard.</div>`
+      : `<div class="empty-state">Leaderboard isn't finished setting up yet — it needs a small follow-up database change.</div>`;
+    return;
+  }
+  if (!rows.length) {
+    listEl.innerHTML = `<div class="empty-state">No quiz scores yet — be the first! Sign in and complete any quiz.</div>`;
+    return;
+  }
+
+  const medals = ['🥇', '🥈', '🥉'];
+  listEl.innerHTML = rows.map((r, i) => `
+    <div class="leaderboard-row ${i < 3 ? 'top-three' : ''}">
+      <div class="leaderboard-rank">${medals[i] || (i + 1)}</div>
+      <div class="leaderboard-avatar">${r.avatar_url ? `<img src="${r.avatar_url}" alt="" referrerpolicy="no-referrer" />` : '👤'}</div>
+      <div class="leaderboard-body">
+        <div class="leaderboard-name">${r.display_name}</div>
+        <div class="leaderboard-sub">${r.sectionsCompleted} quiz${r.sectionsCompleted === 1 ? '' : 'zes'} completed</div>
+      </div>
+      <div class="leaderboard-score">${r.totalCorrect}<span class="leaderboard-score-of"> / ${r.totalQuestions}</span></div>
+    </div>
+  `).join('');
 }
 
 window.addEventListener('hashchange', route);
@@ -802,15 +955,16 @@ function renderBook(slug, sectionId) {
 
   document.getElementById('sidebar-wrap').innerHTML = `
     <a href="#/" class="back-to-library">← All Notes</a>
-    <p class="sidebar-label">${book.title}</p>
+    <p class="sidebar-label">${book.title} <span class="sidebar-progress-badge" id="sidebar-progress-badge"></span></p>
     <div id="nav-items">
       ${sections.map(s => `
-        <button class="nav-btn ${s.id === activeId ? 'active' : ''}" data-goto="${s.id}" style="--accent:${s.color}">
+        <button class="nav-btn ${s.id === activeId ? 'active' : ''}" data-goto="${s.id}" data-section-id="${s.id}" style="--accent:${s.color}">
           <span class="nav-icon">${s.icon}</span>
           <span class="nav-labels">
             <span class="nav-main">${s.label}</span>
             <span class="nav-sub">${s.subtitle}</span>
           </span>
+          <span class="nav-read-check" title="Read">✓</span>
         </button>
       `).join('')}
     </div>
@@ -847,7 +1001,33 @@ function renderBook(slug, sectionId) {
   const printBtn = document.getElementById('print-book-btn');
   if (printBtn) printBtn.addEventListener('click', () => printBook(book));
 
+  refreshSidebarProgress(book);
   renderBookSection(book, activeId);
+}
+
+// ─── Reading progress — a signed-in-only enhancement layered onto the
+// sidebar after the fact (fetching it is async; the sidebar itself renders
+// synchronously above so navigation never waits on a network round-trip).
+// Re-run any time the read-set might have changed (on book open, and again
+// after visiting a section) rather than trying to patch the DOM in place. ───
+async function refreshSidebarProgress(book) {
+  if (!window.XenosAuth || !window.XenosAuth.getReadSections) return;
+  const badge = document.getElementById('sidebar-progress-badge');
+  if (!badge) return; // navigated away already
+  const readIds = await window.XenosAuth.getReadSections(book.slug);
+  const badgeNow = document.getElementById('sidebar-progress-badge'); // re-check post-await
+  if (!badgeNow) return;
+  const readSet = new Set(readIds);
+  const total = book.sections.length;
+  if (readSet.size) {
+    badgeNow.textContent = `${readSet.size} / ${total} read`;
+    badgeNow.style.display = '';
+  } else {
+    badgeNow.style.display = 'none';
+  }
+  document.querySelectorAll('#nav-items .nav-btn').forEach(btn => {
+    btn.classList.toggle('is-read', readSet.has(btn.dataset.sectionId));
+  });
 }
 
 // ─── Print / export-to-PDF — the SPA only ever has the *current* section
@@ -1009,10 +1189,11 @@ function renderBookSection(book, id) {
     <div class="section-hdr">
       <div class="section-hdr-row">
         <div class="section-icon-badge" style="background:${tintedBg(sec.color, 0.14)};border-color:${tintedBg(sec.color, 0.35)}">${sec.icon}</div>
-        <div>
+        <div class="section-hdr-titles">
           <div class="section-title">${sec.label}</div>
           <div class="section-subtitle">${sec.subtitle}</div>
         </div>
+        <button class="bookmark-toggle-btn" id="bookmark-toggle-btn" type="button" title="Bookmark this section">🔖</button>
       </div>
     </div>
     <div class="intro-card" style="border-left-color:${sec.color}">${sec.intro}</div>
@@ -1090,6 +1271,42 @@ function renderBookSection(book, id) {
   });
 
   wireQuoteCardSharing(content);
+  wireBookmarkToggle(book, sec);
+
+  if (window.XenosAuth && window.XenosAuth.markSectionRead) {
+    window.XenosAuth.markSectionRead(book.slug, sec.id).then(() => refreshSidebarProgress(book));
+  }
+}
+
+// ─── Bookmarks — a single toggle button in the section header (section-
+// level for now; see auth.js for why bullet_index is reserved but unused).
+// Checks current state on every render since the button is rebuilt fresh
+// each navigation, same reasoning as the reading-progress badge above. ───
+async function wireBookmarkToggle(book, sec) {
+  const btn = document.getElementById('bookmark-toggle-btn');
+  if (!btn || !window.XenosAuth || !window.XenosAuth.findBookmark) return;
+
+  let currentId = await window.XenosAuth.findBookmark(book.slug, sec.id);
+  const btnNow = document.getElementById('bookmark-toggle-btn'); // re-check post-await
+  if (!btnNow) return;
+  const applyState = () => {
+    btnNow.classList.toggle('is-bookmarked', !!currentId);
+    btnNow.title = currentId ? 'Remove bookmark' : 'Bookmark this section';
+  };
+  applyState();
+
+  btnNow.addEventListener('click', async () => {
+    btnNow.disabled = true;
+    if (currentId) {
+      await window.XenosAuth.removeBookmark(currentId);
+      currentId = null;
+    } else {
+      const row = await window.XenosAuth.addBookmark(book.slug, sec.id, null);
+      currentId = row ? row.id : null;
+    }
+    btnNow.disabled = false;
+    applyState();
+  });
 }
 
 // ─── Shareable quote-card images — any .xn-quote-card built by a book's
@@ -1344,3 +1561,24 @@ function initWinnersCycle() {
   setInterval(render, 2400);
 }
 initWinnersCycle();
+
+// Mix in the current top 2 live quiz scorers alongside the permanent
+// hall-of-fame entries above (never replacing them — those record real past
+// competition results). XENOS_WINNERS is read fresh on every render() tick,
+// so pushing into it here is picked up automatically once this resolves,
+// with no need to touch/restart the rotation itself.
+(async function augmentWinnersWithLeaderboard() {
+  if (!window.XenosAuth) {
+    // auth.js may not have finished defining window.XenosAuth yet at this
+    // exact point in page load — give it one retry shortly after.
+    setTimeout(() => { if (window.XenosAuth) augmentWinnersWithLeaderboard(); }, 1500);
+    return;
+  }
+  if (!window.XenosAuth.getLeaderboard) return;
+  const { error, rows } = await window.XenosAuth.getLeaderboard(2);
+  if (error || !rows.length) return;
+  const medals = ['🥇', '🥈'];
+  rows.forEach((r, i) => {
+    XENOS_WINNERS.push({ medal: medals[i] || '🏅', accent: '📊', label: 'Quiz Leaderboard', name: r.display_name });
+  });
+})();
