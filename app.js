@@ -1088,6 +1088,137 @@ function renderBookSection(book, id) {
   document.querySelectorAll('#nav-items .nav-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.goto === id);
   });
+
+  wireQuoteCardSharing(content);
+}
+
+// ─── Shareable quote-card images — any .xn-quote-card built by a book's
+// Quotes section (currently just Shifa' al-Alil, but works for any future
+// book using the same markup) gets a small share button injected after the
+// fact, since that HTML is embedded raw in the book's own `intro` string
+// and has no button of its own. Clicking it draws a branded PNG on a canvas
+// and downloads it. ───
+function wireQuoteCardSharing(content) {
+  content.querySelectorAll('.xn-quote-card').forEach(card => {
+    if (card.querySelector('.xn-quote-share-btn')) return; // already wired
+    const arEl = card.querySelector('.xn-quote-ar');
+    const enEl = card.querySelector('.xn-quote-en');
+    const citeEl = card.querySelector('.xn-quote-cite');
+    if (!arEl || !enEl) return; // e.g. a table-only card with no plain quote text
+
+    const btn = document.createElement('button');
+    btn.className = 'xn-quote-share-btn';
+    btn.type = 'button';
+    btn.title = 'Download as an image';
+    btn.textContent = '📤 Share as image';
+    card.appendChild(btn);
+
+    btn.addEventListener('click', () => {
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = 'Generating…';
+      generateQuoteImage(arEl.textContent.trim(), enEl.textContent.trim(), citeEl ? citeEl.textContent.trim() : '')
+        .finally(() => { btn.disabled = false; btn.textContent = originalText; });
+    });
+  });
+}
+
+function wrapCanvasText(ctx, text, maxWidth) {
+  const words = text.split(' ');
+  const lines = [];
+  let cur = '';
+  words.forEach(w => {
+    const trial = (cur + ' ' + w).trim();
+    if (ctx.measureText(trial).width > maxWidth && cur) {
+      lines.push(cur);
+      cur = w;
+    } else {
+      cur = trial;
+    }
+  });
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+async function generateQuoteImage(arText, enText, citeText) {
+  // Wait for the actual web fonts to be loaded, or canvas text falls back
+  // to a generic system font (and Arabic often falls back to *nothing*,
+  // rendering boxes) — this is exactly the failure mode already hit once
+  // this session with the static OG images, just in the browser instead
+  // of PIL.
+  try {
+    await Promise.all([
+      document.fonts.load('700 44px "Cormorant Garamond"'),
+      document.fonts.load('italic 30px "EB Garamond"'),
+      document.fonts.load('30px "Noto Naskh Arabic"'),
+      document.fonts.load('600 24px "EB Garamond"'),
+    ]);
+  } catch (e) { /* best effort — still try to draw */ }
+
+  const W = 1080, H = 1350;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // background + double border, matching the site's card aesthetic
+  ctx.fillStyle = '#FAF5EA';
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = '#A03B54'; ctx.lineWidth = 4;
+  ctx.strokeRect(24, 24, W - 48, H - 48);
+  ctx.strokeStyle = '#C4954A'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(38, 38, W - 76, H - 76);
+
+  // header
+  ctx.fillStyle = '#A03B54';
+  ctx.font = '700 26px "EB Garamond"';
+  ctx.textAlign = 'left';
+  ctx.fillText('XENOS NOTES', 80, 110);
+
+  // gold accent quote-mark
+  ctx.fillStyle = '#C4954A';
+  ctx.font = '700 120px Georgia, serif';
+  ctx.fillText('"', 76, 230);
+
+  // Arabic text (RTL, wrapped, right-aligned)
+  ctx.direction = 'rtl';
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#2A221A';
+  ctx.font = '32px "Noto Naskh Arabic"';
+  const arLines = wrapCanvasText(ctx, arText, W - 160);
+  let y = 300;
+  arLines.forEach(line => { ctx.fillText(line, W - 80, y); y += 56; });
+
+  // English translation (LTR, wrapped, left-aligned, italic)
+  ctx.direction = 'ltr';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#5C5240';
+  ctx.font = 'italic 30px "EB Garamond"';
+  y += 30;
+  const enLines = wrapCanvasText(ctx, '"' + enText + '"', W - 160);
+  enLines.forEach(line => { ctx.fillText(line, 80, y); y += 42; });
+
+  // citation
+  y += 20;
+  ctx.fillStyle = '#A03B54';
+  ctx.font = '600 24px "EB Garamond"';
+  ctx.fillText(citeText, 80, y);
+
+  // footer
+  ctx.strokeStyle = '#C4954A'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(80, H - 110); ctx.lineTo(W - 80, H - 110); ctx.stroke();
+  ctx.fillStyle = '#7A2638';
+  ctx.font = '22px "EB Garamond"';
+  ctx.fillText('thexenotes.com', 80, H - 70);
+
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'xenos-notes-quote.png';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 // ─── Mobile sidebar ───

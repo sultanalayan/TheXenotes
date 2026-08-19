@@ -493,6 +493,14 @@ body.view-library .sidebar { display: none; }
 .xn-quote-en { font-style: italic; font-size: 14px; line-height: 1.7; color: var(--ink); }
 .xn-quote-en b, .xn-quote-en strong { color: var(--burgundy); font-style: normal; }
 .xn-quote-cite { margin-top: 8px; font-size: 11.5px; color: var(--muted); font-family: var(--font-serif); }
+.xn-quote-share-btn {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 10px;
+  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--card2); color: var(--muted); font-family: var(--font-serif);
+  font-size: 10.5px; cursor: pointer; transition: all 0.2s var(--ease);
+}
+.xn-quote-share-btn:hover { border-color: var(--gold); color: var(--ink); }
+.xn-quote-share-btn:disabled { opacity: 0.6; cursor: wait; }
 .xn-quote-table-wrap { overflow-x: auto; margin: 6px 0 4px; }
 .xn-quote-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
 .xn-quote-table th, .xn-quote-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
