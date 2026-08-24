@@ -203,6 +203,12 @@
   // ─── Per-user quiz progress, reading progress, bookmarks, streaks, and
   // the leaderboard — all called from app.js. ───
   window.XenosAuth = {
+    // Fire-and-forget, no identity stored at all — every visitor counts,
+    // signed in or not. Never throws; a failed count should never be
+    // visible to a reader. See migration_pageviews.sql for the RPC.
+    trackPageview(bookSlug, sectionId) {
+      sb.rpc('increment_pageview', { p_book_slug: bookSlug, p_section_id: sectionId }).then(() => {}, () => {});
+    },
     async getCurrentUser() {
       const { data: { session } } = await sb.auth.getSession();
       return session ? session.user : null;

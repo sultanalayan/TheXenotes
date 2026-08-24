@@ -1356,6 +1356,9 @@ function renderBookSection(book, id) {
   if (window.XenosAuth && window.XenosAuth.markSectionRead) {
     window.XenosAuth.markSectionRead(book.slug, sec.id).then(() => refreshSidebarProgress(book));
   }
+  if (window.XenosAuth && window.XenosAuth.trackPageview) {
+    window.XenosAuth.trackPageview(book.slug, sec.id);
+  }
 }
 
 // ─── Bookmarks — a single toggle button in the section header (section-
