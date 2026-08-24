@@ -1688,3 +1688,26 @@ initWinnersCycle();
     XENOS_WINNERS.push({ medal: medals[i] || '🏅', accent: '📊', label: 'Quiz Leaderboard', name: r.display_name });
   });
 })();
+
+// Every khatm competition the bot has recorded as complete, appended
+// permanently alongside the hand-written hall-of-fame entries above —
+// new completions show up here with no further site changes needed.
+(async function augmentWinnersWithKhatmResults() {
+  if (!window.XenosAuth) {
+    setTimeout(() => { if (window.XenosAuth) augmentWinnersWithKhatmResults(); }, 1700);
+    return;
+  }
+  if (!window.XenosAuth.getKhatmWinners) return;
+  const { error, rows } = await window.XenosAuth.getKhatmWinners();
+  if (error || !rows.length) return;
+  const rankMedal = { 1: '🥇', 2: '🥈', 3: '🥉' };
+  const rankWord = { 1: '1st', 2: '2nd', 3: '3rd' };
+  rows.forEach(r => {
+    XENOS_WINNERS.push({
+      medal: rankMedal[r.rank] || '🏅',
+      accent: '📖',
+      label: `Khatm Competition · ${rankWord[r.rank] || r.rank}`,
+      name: r.discord_name,
+    });
+  });
+})();

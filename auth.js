@@ -357,5 +357,15 @@
       const rows = Object.values(byUser).sort((a, b) => b.totalCorrect - a.totalCorrect);
       return { error: null, rows: limit ? rows.slice(0, limit) : rows };
     },
+
+    // Khatm-competition winners, written by the Xeno Khatm Discord bot the
+    // instant a competition finishes — read-only here, anon key can't write.
+    async getKhatmWinners() {
+      const { data, error } = await sb.from('khatm_winners')
+        .select('rank,discord_name,ayahs,team,completed_at')
+        .order('completed_at', { ascending: false });
+      if (error) return { error: error.message, rows: [] };
+      return { error: null, rows: data || [] };
+    },
   };
 })();
