@@ -1281,6 +1281,10 @@ function renderBookSection(book, id) {
     ${tableHtml}
     ${qaHtml}
     ${quizHtml}
+    <div class="correction-flag-wrap">
+      <button class="correction-flag-btn" id="correction-flag-btn" type="button">🚩 Spot a mistake? Suggest a correction</button>
+      <div class="correction-form-wrap" id="correction-form-wrap" style="display:none;"></div>
+    </div>
     ${pnHtml}
   `;
   content.classList.add('fade-in');
@@ -1352,6 +1356,7 @@ function renderBookSection(book, id) {
 
   wireQuoteCardSharing(content);
   wireBookmarkToggle(book, sec);
+  wireCorrectionFlag(book, sec);
 
   if (window.XenosAuth && window.XenosAuth.markSectionRead) {
     window.XenosAuth.markSectionRead(book.slug, sec.id).then(() => refreshSidebarProgress(book));
@@ -1412,6 +1417,49 @@ async function wireBookmarkToggle(book, sec) {
     }
     btnNow.disabled = false;
     applyState();
+  });
+}
+
+// ─── Correction flagging — every submission is stored in Supabase and
+// posted to a Discord channel via a database trigger (see the site
+// owner's own migration; nothing about that lives in this file). ───
+function wireCorrectionFlag(book, sec) {
+  const btn = document.getElementById('correction-flag-btn');
+  const formWrap = document.getElementById('correction-form-wrap');
+  if (!btn || !formWrap) return;
+
+  btn.addEventListener('click', async () => {
+    if (formWrap.style.display !== 'none') { formWrap.style.display = 'none'; formWrap.innerHTML = ''; return; }
+    if (!window.XenosAuth || !window.XenosAuth.submitCorrection) return;
+
+    formWrap.style.display = '';
+    formWrap.innerHTML = `
+      <textarea class="correction-textarea" id="correction-textarea" maxlength="600"
+                placeholder="What's wrong, and where? Be as specific as you can — a quote, a claim, a broken link…"></textarea>
+      <div class="correction-form-actions">
+        <button class="correction-submit-btn" id="correction-submit-btn" type="button">Send</button>
+        <span class="correction-form-status" id="correction-form-status"></span>
+      </div>
+    `;
+    const textarea = document.getElementById('correction-textarea');
+    const submitBtn = document.getElementById('correction-submit-btn');
+    const status = document.getElementById('correction-form-status');
+    textarea.focus();
+
+    submitBtn.addEventListener('click', async () => {
+      const message = textarea.value.trim();
+      if (!message) { status.textContent = 'Write what\'s wrong first.'; return; }
+      submitBtn.disabled = true;
+      status.textContent = 'Sending…';
+      const ok = await window.XenosAuth.submitCorrection(book.slug, sec.id, message);
+      if (ok) {
+        formWrap.innerHTML = `<div class="correction-form-thanks">✅ Thank you — sent.</div>`;
+        setTimeout(() => { formWrap.style.display = 'none'; formWrap.innerHTML = ''; }, 2400);
+      } else {
+        submitBtn.disabled = false;
+        status.textContent = 'Something went wrong — try again?';
+      }
+    });
   });
 }
 

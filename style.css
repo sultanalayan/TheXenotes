@@ -444,6 +444,30 @@ body.view-library .sidebar { display: none; }
 }
 .bookmark-note-input::placeholder { color: var(--muted); font-style: italic; }
 
+/* ── CORRECTION FLAGGING ── */
+.correction-flag-wrap { margin-top: 28px; padding-top: 18px; border-top: 1px dashed var(--border); text-align: left; }
+.correction-flag-btn {
+  background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer;
+  padding: 4px 0; transition: color 0.15s var(--ease);
+}
+.correction-flag-btn:hover { color: var(--burgundy); }
+.correction-form-wrap { margin-top: 10px; }
+.correction-textarea {
+  width: 100%; min-height: 80px; font: inherit; font-size: 13px; color: var(--ink);
+  background: var(--card2); border: 1px solid var(--gold); border-radius: 8px; padding: 10px 12px;
+  box-sizing: border-box; resize: vertical;
+}
+.correction-textarea::placeholder { color: var(--muted); font-style: italic; }
+.correction-form-actions { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.correction-submit-btn {
+  background: var(--burgundy); color: var(--paper); border: none; border-radius: 8px;
+  padding: 7px 18px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: opacity 0.15s var(--ease);
+}
+.correction-submit-btn:hover { opacity: 0.88; }
+.correction-submit-btn:disabled { opacity: 0.5; cursor: wait; }
+.correction-form-status { font-size: 11.5px; color: var(--muted); font-style: italic; }
+.correction-form-thanks { font-size: 12.5px; color: var(--emerald); }
+
 /* ── INTRO CARD ── */
 .intro-card {
   background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--burgundy);

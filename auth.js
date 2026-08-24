@@ -297,6 +297,19 @@
         .is('bullet_index', null).maybeSingle();
       return data ? data.id : null;
     },
+    // Stored in Supabase; a database trigger the site owner controls (not
+    // this file) also posts it to a private Discord channel — nothing
+    // here knows about Discord at all, on purpose.
+    async submitCorrection(bookSlug, sectionId, message) {
+      const { data: { session } } = await sb.auth.getSession();
+      const meta = (session && session.user.user_metadata) || {};
+      const reporterName = session
+        ? (meta.full_name || meta.name || meta.user_name || (session.user.email || '').split('@')[0] || 'Anonymous')
+        : null;
+      const { error } = await sb.from('corrections')
+        .insert({ book_slug: bookSlug, section_id: sectionId, message, reporter_name: reporterName });
+      return !error;
+    },
     async updateBookmarkNote(id, note) {
       const { data: { session } } = await sb.auth.getSession();
       if (!session) return false;
