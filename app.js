@@ -823,7 +823,7 @@ function renderLibrary(filter) {
   ` : '';
   const booksAreaHtml = gated
     ? renderAccessGate()
-    : `${groupsHtml || (contentResults.length ? '' : `<div class="empty-state">No notes match "${q}" yet.</div>`)}${contentResultsHtml}${duaHtml}`;
+    : `${groupsHtml || (contentResults.length ? '' : `<div class="empty-state">No notes match "${q}" yet.</div>`)}${contentResultsHtml}${!filter ? duaHtml : ''}`;
 
   const failedTitles = getFailedBookTitles();
   const failedBooksHtml = failedTitles.length ? `
@@ -843,10 +843,10 @@ function renderLibrary(filter) {
     </div>
     ${(!filter && !gated) ? renderDailyQuote() : ''}
     ${(!filter && !gated) ? '<div class="pins-panel" id="pins-panel"></div>' : ''}
-    ${namesHtml}
-    ${huroofHtml}
-    ${arabicAppHtml}
-    ${mascotInviteHtml}
+    ${!filter ? namesHtml : ''}
+    ${!filter ? huroofHtml : ''}
+    ${!filter ? arabicAppHtml : ''}
+    ${!filter ? mascotInviteHtml : ''}
     ${booksAreaHtml}
   `;
 
