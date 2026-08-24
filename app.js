@@ -506,6 +506,81 @@ function wireAccessGate() {
   });
 }
 
+// ─── Search normalization — two independent sources make "the same word"
+// look like different strings to a plain substring search: Arabic
+// transliteration diacritics (Ḥadīth vs Hadith, Qur'ān vs Quran, Ṣaḥīḥ vs
+// Sahih), and genuine alternate spellings that aren't just diacritics
+// (hadith vs hadeeth, Quran vs Koran, salah vs salat). normalizeForSearch
+// strips the first; XENOS_TERM_VARIANTS folds the second. Both the query
+// and the indexed text are normalized identically, so a search in any
+// spelling finds text in any other. ───
+const XENOS_TERM_VARIANTS = [
+  ['hadith', 'hadeeth', 'ahadith', 'ahadeeth', 'hadiths', 'hadeeths'],
+  ['quran', 'quraan', 'koran', "qur'an", "qur'aan"],
+  ['sunnah', 'sunna'],
+  ['salah', 'salat', 'salaah', 'salaat'],
+  ['dua', 'duaa', "du'a", "du'aa"],
+  ['ramadan', 'ramadhan', 'ramadaan', 'ramzan'],
+  ['tawheed', 'tawhid', 'tauheed', 'tauhid'],
+  ['zakat', 'zakah', 'zakaah', 'zakaat'],
+  ['hijab', 'hijaab'],
+  ['dhikr', 'zikr', 'thikr'],
+  ['wudu', 'wudhu', 'wuduu'],
+  ['aisha', 'aishah', "a'ishah", 'ayesha'],
+  ['muhammad', 'mohammed', 'mohammad', 'mohamed'],
+  ['bukhari', 'bukhaari'],
+  ['ummah', 'umma'],
+  ['jihad', 'jihaad'],
+  ['eid', 'eed'],
+];
+const _termVariantMap = (() => {
+  const map = new Map();
+  XENOS_TERM_VARIANTS.forEach(group => group.forEach(spelling => map.set(spelling, group)));
+  return map;
+})();
+// Lowercases, decomposes accented letters (NFD) and drops the combining
+// marks plus hamza/ayn apostrophes — "Ḥadīth" and "Qur'ān" both come out
+// as plain "hadith" / "quran". Also returns a position map so a match
+// found in the normalized string can be translated back to an offset in
+// the original, human-readable text (needed to slice correct snippets).
+function normalizeForSearch(text) {
+  const lower = (text || '').toLowerCase();
+  let norm = '';
+  const map = [];
+  for (let i = 0; i < lower.length; i++) {
+    const decomposed = lower[i].normalize('NFD');
+    for (const ch of decomposed) {
+      if (/[̀-ͯ]/.test(ch)) continue; // combining diacritical mark
+      if (ch === "'" || ch === '’' || ch === '`' || ch === 'ʿ' || ch === 'ʾ') continue; // hamza/ayn
+      norm += ch;
+      map.push(i);
+    }
+  }
+  return { norm, map };
+}
+function normalizeSimple(text) {
+  return normalizeForSearch(text).norm;
+}
+// Given an already-normalized query, returns every spelling worth trying
+// against normalized text: the query itself, plus one substitution per
+// word that has known alternate spellings (a handful of combinations at
+// most — real queries rarely hit more than one such word).
+function expandQueryVariants(normQuery) {
+  const words = normQuery.split(/\s+/);
+  const variants = [normQuery];
+  words.forEach((word, i) => {
+    const group = _termVariantMap.get(word);
+    if (!group) return;
+    group.forEach(alt => {
+      if (alt === word) return;
+      const altWords = words.slice();
+      altWords[i] = alt;
+      variants.push(altWords.join(' '));
+    });
+  });
+  return variants;
+}
+
 // ─── Content search — searches *inside* every book's sections (bullets,
 // Q&A, intro text), not just book titles/tags like the plain card filter
 // above. Built once and cached; each book registers once at load time so
@@ -517,19 +592,25 @@ function _stripHtml(html) {
 function buildContentSearchIndex() {
   if (_contentSearchIndex) return _contentSearchIndex;
   const index = [];
+  const withNorm = (entry) => {
+    const { norm, map } = normalizeForSearch(entry.text);
+    entry.normText = norm;
+    entry.normMap = map;
+    index.push(entry);
+  };
   XenosBooks.all().forEach(book => {
     (book.sections || []).forEach(section => {
       if (section.intro) {
         const text = _stripHtml(section.intro);
-        if (text) index.push({ book, section, kind: 'intro', label: section.label, text });
+        if (text) withNorm({ book, section, kind: 'intro', label: section.label, text });
       }
       (section.bullets || []).forEach(b => {
         const text = _stripHtml(`${b.label || ''}. ${b.text || ''}`);
-        if (text) index.push({ book, section, kind: 'bullet', label: b.label || section.label, text });
+        if (text) withNorm({ book, section, kind: 'bullet', label: b.label || section.label, text });
       });
       (section.qanda || []).forEach(qa => {
         const text = _stripHtml(`${qa.q || ''} ${qa.a || ''}`);
-        if (text) index.push({ book, section, kind: 'qanda', label: qa.q, text });
+        if (text) withNorm({ book, section, kind: 'qanda', label: qa.q, text });
       });
     });
   });
@@ -537,24 +618,35 @@ function buildContentSearchIndex() {
   return index;
 }
 function searchContent(query) {
-  const q = query.trim().toLowerCase();
-  if (q.length < 3) return [];
+  const qNorm = normalizeSimple(query.trim());
+  if (qNorm.length < 3) return [];
+  const queryVariants = expandQueryVariants(qNorm);
   const index = buildContentSearchIndex();
   const seenSections = new Set();
   const results = [];
   for (const entry of index) {
-    const hay = entry.text.toLowerCase();
-    const idx = hay.indexOf(q);
-    if (idx === -1) continue;
+    let normIdx = -1, matchedVariant = '';
+    for (const qv of queryVariants) {
+      normIdx = entry.normText.indexOf(qv);
+      if (normIdx !== -1) { matchedVariant = qv; break; }
+    }
+    if (normIdx === -1) continue;
     const dedupeKey = entry.book.slug + '::' + entry.section.id;
     if (seenSections.has(dedupeKey)) continue; // one hit per section is enough to link to it
     seenSections.add(dedupeKey);
-    const start = Math.max(0, idx - 60);
-    const end = Math.min(entry.text.length, idx + q.length + 60);
+    // Translate the match position — found in the diacritic-stripped
+    // comparison copy — back to the real text via the position map built
+    // alongside it, so the snippet and highlight show actual source text
+    // (however it's actually spelled there), not the normalized copy.
+    const origStart = entry.normMap[normIdx];
+    const origEnd = entry.normMap[normIdx + matchedVariant.length - 1] + 1;
+    const matchedText = entry.text.slice(origStart, origEnd);
+    const start = Math.max(0, origStart - 60);
+    const end = Math.min(entry.text.length, origEnd + 60);
     let snippet = entry.text.slice(start, end);
     if (start > 0) snippet = '…' + snippet;
     if (end < entry.text.length) snippet = snippet + '…';
-    results.push({ ...entry, snippet, matchIndex: idx - start + (start > 0 ? 1 : 0) });
+    results.push({ ...entry, snippet, matchedText, matchIndex: origStart - start + (start > 0 ? 1 : 0) });
     if (results.length >= 30) break;
   }
   return results;
@@ -602,12 +694,19 @@ function renderLibrary(filter) {
 
   const books = XenosBooks.all();
   const q = (filter || '').trim().toLowerCase();
+  // Spelling/diacritic-insensitive: "hadeeth" matches "Ḥadīth", "Quran"
+  // matches "Qur'ān", etc. — see normalizeForSearch / XENOS_TERM_VARIANTS.
+  const qVariants = q ? expandQueryVariants(normalizeSimple(q)) : [];
+  const matchesQuery = (text) => {
+    const norm = normalizeSimple(text || '');
+    return qVariants.some(qv => norm.includes(qv));
+  };
   const visible = q
     ? books.filter(b =>
-        b.title.toLowerCase().includes(q) ||
-        b.subtitle.toLowerCase().includes(q) ||
-        (b.category || '').toLowerCase().includes(q) ||
-        (b.tags || []).some(t => t.toLowerCase().includes(q)))
+        matchesQuery(b.title) ||
+        matchesQuery(b.subtitle) ||
+        matchesQuery(b.category) ||
+        (b.tags || []).some(t => matchesQuery(t)))
     : books;
 
   const groups = new Map();
@@ -715,7 +814,7 @@ function renderLibrary(filter) {
             <div class="content-result-icon">${r.book.icon}</div>
             <div class="content-result-body">
               <div class="content-result-path">${r.book.title} <span class="content-result-sep">›</span> ${r.section.label}</div>
-              <div class="content-result-snippet">${highlightSnippet(r.snippet, q, r.matchIndex)}</div>
+              <div class="content-result-snippet">${highlightSnippet(r.snippet, r.matchedText, r.matchIndex)}</div>
             </div>
           </a>
         `).join('')}
