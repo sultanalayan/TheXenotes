@@ -291,6 +291,12 @@
         .is('bullet_index', null).maybeSingle();
       return data ? data.id : null;
     },
+    async updateBookmarkNote(id, note) {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return false;
+      const { error } = await sb.from('bookmarks').update({ note: note || null }).eq('id', id).eq('user_id', session.user.id);
+      return !error;
+    },
 
     // ─── Streak — consecutive calendar days with any quiz or reading
     // activity, ending today (or yesterday, if nothing logged yet today).

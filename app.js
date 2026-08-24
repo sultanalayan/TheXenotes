@@ -323,6 +323,7 @@ async function renderSavedNotes() {
     const book = XenosBooks.get(bm.book_slug);
     const sec = book && book.sections.find(s => s.id === bm.section_id);
     if (!book || !sec) return ''; // book/section since removed or renamed
+    const noteText = (bm.note || '').trim();
     return `
       <div class="saved-note-card" data-bookmark-id="${bm.id}">
         <a class="saved-note-link" href="#/book/${book.slug}/${sec.id}">
@@ -332,6 +333,7 @@ async function renderSavedNotes() {
             <div class="saved-note-date">Saved ${new Date(bm.created_at).toLocaleDateString()}</div>
           </div>
         </a>
+        <div class="saved-note-remark" data-bookmark-id="${bm.id}" title="Click to edit your remark">${noteText ? escapeHtml(noteText) : '<span class="saved-note-remark-empty">+ add a remark</span>'}</div>
         <button class="saved-note-remove" title="Remove">✕</button>
       </div>
     `;
@@ -346,6 +348,25 @@ async function renderSavedNotes() {
       if (!listEl.querySelector('.saved-note-card')) {
         listEl.innerHTML = `<div class="empty-state">No saved notes yet — open any section and tap 🔖 to save it here.</div>`;
       }
+    });
+  });
+
+  listEl.querySelectorAll('.saved-note-remark').forEach(remarkEl => {
+    remarkEl.addEventListener('click', () => {
+      if (remarkEl.querySelector('input')) return; // already editing
+      const id = remarkEl.dataset.bookmarkId;
+      const current = remarkEl.textContent.trim() === '+ add a remark' ? '' : remarkEl.textContent;
+      remarkEl.innerHTML = `<input type="text" class="saved-note-remark-input" maxlength="280" value="${escapeHtml(current)}" placeholder="A private remark for yourself…" />`;
+      const input = remarkEl.querySelector('input');
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+      const save = async () => {
+        const val = input.value.trim();
+        await window.XenosAuth.updateBookmarkNote(id, val);
+        remarkEl.innerHTML = val ? escapeHtml(val) : '<span class="saved-note-remark-empty">+ add a remark</span>';
+      };
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
+      input.addEventListener('blur', save);
     });
   });
 }
@@ -589,13 +610,14 @@ function renderLibrary(filter) {
       <div class="book-grid">
         ${groupBooks.map(b => {
           const html = `
-            <a class="book-card" href="#/book/${b.slug}" style="--stagger:${stagger}">
+            <a class="book-card" href="#/book/${b.slug}" data-slug="${b.slug}" style="--stagger:${stagger}">
               <div class="book-card-icon">${b.icon}</div>
               <div class="book-card-body">
                 <div class="book-card-title">${b.title}</div>
                 <div class="book-card-sub">${b.subtitle}</div>
-                <div class="book-card-tags">${(b.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                <div class="book-card-tags">${(b.tags || []).map(t => `<span class="tag" data-tag="${t}">${t}</span>`).join('')}</div>
               </div>
+              <div class="book-card-pin-badge" style="display:none;" title="Sections you've bookmarked in this book">🔖 0</div>
               <div class="book-card-arrow">→</div>
             </a>
           `;
@@ -697,6 +719,7 @@ function renderLibrary(filter) {
       ${gated ? '' : `<input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags, or anything inside a book…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />`}
     </div>
     ${(!filter && !gated) ? renderDailyQuote() : ''}
+    ${(!filter && !gated) ? '<div class="pins-panel" id="pins-panel"></div>' : ''}
     ${namesHtml}
     ${huroofHtml}
     ${arabicAppHtml}
@@ -711,10 +734,66 @@ function renderLibrary(filter) {
     input.addEventListener('input', () => renderLibrary(input.value));
     input.focus();
     input.setSelectionRange(input.value.length, input.value.length);
+
+    document.querySelectorAll('.book-card-tags .tag[data-tag]').forEach(tagEl => {
+      tagEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        renderLibrary(tagEl.dataset.tag);
+      });
+    });
+
+    if (!filter) renderPinsAndLibraryBadges();
   }
 
   initNamesSection();
   initHuroofSection();
+}
+
+// ─── Pins panel (welcome page) + per-book bookmark-count badges — both
+// draw from the same getBookmarks() call, populated after the initial
+// library render so a slow/offline fetch never blocks the page itself. ───
+async function renderPinsAndLibraryBadges() {
+  if (!window.XenosAuth || !window.XenosAuth.getCurrentUser) return;
+  const currentUser = await window.XenosAuth.getCurrentUser();
+  const panel = document.getElementById('pins-panel');
+  if (!currentUser) { if (panel) panel.innerHTML = ''; return; }
+
+  const bookmarks = await window.XenosAuth.getBookmarks();
+  if (!panel && !bookmarks.length) return;
+
+  // Per-book badge counts, shown right on each library card.
+  const counts = {};
+  bookmarks.forEach(bm => { counts[bm.book_slug] = (counts[bm.book_slug] || 0) + 1; });
+  Object.entries(counts).forEach(([slug, n]) => {
+    const badge = document.querySelector(`.book-card[data-slug="${slug}"] .book-card-pin-badge`);
+    if (badge) { badge.textContent = `🔖 ${n}`; badge.style.display = ''; }
+  });
+
+  // The pins strip itself — every bookmark, newest first, capped so the
+  // welcome page doesn't turn into a second saved-notes page.
+  if (!panel) return;
+  if (!bookmarks.length) { panel.innerHTML = ''; return; }
+  const shown = bookmarks.slice(0, 12);
+  panel.innerHTML = `
+    <div class="pins-panel-label">📌 Your Pins ${bookmarks.length > shown.length ? `(${shown.length} of ${bookmarks.length})` : `(${bookmarks.length})`}</div>
+    <div class="pins-strip">
+      ${shown.map(bm => {
+        const book = XenosBooks.get(bm.book_slug);
+        const sec = book && book.sections.find(s => s.id === bm.section_id);
+        if (!book || !sec) return '';
+        const note = (bm.note || '').trim();
+        const pinTitle = note ? escapeHtml(note) : escapeHtml(book.title + ' — ' + sec.label);
+        return `
+          <a class="pin-chip" href="#/book/${book.slug}/${sec.id}" title="${pinTitle}">
+            <span class="pin-chip-icon">${sec.icon}</span>
+            <span class="pin-chip-text">${book.title} <span class="content-result-sep">›</span> ${sec.label}</span>
+          </a>
+        `;
+      }).join('')}
+      ${bookmarks.length > shown.length ? `<a class="pin-chip pin-chip-more" href="#/saved">See all ${bookmarks.length} →</a>` : ''}
+    </div>
+  `;
 }
 
 // ─── Names of Allah (top-of-home interactive section) ───
@@ -1195,6 +1274,7 @@ function renderBookSection(book, id) {
         </div>
         <button class="bookmark-toggle-btn" id="bookmark-toggle-btn" type="button" title="Bookmark this section">🔖</button>
       </div>
+      <div class="bookmark-note-wrap" id="bookmark-note-wrap" style="display:none;"></div>
     </div>
     <div class="intro-card" style="border-left-color:${sec.color}">${sec.intro}</div>
     ${bulletsHtml}
@@ -1288,21 +1368,44 @@ async function wireBookmarkToggle(book, sec) {
 
   let currentId = await window.XenosAuth.findBookmark(book.slug, sec.id);
   const btnNow = document.getElementById('bookmark-toggle-btn'); // re-check post-await
-  if (!btnNow) return;
+  const noteWrap = document.getElementById('bookmark-note-wrap');
+  if (!btnNow || !noteWrap) return;
+
+  const closeNoteBox = () => { noteWrap.style.display = 'none'; noteWrap.innerHTML = ''; };
+
   const applyState = () => {
     btnNow.classList.toggle('is-bookmarked', !!currentId);
     btnNow.title = currentId ? 'Remove bookmark' : 'Bookmark this section';
   };
   applyState();
 
+  const openNoteBox = () => {
+    noteWrap.style.display = '';
+    noteWrap.innerHTML = `
+      <input type="text" class="bookmark-note-input" id="bookmark-note-input"
+             placeholder="Add a private remark to this bookmark (optional) — Enter to save" maxlength="280" />
+    `;
+    const input = document.getElementById('bookmark-note-input');
+    input.focus();
+    const save = async () => {
+      const val = input.value.trim();
+      if (currentId && val) await window.XenosAuth.updateBookmarkNote(currentId, val);
+      closeNoteBox();
+    };
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') save(); if (e.key === 'Escape') closeNoteBox(); });
+    input.addEventListener('blur', () => setTimeout(save, 120));
+  };
+
   btnNow.addEventListener('click', async () => {
     btnNow.disabled = true;
     if (currentId) {
       await window.XenosAuth.removeBookmark(currentId);
       currentId = null;
+      closeNoteBox();
     } else {
       const row = await window.XenosAuth.addBookmark(book.slug, sec.id, null);
       currentId = row ? row.id : null;
+      if (currentId) openNoteBox();
     }
     btnNow.disabled = false;
     applyState();

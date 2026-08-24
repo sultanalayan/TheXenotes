@@ -436,6 +436,13 @@ body.view-library .sidebar { display: none; }
 .bookmark-toggle-btn:hover { opacity: 1; border-color: var(--gold); }
 .bookmark-toggle-btn.is-bookmarked { opacity: 1; background: color-mix(in srgb, var(--gold) 16%, var(--card2)); border-color: var(--gold); }
 .bookmark-toggle-btn:disabled { cursor: wait; }
+.bookmark-note-wrap { margin-top: 10px; }
+.bookmark-note-input {
+  width: 100%; font: inherit; font-size: 13px; color: var(--ink);
+  background: var(--card2); border: 1px solid var(--gold); border-radius: 8px; padding: 9px 12px;
+  box-sizing: border-box;
+}
+.bookmark-note-input::placeholder { color: var(--muted); font-style: italic; }
 
 /* ── INTRO CARD ── */
 .intro-card {
@@ -1092,10 +1099,29 @@ body.view-library .sidebar { display: none; }
 .book-card-title { font-size: 15.5px; font-weight: 600; color: var(--ink); }
 .book-card-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; font-style: italic; }
 .book-card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 9px; }
-.book-card-tags .tag { font-size: 9px; background: var(--card2); border: 1px solid var(--border); color: var(--muted); padding: 2px 9px; border-radius: 20px; }
+.book-card-tags .tag { font-size: 9px; background: var(--card2); border: 1px solid var(--border); color: var(--muted); padding: 2px 9px; border-radius: 20px; cursor: pointer; transition: all 0.15s var(--ease); }
+.book-card-tags .tag:hover { border-color: var(--burgundy-light); color: var(--burgundy); background: color-mix(in srgb, var(--burgundy) 8%, var(--card2)); }
+.book-card-pin-badge {
+  flex-shrink: 0; font-size: 10.5px; color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, var(--card2));
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, var(--border)); border-radius: 20px; padding: 3px 9px; white-space: nowrap;
+}
 .book-card-arrow { font-size: 18px; color: var(--muted); transition: transform 0.25s var(--ease), color 0.25s; flex-shrink: 0; }
 .book-card:hover .book-card-arrow { transform: translateX(4px); color: var(--emerald); }
 .empty-state { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0; font-style: italic; }
+
+/* ── PINS PANEL (welcome page — every bookmark, at a glance) ── */
+.pins-panel:empty { display: none; }
+.pins-panel-label { font-size: 12px; font-weight: 700; letter-spacing: 0.02em; color: var(--muted); margin: 0 0 8px; text-align: left; }
+.pins-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.pin-chip {
+  display: flex; align-items: center; gap: 6px; max-width: 260px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 13px 6px 8px; text-decoration: none; transition: all 0.2s var(--ease);
+}
+.pin-chip:hover { border-color: var(--gold); transform: translateY(-1px); }
+.pin-chip-icon { font-size: 13px; flex-shrink: 0; }
+.pin-chip-text { font-size: 11.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pin-chip-more { color: var(--burgundy); font-size: 11.5px; font-weight: 600; border-style: dashed; }
 
 /* ── CONTENT SEARCH RESULTS (matches found inside book sections, not just titles/tags) ── */
 .content-search-results { max-width: 720px; margin: 0 auto 28px; }
@@ -1252,6 +1278,18 @@ body.view-play .main { max-width: 640px; margin: 0 auto; float: none; }
   transition: all 0.2s var(--ease);
 }
 .saved-note-remove:hover { border-color: var(--burgundy); color: var(--burgundy); }
+.saved-note-remark {
+  flex-shrink: 0; max-width: 220px; font-size: 11.5px; font-style: italic; color: var(--muted);
+  padding: 6px 10px; border-radius: 8px; cursor: text; text-align: left; line-height: 1.4;
+  border: 1px dashed transparent; transition: all 0.15s var(--ease);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.saved-note-remark:hover { border-color: var(--border); background: var(--card2); }
+.saved-note-remark-empty { opacity: 0.6; }
+.saved-note-remark-input {
+  font: inherit; font-size: 11.5px; font-style: italic; color: var(--ink); width: 200px;
+  background: var(--card2); border: 1px solid var(--gold); border-radius: 8px; padding: 5px 9px;
+}
 
 /* ── LEADERBOARD ── */
 .leaderboard-list { display: flex; flex-direction: column; gap: 7px; text-align: left; }
