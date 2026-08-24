@@ -13,6 +13,20 @@ window.XenosBooks = (function () {
   };
 })();
 
+// Every books/*.js <script> tag in index.html carries a data-title matching
+// its book. If a book file has a bug (most often a stray unescaped quote
+// breaking its JS) its <script> never runs and it never calls register() —
+// with no error visible anywhere. Comparing the two lists catches exactly
+// that: any script whose slug never made it into the registry is a book
+// that failed to load, and its title (read straight off the tag, not from
+// the broken file) is enough to warn about it without guessing further.
+function getFailedBookTitles() {
+  const registered = new Set(XenosBooks.all().map(b => b.slug));
+  return Array.from(document.querySelectorAll('script[src^="books/"][data-title]'))
+    .filter(s => !registered.has(s.getAttribute('src').replace(/^books\//, '').replace(/\.js$/, '')))
+    .map(s => s.dataset.title);
+}
+
 function tintedBg(color, alpha) {
   return `color-mix(in srgb, ${color} ${Math.round(alpha * 100)}%, transparent)`;
 }
@@ -712,10 +726,20 @@ function renderLibrary(filter) {
     ? renderAccessGate()
     : `${groupsHtml || (contentResults.length ? '' : `<div class="empty-state">No notes match "${q}" yet.</div>`)}${contentResultsHtml}${duaHtml}`;
 
+  const failedTitles = getFailedBookTitles();
+  const failedBooksHtml = failedTitles.length ? `
+    <div class="book-load-error-banner" role="alert">
+      <div class="book-load-error-title">⚠️ ${failedTitles.length === 1 ? 'A note' : `${failedTitles.length} notes`} failed to load</div>
+      <div class="book-load-error-sub">This is almost always a small bug in the file, not a removal — safe to ignore if you're not the admin.</div>
+      <ul class="book-load-error-list">${failedTitles.map(t => `<li>${t}</li>`).join('')}</ul>
+    </div>
+  ` : '';
+
   document.getElementById('content').innerHTML = `
     <div class="library-hdr">
       <h1 class="library-title">Xenos Notes</h1>
       <p class="library-sub">Study notes on Islamic books &amp; topics — pick one to explore.</p>
+      ${failedBooksHtml}
       ${gated ? '' : `<input type="text" class="search-box" id="search-box" placeholder="Search notes, topics, tags, or anything inside a book…" value="${filter ? filter.replace(/"/g, '&quot;') : ''}" />`}
     </div>
     ${(!filter && !gated) ? renderDailyQuote() : ''}

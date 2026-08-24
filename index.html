@@ -203,36 +203,41 @@
 
 <!-- ═══════════════ BOOKS ═══════════════
      To add a new book: drop books/<slug>.js (copy the shape of an existing one)
-     and add one <script> line below. Nothing else needs to change. -->
+     and add one <script> line below, with a data-title matching the book's own
+     title. Nothing else needs to change. The data-title is a safety net: if a
+     book file ever has a bug (e.g. a stray quote) and fails to load, app.js
+     uses it to show the book's name in a visible warning instead of the book
+     just silently vanishing from the site. -->
 <!-- 1. Aqeedah -->
-<script src="books/sharh-al-sunnah.js"></script>
-<script src="books/fear-and-hope.js"></script>
-<script src="books/200-questions-aqeedah.js"></script>
-<script src="books/enjoining-right.js"></script>
-<script src="books/shifa-al-alil.js"></script>
+<script src="books/sharh-al-sunnah.js" data-title="Sharḥ al-Sunnah of al-Muzanī"></script>
+<script src="books/fear-and-hope.js" data-title="Bayn al-Khawf wa-r-Rajāʾ"></script>
+<script src="books/200-questions-aqeedah.js" data-title="200 Questions &amp; Answers on Aqeedah"></script>
+<script src="books/enjoining-right.js" data-title="Enjoining Right &amp; Forbidding Wrong"></script>
+<script src="books/shifa-al-alil.js" data-title="Shifā' al-ʿAlīl fī al-Qaḍā' wal-Qadar"></script>
 <!-- 2. Ilm al-Ḥadīth -->
-<script src="books/nukhbat-al-fikar.js"></script>
-<script src="books/rules-of-hadeeth.js"></script>
-<script src="books/disciples-of-hadith.js"></script>
+<script src="books/nukhbat-al-fikar.js" data-title="Nukhbat al-Fikar of Ibn Ḥajar"></script>
+<script src="books/rules-of-hadeeth.js" data-title="Rules Governing the Criticism of Ḥadīth"></script>
+<script src="books/disciples-of-hadith.js" data-title="Disciples of Ḥadīth — The Noble Guardians"></script>
 <!-- 3. Fiqh (incl. Uṣūl al-Fiqh) -->
-<script src="books/al-waraqat.js"></script>
-<script src="books/milk-al-yamin.js"></script>
+<script src="books/al-waraqat.js" data-title="Al-Waraqāt fī Uṣūl al-Fiqh"></script>
+<script src="books/milk-al-yamin.js" data-title="Milk al-Yamīn"></script>
 <!-- 4. Firaq wa Radd -->
-<script src="books/manhaj-al-sunnah.js"></script>
-<script src="books/islamophobes-nightmare.js"></script>
+<script src="books/manhaj-al-sunnah.js" data-title="Manhaj al-Sunnah al-Nabawiyyah"></script>
+<script src="books/islamophobes-nightmare.js" data-title="Islamophobes' Nightmare"></script>
 <!-- 5. Love & Family -->
-<script src="books/aqwal-marriage-love.js"></script>
-<script src="books/family-dialogue.js"></script>
-<script src="books/nurturing-eeman-children.js"></script>
-<script src="books/winning-husband-heart.js"></script>
-<script src="books/winning-wife-heart.js"></script>
-<script src="books/best-of-husbands.js"></script>
-<script src="books/now-a-mother.js"></script>
-<script src="books/happiest-woman.js"></script>
+<script src="books/aqwal-marriage-love.js" data-title="Aqwāl on Love, Marriage &amp; Family"></script>
+<script src="books/family-dialogue.js" data-title="Family Dialogue &amp; Communication"></script>
+<script src="books/nurturing-eeman-children.js" data-title="Nurturing Eemān in Children"></script>
+<script src="books/winning-husband-heart.js" data-title="Winning Your Husband's Heart"></script>
+<script src="books/winning-wife-heart.js" data-title="Winning Your Wife's Heart"></script>
+<script src="books/best-of-husbands.js" data-title="The Best of All Husbands"></script>
+<script src="books/now-a-mother.js" data-title="Now You Are a Mother"></script>
+<script src="books/happiest-woman.js" data-title="The Happiest Woman in the World"></script>
+<script src="books/real-man.js" data-title="How to Be a Real Man"></script>
 <!-- 6. Manṭiq -->
-<script src="books/mantiq-bayan.js"></script>
+<script src="books/mantiq-bayan.js" data-title="Manṭiq &amp; Bayān"></script>
 <!-- 7. Iʿjāz -->
-<script src="books/ijaz-ilmi.js"></script>
+<script src="books/ijaz-ilmi.js" data-title="Iʿjāz ʿIlmī"></script>
 
 <!-- ═══════════════ PWA (offline support) ═══════════════ -->
 <script>
