@@ -154,6 +154,9 @@ function parseHash() {
   if (parts[0] === 'play') {
     return { view: 'play', who: parts[1] === 'a' ? 'a' : (parts[1] === 'm' ? 'm' : null) };
   }
+  if (parts[0] === 'castgame') {
+    return { view: 'castgame' };
+  }
   if (parts[0] === 'saved') {
     return { view: 'saved' };
   }
@@ -181,6 +184,8 @@ function route() {
     renderArabicApp(r.levelId);
   } else if (r.view === 'play') {
     renderPlayPage(r.who);
+  } else if (r.view === 'castgame') {
+    renderCastGamePage();
   } else if (r.view === 'saved') {
     renderSavedNotes();
   } else if (r.view === 'leaderboard') {
@@ -337,6 +342,47 @@ function renderPlayPage(whoParam) {
     document.getElementById('play-gameover-score').innerHTML =
       `Score: <b>${finalScore}</b>` + (isNewHigh ? ' — <span class="play-newhigh">✨ New high score!</span>' : ` · Best: <b>${highScore}</b>`);
   }
+}
+
+// ─── Cast Clash — the character cast's own 1-on-1 fighting game. Vector
+// art (not pixel sprites), lives entirely in cast-game.js; this just
+// owns the page shell + picker→battle state, matching the renderPlayPage
+// shell pattern above. ───
+function renderCastGamePage() {
+  document.body.classList.add('view-play');
+  document.body.classList.remove('view-library', 'view-book');
+
+  document.getElementById('header-title').textContent = 'Cast Clash';
+  document.getElementById('header-sub').textContent = 'Pick two fighters from the cast and see who wins.';
+  document.getElementById('header-arabic-bg').textContent = 'قتال';
+  document.getElementById('header-tags').innerHTML = ['1v1', 'Leaderboard'].map(t => `<span class="header-tag">${t}</span>`).join('');
+  document.getElementById('sidebar-wrap').innerHTML = '';
+
+  const content = document.getElementById('content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+  content.innerHTML = `
+    <div class="play-page">
+      <a href="#/" class="back-to-library play-back-link">← All Notes</a>
+      <div class="castgame-host" id="castgame-host"></div>
+    </div>
+  `;
+  content.classList.add('fade-in');
+
+  const host = document.getElementById('castgame-host');
+  if (!window.XenosCastGame) { host.innerHTML = '<p>Cast Clash isn\'t available right now.</p>'; return; }
+
+  function cleanup() { if (host._castgameCleanup) { host._castgameCleanup(); host._castgameCleanup = null; } }
+
+  function showPicker() {
+    cleanup();
+    window.XenosCastGame.renderPicker(host, (idA, idB) => showBattle(idA, idB));
+  }
+  function showBattle(idA, idB) {
+    cleanup();
+    window.XenosCastGame.renderBattle(host, idA, idB, (a, b) => showBattle(a, b), showPicker);
+  }
+  showPicker();
 }
 
 // ─── My Saved Notes — every bookmark a signed-in visitor has made, across
