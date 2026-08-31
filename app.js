@@ -90,29 +90,54 @@ function initMascotButtons() {
 window.addEventListener('DOMContentLoaded', initMascotButtons);
 
 // ─── Cast decorations — a themed character quietly sits in the corner of
-// specific book pages. Purely decorative (aria-hidden, pointer-events:none
-// via CSS); one shared <img> element gets swapped/hidden on each route
-// change rather than injecting a fresh element per book. ───
+// specific book pages (name + companion shown on hover/focus). Purely
+// decorative otherwise; one shared wrapper element gets swapped/hidden
+// on each route change rather than injecting a fresh element per book. ───
+const CHARACTER_LABELS = {
+  'doc-azuz': "Doc.Azuz & Juju",
+  'raerae': "Raerae & Essssssss",
+  'lulu': "Queen Lulu & her royal unicorn",
+  'raad': "Ra'ad & Usuul",
+  'pika': "Pika & Chuu",
+  'cj': "CJ, X, Y & Z",
+};
 const BOOK_CHARACTER_MAP = {
-  'mantiq-bayan': { char: 'cj', side: 'right' },
+  // Iʿjāz
+  'ijaz-ilmi': { char: 'doc-azuz', side: 'right' },
+  // Fiqh — both books in the category
   'al-waraqat': { char: 'raad', side: 'right' },
-  'nurturing-eeman-children': { char: 'raerae', side: 'left' },
+  'milk-al-yamin': { char: 'raad', side: 'right' },
+  // Aqeedah — every book in the category
   '200-questions-aqeedah': { char: 'pika', side: 'right' },
+  'enjoining-right': { char: 'pika', side: 'right' },
+  'fear-and-hope': { char: 'pika', side: 'right' },
+  'sharh-al-sunnah': { char: 'pika', side: 'right' },
+  'shifa-al-alil': { char: 'pika', side: 'right' },
+  // Manṭiq
+  'mantiq-bayan': { char: 'cj', side: 'right' },
+  // Love & Family — a few books split between Raerae and Lulu
+  'nurturing-eeman-children': { char: 'raerae', side: 'left' },
+  'happiest-woman': { char: 'raerae', side: 'left' },
+  'now-a-mother': { char: 'raerae', side: 'left' },
+  'winning-wife-heart': { char: 'lulu', side: 'left' },
+  'winning-husband-heart': { char: 'lulu', side: 'left' },
+  'best-of-husbands': { char: 'lulu', side: 'left' },
 };
 function updateBookCharacter(slug) {
-  let img = document.getElementById('page-character-img');
-  if (!img) {
-    img = document.createElement('img');
-    img.id = 'page-character-img';
-    img.className = 'page-character';
-    img.alt = '';
-    img.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(img);
+  let wrap = document.getElementById('page-character-wrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'page-character-wrap';
+    wrap.className = 'page-character-wrap';
+    wrap.tabIndex = 0;
+    wrap.innerHTML = '<img alt="" /><span class="char-deco-label"></span>';
+    document.body.appendChild(wrap);
   }
   const entry = BOOK_CHARACTER_MAP[slug];
-  if (!entry) { img.classList.remove('active'); return; }
-  img.src = `assets/characters/${entry.char}.svg`;
-  img.className = `page-character active pc-${entry.side}`;
+  if (!entry) { wrap.classList.remove('active'); return; }
+  wrap.querySelector('img').src = `assets/characters/${entry.char}.svg`;
+  wrap.querySelector('.char-deco-label').textContent = CHARACTER_LABELS[entry.char] || '';
+  wrap.className = `page-character-wrap active pc-${entry.side}`;
 }
 
 // ─── Routing ───

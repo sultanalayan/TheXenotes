@@ -1572,14 +1572,24 @@ body.view-library .mascot-btn { display: block; }
   .mascot-btn { display: none !important; }
 }
 
-/* ── HOME PLAYGROUND (extra cast on the library home page — each
-   character gets its own separate corner/zone with a small local wander
-   loop, so they never cross paths or stack on each other. Third zone
-   (bottom-center) is reserved for "remperor" — add
-   `<img class="playground-char pg-remperor" src="assets/characters/remperor.svg" alt="" />`
-   into the #home-playground container in index.html once that art
-   exists; the animation is already wired below. Purely decorative,
-   never blocks clicks. ── */
+/* ── SHARED CAST-DECORATION LABEL (hover/focus tooltip naming the
+   character + companion — used by both the home playground and the
+   per-book corner character below). ── */
+.char-deco-label {
+  position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%) translateY(100%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 700; font-size: 12px;
+  color: var(--burgundy); background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 3px 10px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s var(--ease);
+}
+.playground-char:hover .char-deco-label,
+.playground-char:focus-visible .char-deco-label,
+.page-character-wrap:hover .char-deco-label,
+.page-character-wrap:focus-visible .char-deco-label { opacity: 1; }
+
+/* ── HOME PLAYGROUND (Queen Lulu wanders the library home page in her
+   own zone; purely decorative — pointer-events re-enabled only on the
+   character itself, just enough for the hover-name tooltip). ── */
 .home-playground {
   display: none;
   position: fixed; inset: 0;
@@ -1589,52 +1599,48 @@ body.view-library .mascot-btn { display: block; }
 body.view-library .home-playground { display: block; }
 .playground-char {
   position: absolute;
+  pointer-events: auto;
+}
+.playground-char img {
+  display: block;
   width: 150px; height: auto;
   opacity: 0.82;
   filter: drop-shadow(0 10px 16px -8px rgba(58,46,34,0.35));
 }
-/* Zone 1 — top-left corner */
-.playground-char.pg-docazuz { animation: pgWanderA 16s ease-in-out infinite; }
-@keyframes pgWanderA {
-  0%, 100% { top: 10%;  left: 5%; }
-  33%      { top: 8%;   left: 18%; }
-  66%      { top: 21%;  left: 9%; }
-}
-/* Zone 2 — right-middle */
 .playground-char.pg-lulu { animation: pgWanderB 18s ease-in-out infinite; }
 @keyframes pgWanderB {
   0%, 100% { top: 18%;  left: 76%; }
   33%      { top: 34%;  left: 84%; }
   66%      { top: 25%;  left: 70%; }
 }
-/* Zone 3 — bottom-center, reserved for remperor */
-.playground-char.pg-remperor { animation: pgWanderC 20s ease-in-out infinite; }
-@keyframes pgWanderC {
-  0%, 100% { top: 62%;  left: 42%; }
-  33%      { top: 70%;  left: 52%; }
-  66%      { top: 58%;  left: 36%; }
-}
 @media (max-width: 900px) {
-  .playground-char { width: 100px; }
+  .playground-char img { width: 100px; }
 }
 @media (max-width: 720px) {
   .home-playground { display: none !important; }
 }
 
 /* ── PAGE CHARACTER (per-book corner decoration, injected by app.js) ── */
-.page-character {
+.page-character-wrap {
   display: none;
   position: fixed; bottom: -6px;
-  width: 190px; height: auto;
   z-index: 1; pointer-events: none;
+}
+.page-character-wrap.active { pointer-events: auto; }
+body.view-book .page-character-wrap.active { display: block; }
+.page-character-wrap img {
+  display: block;
+  width: 190px; height: auto;
   opacity: 0.9;
   filter: drop-shadow(0 10px 16px -8px rgba(58,46,34,0.35));
 }
-body.view-book .page-character.active { display: block; }
-.page-character.pc-right { right: -8px; }
-.page-character.pc-left { left: -8px; }
+.page-character-wrap.pc-right { right: -8px; }
+.page-character-wrap.pc-left { left: -8px; }
 @media (max-width: 1100px) {
-  .page-character { width: 140px; }
+  .page-character-wrap img { width: 140px; }
+}
+@media (max-width: 900px) {
+  .page-character-wrap { display: none !important; }
 }
 @media (max-width: 900px) {
   .page-character { display: none !important; }
