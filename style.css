@@ -1572,8 +1572,14 @@ body.view-library .mascot-btn { display: block; }
   .mascot-btn { display: none !important; }
 }
 
-/* ── HOME PLAYGROUND (extra cast — Doc.Azuz & Lulu wander a square path
-   on the library home page; purely decorative, never blocks clicks) ── */
+/* ── HOME PLAYGROUND (extra cast on the library home page — each
+   character gets its own separate corner/zone with a small local wander
+   loop, so they never cross paths or stack on each other. Third zone
+   (bottom-center) is reserved for "remperor" — add
+   `<img class="playground-char pg-remperor" src="assets/characters/remperor.svg" alt="" />`
+   into the #home-playground container in index.html once that art
+   exists; the animation is already wired below. Purely decorative,
+   never blocks clicks. ── */
 .home-playground {
   display: none;
   position: fixed; inset: 0;
@@ -1587,21 +1593,26 @@ body.view-library .home-playground { display: block; }
   opacity: 0.82;
   filter: drop-shadow(0 10px 16px -8px rgba(58,46,34,0.35));
 }
-.playground-char.pg-docazuz { animation: pgWanderA 24s ease-in-out infinite; }
-.playground-char.pg-lulu { animation: pgWanderB 24s ease-in-out infinite; animation-delay: -12s; }
+/* Zone 1 — top-left corner */
+.playground-char.pg-docazuz { animation: pgWanderA 16s ease-in-out infinite; }
 @keyframes pgWanderA {
-  0%   { top: 14%; left: 6%; }
-  25%  { top: 14%; left: 62%; }
-  50%  { top: 58%; left: 62%; }
-  75%  { top: 58%; left: 6%; }
-  100% { top: 14%; left: 6%; }
+  0%, 100% { top: 10%;  left: 5%; }
+  33%      { top: 8%;   left: 18%; }
+  66%      { top: 21%;  left: 9%; }
 }
+/* Zone 2 — right-middle */
+.playground-char.pg-lulu { animation: pgWanderB 18s ease-in-out infinite; }
 @keyframes pgWanderB {
-  0%   { top: 58%; left: 62%; }
-  25%  { top: 58%; left: 6%; }
-  50%  { top: 14%; left: 6%; }
-  75%  { top: 14%; left: 62%; }
-  100% { top: 58%; left: 62%; }
+  0%, 100% { top: 18%;  left: 76%; }
+  33%      { top: 34%;  left: 84%; }
+  66%      { top: 25%;  left: 70%; }
+}
+/* Zone 3 — bottom-center, reserved for remperor */
+.playground-char.pg-remperor { animation: pgWanderC 20s ease-in-out infinite; }
+@keyframes pgWanderC {
+  0%, 100% { top: 62%;  left: 42%; }
+  33%      { top: 70%;  left: 52%; }
+  66%      { top: 58%;  left: 36%; }
 }
 @media (max-width: 900px) {
   .playground-char { width: 100px; }
