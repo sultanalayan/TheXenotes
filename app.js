@@ -89,6 +89,32 @@ function initMascotButtons() {
 }
 window.addEventListener('DOMContentLoaded', initMascotButtons);
 
+// ─── Cast decorations — a themed character quietly sits in the corner of
+// specific book pages. Purely decorative (aria-hidden, pointer-events:none
+// via CSS); one shared <img> element gets swapped/hidden on each route
+// change rather than injecting a fresh element per book. ───
+const BOOK_CHARACTER_MAP = {
+  'mantiq-bayan': { char: 'cj', side: 'right' },
+  'al-waraqat': { char: 'raad', side: 'right' },
+  'nurturing-eeman-children': { char: 'raerae', side: 'left' },
+  '200-questions-aqeedah': { char: 'pika', side: 'right' },
+};
+function updateBookCharacter(slug) {
+  let img = document.getElementById('page-character-img');
+  if (!img) {
+    img = document.createElement('img');
+    img.id = 'page-character-img';
+    img.className = 'page-character';
+    img.alt = '';
+    img.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(img);
+  }
+  const entry = BOOK_CHARACTER_MAP[slug];
+  if (!entry) { img.classList.remove('active'); return; }
+  img.src = `assets/characters/${entry.char}.svg`;
+  img.className = `page-character active pc-${entry.side}`;
+}
+
 // ─── Routing ───
 function parseHash() {
   const raw = location.hash.replace(/^#\/?/, '');
@@ -120,6 +146,10 @@ function isGated() {
 function route() {
   const r = parseHash();
   if (window.XenosGame && r.view !== 'play') window.XenosGame.stop();
+  // Clear any book's corner character by default; renderBook() re-sets it
+  // right after if the new route is a book with one mapped (this also
+  // covers renderArabicApp, which reuses the 'view-book' body class).
+  updateBookCharacter(null);
   if (r.view === 'book' && XenosBooks.get(r.slug) && !isGated()) {
     renderBook(r.slug, r.section);
   } else if (r.view === 'arabic') {
@@ -1145,6 +1175,7 @@ function renderBook(slug, sectionId) {
   if (!book) { renderLibrary(); return; }
   document.body.classList.add('view-book');
   document.body.classList.remove('view-library', 'view-play');
+  updateBookCharacter(slug);
 
   const sections = book.sections;
   const activeId = sectionId && sections.find(s => s.id === sectionId) ? sectionId : sections[0].id;

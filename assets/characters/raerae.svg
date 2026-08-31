@@ -1,0 +1,88 @@
+<svg viewBox="0 0 500 480" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Raerae and Essssssss the snake</title>
+
+<g transform="translate(250,280)">
+
+<g transform="translate(-85,50) scale(0.45)">
+<path fill-rule="evenodd" d="M -123 20 A 38 20 0 1 0 -47 20 A 38 20 0 1 0 -123 20 Z M -103 20 A 18 8 0 1 1 -67 20 A 18 8 0 1 1 -103 20 Z" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="4"/>
+<path fill-rule="evenodd" d="M -138 55 A 46 24 0 1 0 -46 55 A 46 24 0 1 0 -138 55 Z M -114 55 A 22 10 0 1 1 -70 55 A 22 10 0 1 1 -114 55 Z" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="4"/>
+<path d="M -100 5 Q -110 -25 -95 -48 Q -80 -65 -55 -68 L -40 -55 Q -65 -50 -78 -32 Q -90 -12 -80 10 Z" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="4"/>
+<ellipse cx="-45" cy="-70" rx="34" ry="19" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="4"/>
+<ellipse cx="-50" cy="-78" rx="6" ry="7" fill="#2B241E"/>
+<circle cx="-48" cy="-81" r="2" fill="#FFFDF6"/>
+<circle cx="-16" cy="-69" r="1.3" fill="#2B241E"/>
+<circle cx="-12" cy="-73" r="1.2" fill="#2B241E"/>
+<path d="M -35 -60 Q -15 -58 -8 -65" stroke="#2B241E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path fill-rule="evenodd" d="M -153 92 A 55 28 0 1 0 -43 92 A 55 28 0 1 0 -153 92 Z M -124 92 A 26 12 0 1 1 -72 92 A 26 12 0 1 1 -124 92 Z" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="4"/>
+</g>
+
+<path d="M 8 -40 Q 30 -32 40 -12 L 28 -6 Q 20 -24 4 -34 Z" fill="#FFFFFF" stroke="#E0DACD" stroke-width="1"/>
+<path d="M 40 -12 Q 55 -20 62 -38 L 50 -44 Q 44 -28 30 -18 Z" fill="#FFFFFF" stroke="#E0DACD" stroke-width="1"/>
+<path d="M 46 -30 L 62 -40 L 68 -32 L 52 -20 Z" fill="#FFFFFF" stroke="#C9C2AE" stroke-width="1.5"/>
+<path d="M 62 -40 L 76 -46 L 78 -43 L 64 -36 Z" fill="#9AA0A6"/>
+
+<path d="M -10 -40 Q -12 0 -10 35 L 6 35 Q 8 0 8 -40 Z" fill="#FFFFFF" stroke="#E0DACD" stroke-width="1"/>
+<rect x="-13" y="33" width="20" height="16" rx="4" fill="#FFFFFF" stroke="#C9C2AE" stroke-width="1.5"/>
+<rect x="-16" y="49" width="26" height="3" rx="1.5" fill="#9AA0A6"/>
+
+<path d="M -24 -46 Q -60 -20 -58 10 Q -30 22 0 22 Q 30 22 58 10 Q 60 -20 24 -46 Q 12 -38 0 -38 Q -12 -38 -24 -46 Z" fill="#FFFFFF" stroke="#E8C9D6" stroke-width="1.5"/>
+<path d="M -50 4 Q -20 16 0 16 Q 20 16 50 4 Q 50 12 30 18 Q 0 24 -30 18 Q -50 12 -50 4 Z" fill="#F2A8C4" opacity="0.85"/>
+
+<path d="M -26 -92 Q -30 -70 -22 -45 L 22 -45 Q 30 -70 26 -92 Q 15 -98 0 -98 Q -15 -98 -26 -92 Z" fill="#F2A8C4" stroke="#E8A0BE" stroke-width="1"/>
+<path d="M -18 -95 Q 0 -102 18 -95" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+<path d="M -26 -90 Q -55 -78 -66 -55 Q -68 -45 -60 -42 Q -50 -60 -30 -75 Q -20 -82 -22 -90 Z" fill="#FFFFFF" stroke="#E8C9D6" stroke-width="1"/>
+<ellipse cx="-63" cy="-46" rx="8" ry="6" fill="#F2A8C4"/>
+<circle cx="-63" cy="-40" r="7" fill="#F5DCC4"/>
+
+<path d="M 24 -92 Q 50 -100 62 -122 Q 66 -132 58 -136 Q 50 -118 32 -102 Q 22 -96 24 -92 Z" fill="#FFFFFF" stroke="#E8C9D6" stroke-width="1"/>
+<ellipse cx="60" cy="-130" rx="8" ry="6" fill="#F2A8C4" transform="rotate(-55 60 -130)"/>
+<circle cx="62" cy="-136" r="7" fill="#F5DCC4"/>
+
+<rect x="-8" y="-100" width="16" height="10" fill="#F5DCC4"/>
+
+<path d="M -22 -205 Q -34 -235 -26 -272 Q -22 -288 -14 -280 Q -12 -252 -8 -207 Z" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="2.5"/>
+<path d="M -20 -215 Q -26 -240 -21 -268 Q -18 -276 -15 -270 Q -14 -244 -12 -216 Z" fill="#F2A8C4" opacity="0.55"/>
+<path d="M 22 -205 Q 34 -235 26 -272 Q 22 -288 14 -280 Q 12 -252 8 -207 Z" fill="#FFFFFF" stroke="#F2A8C4" stroke-width="2.5"/>
+<path d="M 20 -215 Q 26 -240 21 -268 Q 18 -276 15 -270 Q 14 -244 12 -216 Z" fill="#F2A8C4" opacity="0.55"/>
+
+<path d="M 24 -207 L 30 -213 L 36 -207 L 30 -201 Z" fill="#F0D060"/>
+
+<ellipse cx="0" cy="-145" rx="60" ry="62" fill="#FFFFFF" stroke="#E8C9D6" stroke-width="1.5"/>
+
+<ellipse cx="0" cy="-138" rx="35" ry="42" fill="#F5DCC4"/>
+
+<path d="M -36 -168 Q -58 -130 -52 -95 Q -46 -75 -34 -72 Q -42 -105 -30 -150 Z" fill="#FFFFFF" stroke="#E8C9D6" stroke-width="1"/>
+<path d="M 36 -168 Q 58 -130 52 -95 Q 46 -75 34 -72 Q 42 -105 30 -150 Z" fill="#FFFFFF" stroke="#E8C9D6" stroke-width="1"/>
+<path d="M -34 -172 Q 0 -185 34 -172" stroke="#F2A8C4" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+<path d="M -20 -156 Q -14 -159 -8 -156" stroke="#6B5335" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M 8 -156 Q 14 -159 20 -156" stroke="#6B5335" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+<ellipse cx="-14" cy="-134" rx="8" ry="10" fill="#8A9A52"/>
+<ellipse cx="-14" cy="-132" rx="5" ry="6.5" fill="#C4D488"/>
+<circle cx="-14" cy="-133" r="2.8" fill="#4A3A28"/>
+<circle cx="-16" cy="-137" r="1.8" fill="#FFFDF6"/>
+<circle cx="-11" cy="-129" r="0.9" fill="#FFFDF6" opacity="0.85"/>
+<path d="M -21 -142 L -23 -145 M -19 -144 L -21 -147 M -17 -145 L -18 -148" stroke="#6B5335" stroke-width="0.9" stroke-linecap="round"/>
+<path d="M -22 -139 Q -14 -144 -6 -139" stroke="#6B5335" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+<ellipse cx="14" cy="-134" rx="8" ry="10" fill="#8A9A52"/>
+<ellipse cx="14" cy="-132" rx="5" ry="6.5" fill="#C4D488"/>
+<circle cx="14" cy="-133" r="2.8" fill="#4A3A28"/>
+<circle cx="16" cy="-137" r="1.8" fill="#FFFDF6"/>
+<circle cx="11" cy="-129" r="0.9" fill="#FFFDF6" opacity="0.85"/>
+<path d="M 21 -142 L 23 -145 M 19 -144 L 21 -147 M 17 -145 L 18 -148" stroke="#6B5335" stroke-width="0.9" stroke-linecap="round"/>
+<path d="M 22 -139 Q 14 -144 6 -139" stroke="#6B5335" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+<circle cx="-24" cy="-122" r="5" fill="#F2A8B8" opacity="0.5"/>
+<circle cx="24" cy="-122" r="5" fill="#F2A8B8" opacity="0.5"/>
+<path d="M -1 -125 Q -2 -121 0 -119" stroke="#C99B76" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+<path d="M -7 -117 Q 0 -107 7 -117 Q 7 -112 0 -110 Q -7 -112 -7 -117 Z" fill="#C97868"/>
+<rect x="-5" y="-114" width="4" height="4" rx="1.5" fill="#FFFFFF"/>
+<rect x="1" y="-114" width="4" height="4" rx="1.5" fill="#FFFFFF"/>
+<line x1="0" y1="-114" x2="0" y2="-110" stroke="#E0D0C4" stroke-width="0.5"/>
+
+</g>
+</svg>
