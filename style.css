@@ -1687,7 +1687,35 @@ body.view-play .castgame-entry-btn { display: none; }
 .castgame-name { font-family: var(--font-serif); font-weight: 700; font-size: 14px; color: var(--ink); }
 .castgame-hpbar { width: 100%; height: 10px; border-radius: 6px; background: var(--border); overflow: hidden; }
 .castgame-hpfill { height: 100%; width: 100%; background: linear-gradient(90deg, #62A05A, #8ACB7E); transition: width 0.25s var(--ease); }
+.castgame-meterbar { width: 100%; height: 6px; border-radius: 4px; background: var(--border); overflow: hidden; margin-top: 4px; }
+.castgame-meterfill { height: 100%; width: 0%; background: linear-gradient(90deg, #C9A227, #F2D060); transition: width 0.25s var(--ease); }
 .castgame-vs { font-family: var(--font-serif); font-style: italic; font-weight: 700; font-size: 20px; color: var(--burgundy); }
+
+.castgame-log {
+  text-align: center; min-height: 20px; margin: 16px auto 0; max-width: 620px;
+  font-size: 13px; color: var(--muted); font-style: italic;
+}
+.castgame-controls {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  max-width: 620px; margin: 8px auto 0;
+}
+.castgame-move-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  border: none; border-radius: 12px; padding: 10px 6px; cursor: pointer;
+  font-family: var(--font-serif); transition: transform 0.15s var(--ease), opacity 0.15s var(--ease);
+  color: #fff;
+}
+.castgame-move-btn span { font-weight: 700; font-size: 13px; }
+.castgame-move-btn small { font-size: 10px; opacity: 0.85; }
+.castgame-move-btn:active { transform: scale(0.95); }
+.castgame-move-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.castgame-move-light { background: #4C7CA8; }
+.castgame-move-heavy { background: #A0533B; }
+.castgame-move-block { background: #4C8A6E; }
+.castgame-move-special { background: linear-gradient(135deg, #C9A227, #A03B54); }
+.castgame-controls-hint { text-align: center; font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+.castgame-blocking { outline: 3px solid #4C8A6E; outline-offset: 4px; border-radius: 50%; }
 
 .castgame-attack-btn {
   display: block; margin: 24px auto 0;
