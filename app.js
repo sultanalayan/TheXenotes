@@ -96,7 +96,7 @@ window.addEventListener('DOMContentLoaded', initMascotButtons);
 const CHARACTER_LABELS = {
   'doc-azuz': "Doc.Azuz & Juju",
   'raerae': "Raerae & Essssssss",
-  'lulu': "Queen Lulu & her royal unicorn",
+  'lulu': "Queen Lulu & Kekeke",
   'raad': "Ra'ad & Usuul",
   'pika': "Pika & Chuu",
   'cj': "CJ, X, Y & Z",
@@ -888,21 +888,31 @@ function renderLibrary(filter) {
     </a>
   ` : '';
 
-  const mascotInviteHtml = window.XENOS_MASCOTS ? `
-    <a href="#/play" class="mascot-invite-section">
-      <div class="mascot-invite-hero">
-        <div class="mascot-invite-faces">
-          <div class="mascot-invite-face">${window.XENOS_MASCOTS.toSVG('M', 1)}</div>
-          <div class="mascot-invite-face">${window.XENOS_MASCOTS.toSVG('A', 1)}</div>
-        </div>
-        <div class="mascot-invite-body">
-          <div class="mascot-invite-title">Take a break with M &amp; A 🎮</div>
-          <div class="mascot-invite-sub">A tiny arcade game — jump the obstacles, catch the stars, beat your high score.</div>
-        </div>
-        <div class="mascot-invite-cta">PLAY →</div>
+  const gamesHtml = `
+    <div class="category-group">
+      <div class="category-label">Games</div>
+      <div class="book-grid">
+        <a class="book-card" href="#/play/m">
+          <div class="book-card-icon">🎮</div>
+          <div class="book-card-body">
+            <div class="book-card-title">M &amp; A's Little Game</div>
+            <div class="book-card-sub">A tiny jump-and-catch arcade break — clear obstacles, catch stars.</div>
+            <div class="book-card-tags"><span class="tag">Arcade</span><span class="tag">High Score</span></div>
+          </div>
+          <div class="book-card-arrow">→</div>
+        </a>
+        <a class="book-card" href="#/castgame">
+          <div class="book-card-icon">⚔️</div>
+          <div class="book-card-body">
+            <div class="book-card-title">Cast Clash</div>
+            <div class="book-card-sub">Pick two fighters from the cast — light/heavy attacks, blocks, and specials.</div>
+            <div class="book-card-tags"><span class="tag">1v1</span><span class="tag">Leaderboard</span></div>
+          </div>
+          <div class="book-card-arrow">→</div>
+        </a>
       </div>
-    </a>
-  ` : '';
+    </div>
+  `;
 
   const gated = isGated();
   const contentResults = (!gated && q) ? searchContent(q) : [];
@@ -947,7 +957,7 @@ function renderLibrary(filter) {
     ${!filter ? namesHtml : ''}
     ${!filter ? huroofHtml : ''}
     ${!filter ? arabicAppHtml : ''}
-    ${!filter ? mascotInviteHtml : ''}
+    ${!filter ? gamesHtml : ''}
     ${booksAreaHtml}
   `;
 
